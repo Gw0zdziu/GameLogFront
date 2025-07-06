@@ -1,0 +1,39 @@
+:host{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0);
+  height: 100vh;
+}
+
+.registration-container{
+  width: 500px;
+  padding: 64px;
+  border-radius: 10px;
+  box-shadow: 0 0 30px 10px rgba(10, 3, 56, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.container-inputs{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 18px;
+}
+
+.input-container{
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+}
+
+.container-blur {
+  filter: blur(50px);
+  background: linear-gradient(to right, rgb(89 97 255), rgb(89 97 255));
+  border-radius: 10px;
+  width: 74px;
+  height: 130px;
+  position: absolute;
+  inset: -40px -40px auto auto;
+}
