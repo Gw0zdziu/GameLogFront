@@ -8,14 +8,14 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./features/components/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/auth/components/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'registration',
-    loadComponent: () => import('./features/components/registration/registration.component').then(m => m.RegistrationComponent)
+    loadComponent: () => import('./features/auth/components/registration/registration.component').then(m => m.RegistrationComponent)
   },
   {
     path: 'confirm-account',
-    loadComponent: () => import('./features/components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
+    loadComponent: () => import('./features/auth/components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
   }
 ];
