@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -12,5 +13,5 @@ import {Button} from 'primeng/button';
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent {
-
+  private authService = inject(AuthService);
 }
