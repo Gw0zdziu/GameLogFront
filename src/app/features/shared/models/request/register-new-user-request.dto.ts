@@ -1,7 +1,7 @@
 export interface RegisterNewUserRequestDto {
   userName: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+  firstname: string;
+  lastname: string;
+  userEmail: string;
   password: string;
 }
