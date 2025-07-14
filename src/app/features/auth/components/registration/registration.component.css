@@ -28,6 +28,12 @@
   width: 375px;
 }
 
+.container-buttons{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .container-blur {
   filter: blur(50px);
   background: linear-gradient(to right, rgb(89 97 255), rgb(89 97 255));
