@@ -1,17 +1,50 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {AuthService} from '../../services/auth/auth.service';
+import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {RegisterNewUserRequestDto} from '../../../shared/models/request/register-new-user-request.dto';
+import {Router, RouterLink} from '@angular/router';
+import {delay} from 'rxjs';
 
 @Component({
   selector: 'app-registration',
   imports: [
     InputText,
-    Button
+    ReactiveFormsModule,
+    Button,
+    ButtonDirective,
+    ButtonLabel,
+    RouterLink,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent {
+  isSubmit = signal(false);
   private authService = inject(AuthService);
+  private formBuilder = inject(NonNullableFormBuilder);
+  private router = inject(Router);
+  registerForm = this.formBuilder.group({
+    userName: ['', [Validators.required, Validators.minLength(3)]],
+    firstname: ['', [Validators.required, Validators.minLength(3)]],
+    lastname: ['', [Validators.required, Validators.minLength(3)]],
+    userEmail: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+  })
+
+
+  postNewUser(){
+    this.isSubmit.set(true);
+    const newUser: RegisterNewUserRequestDto = this.registerForm.value as RegisterNewUserRequestDto;
+    this.authService.registerNewUser(newUser).pipe(delay(500)).subscribe({
+      next: () => this.router.navigate(['/confirm-account']),
+      error: () => {
+        this.isSubmit.set(false);
+      },
+      complete: () => this.isSubmit.set(false)
+    })
+  }
+
 }
