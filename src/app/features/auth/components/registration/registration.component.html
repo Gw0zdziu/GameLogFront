@@ -1,31 +1,39 @@
 <div class="registration-container">
   <h1 class="container-header">Rejestracja</h1>
-  <section class="container-inputs">
+  <form [formGroup]="registerForm" (ngSubmit)="postNewUser()" class="container-inputs">
     <section class="input-container" >
       <label for="username" >Nazwa użytkownika</label>
-      <input pSize="large" pInputText id="username" type="text">
+      <input formControlName="userName" pSize="large" pInputText id="username" type="text">
     </section>
     <section class="input-container">
       <label for="firstname" >Imię</label>
-      <input pSize="large" pInputText id="firstname" type="text">
+      <input formControlName="firstname" pSize="large" pInputText id="firstname" type="text">
     </section>
     <section class="input-container">
       <label for="lastname" >Nazwisko</label>
-      <input pSize="large" pInputText id="lastname" type="text">
+      <input formControlName="lastname" pSize="large" pInputText id="lastname" type="text">
     </section>
     <section class="input-container">
       <label for="user-email" >E-mail</label>
-      <input pSize="large" pInputText id="user-email" type="text">
+      <input formControlName="userEmail" pSize="large" pInputText id="user-email" type="text">
     </section>
     <section class="input-container">
       <label for="password" >Hasło</label>
-      <input pSize="large" pInputText id="password" type="text">
+      <input formControlName="password" pSize="large" pInputText id="password" type="text">
     </section>
     <section class="input-container">
       <label for="confirm-password" >Potwierdź hasło</label>
-      <input pSize="large" pInputText id="confirm-password" type="text">
+      <input formControlName="confirmPassword" pSize="large" pInputText id="confirm-password" type="text">
     </section>
-    <p-button severity="contrast" label="Zarejestruj"></p-button>
-  </section>
+    <section class="container-buttons">
+      <p-button [routerLink]="['']" [link]="true" label="Wstecz"></p-button>
+      <button [disabled]="registerForm.invalid" pButton  type="submit" severity="contrast">
+        @if (isSubmit()) {
+          <i class="pi pi-spin pi-spinner"></i>
+        }
+        <span pButtonLabel>Zarejestruj się</span>
+      </button>
+    </section>
+  </form>
   <div class="container-blur"></div>
 </div>
