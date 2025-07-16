@@ -1,19 +1,24 @@
 <div class="login-container">
   <h1 class="container-header">Logowanie</h1>
-  <section class="container-inputs">
+  <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="container-inputs">
     <section class="input-username" >
       <label for="username" >Nazwa użytkownika</label>
-      <input pSize="large" pInputText id="username" type="text">
+      <input formControlName="userName" pSize="large" pInputText id="username" type="text">
     </section>
     <section class="input-password" >
       <label for="password" >Hasło</label>
-      <input pSize="large" pInputText id="password" type="text">
+      <input formControlName="password" pSize="large" pInputText id="password" type="text">
     </section>
     <div class="container-buttons">
-      <p-button severity="contrast" label="Zaloguj"></p-button>
+      <button pButton severity="contrast" type="submit">
+        @if (isLogin()){
+          <i class="pi pi-spin pi-spinner"></i>
+        }
+        <span pButtonLabel>Zaloguj</span>
+      </button>
       <a href="">Zapomniałaś hasło</a>
     </div>
     <span>Nie masz konta?  <a href="">Zarejestruj się</a></span>
-  </section>
+  </form>
   <div class="container-blur"></div>
 </div>

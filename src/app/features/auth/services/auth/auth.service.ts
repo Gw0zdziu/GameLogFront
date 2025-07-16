@@ -16,7 +16,9 @@ export class AuthService {
     return this.httpClient.post<void>(`${this.apiUrl}/register`, registerNewUser);
   }
 
-  loginUser(loginUser: LoginUserDto): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiUrl}/login`, loginUser);
+  loginUser(loginUser: LoginUserDto): Observable<string> {
+    return this.httpClient.post(`${this.apiUrl}/login`, loginUser, {
+      responseType: 'text'
+    });
   }
 }
