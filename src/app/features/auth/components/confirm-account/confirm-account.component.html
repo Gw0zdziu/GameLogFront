@@ -2,10 +2,10 @@
   <h1 class="container-header">Potwierdź konto użytkownika</h1>
   <p class="info">Wprowadź kod wysłany na adres e-mail</p>
   <section class="container-inputs">
-    <p-input-otp  class="input-otp" size="large"></p-input-otp>
+    <p-input-otp [formControl]="confirmCode"  class="input-otp" size="large"></p-input-otp>
     <section class="container-buttons">
-      <p-button [link]="true" label="Wygeneruj nowy"></p-button>
-      <p-button severity="contrast" label="Zarejestruj"></p-button>
+      <p-button (click)="postResendCode()" [link]="true" label="Wygeneruj nowy"></p-button>
+      <p-button (click)="postConfirmCode()" severity="contrast" label="Wyślij"></p-button>
     </section>
   </section>
 </div>
