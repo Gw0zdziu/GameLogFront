@@ -1,10 +1,10 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {Button} from 'primeng/button';
 import {InputOtp} from 'primeng/inputotp';
-import {AuthService} from '../../services/auth/auth.service';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConfirmCodeDto} from '../../../shared/models/request/confirm-code.dto';
+import {UserService} from '../../services/user/user.service';
 
 @Component({
   selector: 'app-confirm-account',
@@ -17,7 +17,7 @@ import {ConfirmCodeDto} from '../../../shared/models/request/confirm-code.dto';
   styleUrl: './confirm-account.component.css'
 })
 export class ConfirmAccountComponent implements OnInit{
-  private authService = inject(AuthService);
+  private userService = inject(UserService);
   private activateRoute = inject(ActivatedRoute);
   private router = inject(Router);
   userId = signal('')
@@ -31,7 +31,7 @@ export class ConfirmAccountComponent implements OnInit{
   }
 
   postResendCode(){
-    this.authService.resendConfirmCode(this.userId()).subscribe();
+    this.userService.resendConfirmCode(this.userId()).subscribe();
   }
 
   postConfirmCode(){
@@ -40,7 +40,7 @@ export class ConfirmAccountComponent implements OnInit{
       confirmCode: confirmCode,
       userId: this.userId()
     }
-    this.authService.confirmUser(confirmCodeDto).subscribe(
+    this.userService.confirmUser(confirmCodeDto).subscribe(
       {
         next: () => {
           this.router.navigate(['login']);

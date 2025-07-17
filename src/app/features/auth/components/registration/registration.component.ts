@@ -1,11 +1,11 @@
 import {Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
-import {AuthService} from '../../services/auth/auth.service';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RegisterNewUserRequestDto} from '../../../shared/models/request/register-new-user-request.dto';
 import {Router, RouterLink} from '@angular/router';
 import {delay} from 'rxjs';
+import {UserService} from '../../services/user/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -22,7 +22,7 @@ import {delay} from 'rxjs';
 })
 export class RegistrationComponent {
   isSubmit = signal(false);
-  private authService = inject(AuthService);
+  private userService = inject(UserService);
   private formBuilder = inject(NonNullableFormBuilder);
   private router = inject(Router);
   registerForm = this.formBuilder.group({
@@ -38,7 +38,7 @@ export class RegistrationComponent {
   postNewUser(){
     this.isSubmit.set(true);
     const newUser: RegisterNewUserRequestDto = this.registerForm.value as RegisterNewUserRequestDto;
-    this.authService.registerNewUser(newUser).pipe(delay(500)).subscribe({
+    this.userService.registerNewUser(newUser).pipe(delay(500)).subscribe({
       next: (value) => this.router.navigate(['/confirm-account', value]),
       error: () => {
         this.isSubmit.set(false);
