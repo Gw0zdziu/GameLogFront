@@ -15,7 +15,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/components/registration/registration.component').then(m => m.RegistrationComponent)
   },
   {
-    path: 'confirm-account',
+    path: 'confirm-account/:userId',
     loadComponent: () => import('./features/auth/components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
   }
 ];
