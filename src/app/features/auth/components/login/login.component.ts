@@ -5,6 +5,7 @@ import {AuthService} from '../../services/auth/auth.service';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginUserDto} from '../../../shared/models/request/login-user.dto';
 import {Router} from '@angular/router';
+import {UserStoreService} from '../../../shared/services/store/user-store/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
+  private userStoreService = inject(UserStoreService)
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   isLogin = signal(false);
@@ -32,8 +34,9 @@ export class LoginComponent {
     const loginUser: LoginUserDto = this.loginForm.value as LoginUserDto;
     this.authService.loginUser(loginUser)
       .subscribe({
-      next: () => {
-        this.router.navigate(['']);
+      next: (value) => {
+        this.userStoreService.updateUser({userId: value.userId, token: value.token});
+        this.router.navigate([''])
       },
       error: () => {
         this.isLogin.set(false);
