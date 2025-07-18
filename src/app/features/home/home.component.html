@@ -1,3 +1,6 @@
-<a [routerLink]="['login']">Login</a>
-<a [routerLink]="['registration']">Register</a>
-<a [routerLink]="['confirm-account']">Confirm account</a>
+@if (user$() === null){
+  <p-button [link]="true" [routerLink]="['login']">Login</p-button>
+<p-button [link]="true" [routerLink]="['registration']">Register</p-button>
+} @else {
+  <p-button [link]="true" (click)="logout()" label="Logout"></p-button>
+}
