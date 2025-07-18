@@ -20,7 +20,7 @@ import {UserService} from '../../services/user/user.service';
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
-export class RegistrationComponent {
+export class RegistrationComponent{
   isSubmit = signal(false);
   private userService = inject(UserService);
   private formBuilder = inject(NonNullableFormBuilder);
@@ -33,6 +33,7 @@ export class RegistrationComponent {
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
   })
+
 
 
   postNewUser(){
