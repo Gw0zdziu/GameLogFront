@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -6,7 +6,6 @@ import {RegisterNewUserRequestDto} from '../../../shared/models/request/register
 import {Router, RouterLink} from '@angular/router';
 import {delay} from 'rxjs';
 import {UserService} from '../../services/user/user.service';
-import {UserStoreService} from '../../../shared/services/store/user-store/user-store.service';
 
 @Component({
   selector: 'app-registration',
@@ -21,10 +20,9 @@ import {UserStoreService} from '../../../shared/services/store/user-store/user-s
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
-export class RegistrationComponent implements OnInit{
+export class RegistrationComponent{
   isSubmit = signal(false);
   private userService = inject(UserService);
-  private userStore = inject(UserStoreService);
   private formBuilder = inject(NonNullableFormBuilder);
   private router = inject(Router);
   registerForm = this.formBuilder.group({
