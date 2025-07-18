@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {RegisterNewUserRequestDto} from '../../../shared/models/request/register-new-user-request.dto';
 import {Observable} from 'rxjs';
 import {ConfirmCodeDto} from '../../../shared/models/request/confirm-code.dto';
+import {GetUserDto} from '../../../shared/models/response/get-user.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class UserService {
 
   resendConfirmCode(userId: string): Observable<void> {
     return this.httpClient.post<void>(`${this.apiUrl}/resend-code`, { userId: userId});
+  }
+
+  getUser(userId: string): Observable<GetUserDto> {
+    return this.httpClient.get<GetUserDto>(`${this.apiUrl}/get-user/${userId}`);
   }
 }
