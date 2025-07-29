@@ -17,5 +17,17 @@ export const routes: Routes = [
   {
     path: 'confirm-account/:userId',
     loadComponent: () => import('./features/auth/components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
+  },
+  {
+    path: 'recovery-password',
+    loadComponent: () => import('./features/auth/components/recovery-password/recovery-password.component').then(m => m.RecoveryPasswordComponent)
+  },
+  {
+    path: 'recovery-update-password',
+    loadComponent: () => import('./features/auth/components/recovery-update-password/recovery-update-password.component').then(m => m.RecoveryUpdatePasswordComponent)
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
