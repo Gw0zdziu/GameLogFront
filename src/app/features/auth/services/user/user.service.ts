@@ -5,6 +5,7 @@ import {RegisterNewUserRequestDto} from '../../../shared/models/request/register
 import {Observable} from 'rxjs';
 import {ConfirmCodeDto} from '../../../shared/models/request/confirm-code.dto';
 import {GetUserDto} from '../../../shared/models/response/get-user.dto';
+import {RecoveryUpdatePasswordDto} from '../../../shared/models/request/recovery-update-password.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,13 @@ export class UserService {
 
   getUser(userId: string): Observable<GetUserDto> {
     return this.httpClient.get<GetUserDto>(`${this.apiUrl}/get-user/${userId}`);
+  }
+
+  recoveryPassword(userEmail: string): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/recovery-password`, {userEmail});
+  }
+
+  recoveryUpdatePassword(recoveryUpdatePasswordDto: RecoveryUpdatePasswordDto): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/recovery-update-password`, recoveryUpdatePasswordDto);
   }
 }
