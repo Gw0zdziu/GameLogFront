@@ -1,5 +1,5 @@
 import {computed, effect, Injectable, signal} from '@angular/core';
-import {GetUserDto} from '../../../models/response/get-user.dto';
+import {GetUserDto} from '../../../shared/models/get-user.dto';
 
 @Injectable({
   providedIn: 'root'

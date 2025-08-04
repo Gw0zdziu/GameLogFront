@@ -12,11 +12,11 @@ export const routes: Routes = [
   },
   {
     path: 'registration',
-    loadComponent: () => import('./features/auth/components/registration/registration.component').then(m => m.RegistrationComponent)
+    loadComponent: () => import('./features/user/components/registration/registration.component').then(m => m.RegistrationComponent)
   },
   {
     path: 'confirm-account/:userId',
-    loadComponent: () => import('./features/auth/components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
+    loadComponent: () => import('./features/user/components/confirm-account/confirm-account.component').then(m => m.ConfirmAccountComponent)
   },
   {
     path: 'recovery-password',

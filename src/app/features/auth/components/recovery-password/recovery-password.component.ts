@@ -3,7 +3,7 @@ import {InputText} from 'primeng/inputtext';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {RouterLink} from '@angular/router';
-import {UserService} from '../../services/user/user.service';
+import {UserService} from '../../../user/services/user.service';
 
 @Component({
   selector: 'app-recovery-password',

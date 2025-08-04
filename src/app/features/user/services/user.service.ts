@@ -1,11 +1,11 @@
 import {inject, Injectable} from '@angular/core';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {RegisterNewUserRequestDto} from '../../../shared/models/request/register-new-user-request.dto';
 import {Observable} from 'rxjs';
-import {ConfirmCodeDto} from '../../../shared/models/request/confirm-code.dto';
-import {GetUserDto} from '../../../shared/models/response/get-user.dto';
-import {RecoveryUpdatePasswordDto} from '../../../shared/models/request/recovery-update-password.dto';
+import {GetUserDto} from '../../../shared/models/get-user.dto';
+import {RecoveryUpdatePasswordDto} from '../../auth/models/recovery-update-password.dto';
+import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
+import {ConfirmCodeDto} from '../models/confirm-code.dto';
 
 @Injectable({
   providedIn: 'root'

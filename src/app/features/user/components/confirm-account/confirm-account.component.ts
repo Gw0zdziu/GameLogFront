@@ -3,8 +3,8 @@ import {Button} from 'primeng/button';
 import {InputOtp} from 'primeng/inputotp';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ConfirmCodeDto} from '../../../shared/models/request/confirm-code.dto';
-import {UserService} from '../../services/user/user.service';
+import {ConfirmCodeDto} from '../../models/confirm-code.dto';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-confirm-account',
