@@ -1,9 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {UserStoreService} from '../shared/services/store/user-store/user-store.service';
-import {UserService} from '../auth/services/user/user.service';
-import {AuthService} from '../auth/services/auth/auth.service';
+import {UserService} from '../user/services/user.service';
+import {AuthService} from '../auth/services/auth.service';
 import {Button} from 'primeng/button';
+import {UserStoreService} from '../../core/store/user-store/user-store.service';
 
 @Component({
   selector: 'app-home',

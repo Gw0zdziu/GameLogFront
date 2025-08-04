@@ -1,10 +1,10 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {RecoveryUpdatePasswordDto} from '../../../shared/models/request/recovery-update-password.dto';
+import {RecoveryUpdatePasswordDto} from '../../models/recovery-update-password.dto';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
-import {UserService} from '../../services/user/user.service';
+import {UserService} from '../../../user/services/user.service';
 
 @Component({
   selector: 'app-recovery-update-password',
@@ -55,7 +55,7 @@ export class RecoveryUpdatePasswordComponent implements OnInit{
       confirmPassword: this.newPasswordForm.controls.confirmPassword.value as string,
     };
     this.userService.recoveryUpdatePassword(this.recoveryUpdatePassword as RecoveryUpdatePasswordDto).subscribe({
-      next: value => {
+      next: () => {
         this.isSubmit.set(false);
         this.router.navigate(['login'], {
           relativeTo: this.activatedRoute,

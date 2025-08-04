@@ -2,10 +2,10 @@ import {Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {RegisterNewUserRequestDto} from '../../../shared/models/request/register-new-user-request.dto';
+import {RegisterNewUserRequestDto} from '../../models/register-new-user-request.dto';
 import {Router, RouterLink} from '@angular/router';
 import {delay} from 'rxjs';
-import {UserService} from '../../services/user/user.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-registration',

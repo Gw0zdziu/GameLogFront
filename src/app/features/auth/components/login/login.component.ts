@@ -1,11 +1,11 @@
 import {Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginUserDto} from '../../../shared/models/request/login-user.dto';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {UserStoreService} from '../../../shared/services/store/user-store/user-store.service';
+import {LoginUserDto} from '../../models/login-user.dto';
+import {Router, RouterLink} from '@angular/router';
+import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,6 @@ export class LoginComponent {
   private userStoreService = inject(UserStoreService)
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
-  private activateRoute = inject(ActivatedRoute);
   isLogin = signal(false);
   loginForm = this.formBuilder.group({
     userName: ['', [Validators.required]],
