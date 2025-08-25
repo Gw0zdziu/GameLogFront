@@ -11,7 +11,6 @@ export class UserStoreService {
 
   constructor() {
     effect(() => {
-      console.log(this.user());
       const user = JSON.stringify(this.user())
       localStorage.setItem('user', user)
     });
