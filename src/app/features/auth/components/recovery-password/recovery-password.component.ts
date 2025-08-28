@@ -2,7 +2,7 @@ import {Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {UserService} from '../../../user/services/user.service';
 
 @Component({
@@ -21,6 +21,7 @@ import {UserService} from '../../../user/services/user.service';
 })
 export class RecoveryPasswordComponent {
     private userService = inject(UserService);
+    private router = inject(Router);
     userEmail = new FormControl('', {
       validators: [Validators.required, Validators.email]
     });
@@ -32,7 +33,7 @@ export class RecoveryPasswordComponent {
       const userEmail: string = this.userEmail.value as string;
       this.userService.recoveryPassword(userEmail).subscribe({
         next: () => {
-          console.log('Wysłano link odzyskiwania hasła');
+          this.router.navigate(['submit-recovery-password']);
           this.isSubmit.set(false);
         },
         error: () => {
