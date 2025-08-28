@@ -27,6 +27,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/components/recovery-update-password/recovery-update-password.component').then(m => m.RecoveryUpdatePasswordComponent)
   },
   {
+    path: 'submit-recovery-password',
+    loadComponent: () => import('./features/auth/components/submit-recovery-password/submit-recovery-password.component').then(m => m.SubmitRecoveryPasswordComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
