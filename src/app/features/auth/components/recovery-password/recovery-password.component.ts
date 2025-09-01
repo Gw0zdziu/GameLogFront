@@ -4,6 +4,7 @@ import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angula
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
 import {UserService} from '../../../user/services/user.service';
+import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-recovery-password',
@@ -14,7 +15,8 @@ import {UserService} from '../../../user/services/user.service';
     Button,
     ButtonDirective,
     ButtonLabel,
-    RouterLink
+    RouterLink,
+    ContainerComponent
   ],
   templateUrl: './recovery-password.component.html',
   styleUrl: './recovery-password.component.css'

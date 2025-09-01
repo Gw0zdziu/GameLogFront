@@ -1,33 +1,3 @@
-:host{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0);
-  height: 100vh;
-}
-
-.registration-container{
-  width: 500px;
-  padding: 64px;
-  border-radius: 10px;
-  box-shadow: 0 0 30px 10px rgba(10, 3, 56, 0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-.container-inputs{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  row-gap: 18px;
-}
-
-.input-container{
-  display: flex;
-  flex-direction: column;
-  width: 375px;
-}
-
 .container-buttons{
   display: flex;
   width: 100%;

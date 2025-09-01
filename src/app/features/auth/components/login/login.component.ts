@@ -6,6 +6,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginUserDto} from '../../models/login-user.dto';
 import {Router, RouterLink} from '@angular/router';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
+import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ import {UserStoreService} from '../../../../core/store/user-store/user-store.ser
     ReactiveFormsModule,
     ButtonLabel,
     ButtonDirective,
-    RouterLink
+    RouterLink,
+    ContainerComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

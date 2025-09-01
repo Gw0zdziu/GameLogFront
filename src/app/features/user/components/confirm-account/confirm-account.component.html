@@ -1,5 +1,5 @@
-<div class="confirm-account-container">
-  <h1 class="container-header">Potwierdź konto użytkownika</h1>
+<app-container>
+  <h1 class="container-header">Zweryfikuj konto</h1>
   <p class="info">Wprowadź kod wysłany na adres e-mail</p>
   <section class="container-inputs">
     <p-input-otp [formControl]="confirmCode"  class="input-otp" size="large"></p-input-otp>
@@ -8,4 +8,4 @@
       <p-button (click)="postConfirmCode()" severity="contrast" label="Wyślij"></p-button>
     </section>
   </section>
-</div>
+</app-container>

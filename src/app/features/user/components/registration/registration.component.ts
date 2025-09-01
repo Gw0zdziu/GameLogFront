@@ -6,6 +6,7 @@ import {RegisterNewUserRequestDto} from '../../models/register-new-user-request.
 import {Router, RouterLink} from '@angular/router';
 import {delay} from 'rxjs';
 import {UserService} from '../../services/user.service';
+import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-registration',
@@ -16,6 +17,7 @@ import {UserService} from '../../services/user.service';
     ButtonDirective,
     ButtonLabel,
     RouterLink,
+    ContainerComponent,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'

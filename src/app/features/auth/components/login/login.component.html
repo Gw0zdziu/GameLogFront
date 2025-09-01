@@ -1,11 +1,11 @@
-<div class="login-container">
+<app-container>
   <h1 class="container-header">Logowanie</h1>
   <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="container-inputs">
-    <section class="input-username" >
+    <section class="input" >
       <label for="username" >Nazwa użytkownika</label>
       <input formControlName="userName" pSize="large" pInputText id="username" type="text">
     </section>
-    <section class="input-password" >
+    <section class="input" >
       <label for="password" >Hasło</label>
       <input formControlName="password" pSize="large" pInputText id="password" type="text">
     </section>
@@ -20,5 +20,4 @@
     </div>
     <span>Nie masz konta?  <a [routerLink]="['','registration']">Zarejestruj się</a></span>
   </form>
-  <div class="container-blur"></div>
-</div>
+</app-container>
