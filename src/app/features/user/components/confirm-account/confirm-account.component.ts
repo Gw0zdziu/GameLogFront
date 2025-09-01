@@ -5,13 +5,15 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConfirmCodeDto} from '../../models/confirm-code.dto';
 import {UserService} from '../../services/user.service';
+import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-confirm-account',
   imports: [
     Button,
     InputOtp,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ContainerComponent
   ],
   templateUrl: './confirm-account.component.html',
   styleUrl: './confirm-account.component.css'

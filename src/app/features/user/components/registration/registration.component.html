@@ -1,27 +1,27 @@
-<div class="registration-container">
+<app-container>
   <h1 class="container-header">Rejestracja</h1>
   <form [formGroup]="registerForm" (ngSubmit)="postNewUser()" class="container-inputs">
-    <section class="input-container" >
+    <section class="input" >
       <label for="username" >Nazwa użytkownika</label>
       <input formControlName="userName" pSize="large" pInputText id="username" type="text">
     </section>
-    <section class="input-container">
+    <section class="input">
       <label for="firstname" >Imię</label>
       <input formControlName="firstname" pSize="large" pInputText id="firstname" type="text">
     </section>
-    <section class="input-container">
+    <section class="input">
       <label for="lastname" >Nazwisko</label>
       <input formControlName="lastname" pSize="large" pInputText id="lastname" type="text">
     </section>
-    <section class="input-container">
+    <section class="input">
       <label for="user-email" >E-mail</label>
       <input formControlName="userEmail" pSize="large" pInputText id="user-email" type="text">
     </section>
-    <section class="input-container">
+    <section class="input">
       <label for="password" >Hasło</label>
       <input formControlName="password" pSize="large" pInputText id="password" type="text">
     </section>
-    <section class="input-container">
+    <section class="input">
       <label for="confirm-password" >Potwierdź hasło</label>
       <input formControlName="confirmPassword" pSize="large" pInputText id="confirm-password" type="text">
     </section>
@@ -36,4 +36,4 @@
     </section>
   </form>
   <div class="container-blur"></div>
-</div>
+</app-container>
