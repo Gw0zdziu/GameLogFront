@@ -1,17 +1,18 @@
 
-.container-buttons{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 375px;
+
+
+.button {
+  width: 100%;
 }
 
-.container-blur {
-  filter: blur(50px);
-  background: linear-gradient(to right, rgb(89 97 255), rgb(89 97 255));
-  border-radius: 10px;
-  width: 74px;
-  height: 130px;
-  position: absolute;
-  inset: -40px -40px auto auto;
+.input-password{
+  margin-bottom: 4px;
+}
+
+.link-register {
+  margin-top: 12px;
+}
+
+.link-recovery-password {
+  align-self: end;
 }

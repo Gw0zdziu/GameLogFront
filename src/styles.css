@@ -60,18 +60,23 @@ h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+.info {
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
 .container-inputs{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  row-gap: 18px;
+  margin-top: 12px;
 }
 
 .input{
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-block: 6px;
+  margin-bottom: 12px;
 }
 
 .container-header {
@@ -79,4 +84,11 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 32px;
   font-weight: 600;
   color: rgb(10, 3, 56);
+}
+
+.container-buttons{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 12px;
 }

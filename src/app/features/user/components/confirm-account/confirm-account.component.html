@@ -1,7 +1,7 @@
 <app-container>
   <h1 class="container-header">Zweryfikuj konto</h1>
   <p class="info">Wprowadź kod wysłany na adres e-mail</p>
-  <section class="container-inputs">
+  <section class="container-inputs input-otp">
     <p-input-otp [formControl]="confirmCode"  class="input-otp" size="large"></p-input-otp>
     <section class="container-buttons">
       <p-button (click)="postResendCode()" [link]="true" label="Wygeneruj nowy"></p-button>

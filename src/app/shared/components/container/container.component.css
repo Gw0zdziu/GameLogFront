@@ -7,9 +7,9 @@
 }
 
 .container{
-  width: 90vw;
+  width: 90%;
   height: fit-content;
-  padding: 64px;
+  padding: 24px;
   border-radius: 10px;
   box-shadow: 0 0 30px 10px rgba(10, 3, 56, 0.05);
   position: relative;
@@ -24,4 +24,10 @@
   height: 130px;
   position: absolute;
   inset: -40px -40px auto auto;
+}
+
+@media (min-width: 768px) {
+  .container{
+    width: 500px;
+  }
 }

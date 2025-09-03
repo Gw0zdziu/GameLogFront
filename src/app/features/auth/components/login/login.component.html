@@ -1,23 +1,23 @@
 <app-container>
-  <h1 class="container-header">Logowanie</h1>
+  <h1 class="container-header">Zaloguj się</h1>
   <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="container-inputs">
     <section class="input" >
       <label for="username" >Nazwa użytkownika</label>
       <input formControlName="userName" pSize="large" pInputText id="username" type="text">
     </section>
-    <section class="input" >
+    <section class="input input-password" >
       <label for="password" >Hasło</label>
       <input formControlName="password" pSize="large" pInputText id="password" type="text">
     </section>
+    <a [routerLink]="['','recovery-password']" class="link-recovery-password">Zapomniałaś hasło</a>
     <div class="container-buttons">
-      <button pButton severity="contrast" type="submit">
+      <button class="button" pButton severity="contrast" type="submit">
         @if (isLogin()){
           <i class="pi pi-spin pi-spinner"></i>
         }
         <span pButtonLabel>Zaloguj</span>
       </button>
-      <a [routerLink]="['','recovery-password']">Zapomniałaś hasło</a>
     </div>
-    <span>Nie masz konta?  <a [routerLink]="['','registration']">Zarejestruj się</a></span>
+    <span class="link-register">Nie masz konta?  <a [routerLink]="['','registration']">Zarejestruj się</a></span>
   </form>
 </app-container>
