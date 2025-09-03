@@ -1,21 +1,4 @@
-
-
-.container-inputs{
-  display: flex;
-  flex-direction: column;
+.input-otp{
   align-items: center;
-  justify-content: space-between;
-  row-gap: 18px;
-  width: 375px;
-}
-
-.container-buttons{
-  display: flex;
-  width: inherit;
-  justify-content: space-between;
-}
-
-.info {
-  margin-bottom: 16px;
 }
 
