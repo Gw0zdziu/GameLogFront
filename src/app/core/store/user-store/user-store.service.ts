@@ -5,19 +5,19 @@ import {GetUserDto} from '../../../shared/models/get-user.dto';
   providedIn: 'root'
 })
 export class UserStoreService {
-  private user = signal<Partial<GetUserDto>| null>(null);
+  private user = signal<Partial<GetUserDto>| null>(JSON.parse(localStorage.getItem('user') as string));
   currentUser = computed(() => this.user());
 
 
   constructor() {
     effect(() => {
       const user = JSON.stringify(this.user())
-      localStorage.setItem('user', user)
+      if (this.user() === null) {
+        localStorage.removeItem('user');
+      } else {
+        localStorage.setItem('user', user)
+      }
     });
-    const user = localStorage.getItem('user');
-    if (user) {
-      this.user.set(JSON.parse(user));
-    }
   }
 
   cleanStore(){
