@@ -8,7 +8,7 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const userStoreService = inject(UserStoreService);
   const refreshTokenService = inject(RefreshTokenService);
   return next(req).pipe(
-    catchError((err: HttpErrorResponse, caught) => {
+    catchError((err: HttpErrorResponse) => {
       if (err.status === 401) {
       return refreshTokenService.refreshToken().pipe(
         switchMap(x => {
