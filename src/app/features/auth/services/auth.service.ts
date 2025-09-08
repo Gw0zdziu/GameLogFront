@@ -13,11 +13,15 @@ export class AuthService {
   private httpClient = inject(HttpClient);
 
   loginUser(loginUser: LoginUserDto): Observable<LoginResponseDto> {
-    return this.httpClient.post<LoginResponseDto>(`${this.apiUrl}/login`, loginUser);
+    return this.httpClient.post<LoginResponseDto>(`${this.apiUrl}/login`, loginUser, {
+      withCredentials: true,
+    });
   }
 
    logoutUser(userId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/logout/${userId}`);
+    return this.httpClient.delete<void>(`${this.apiUrl}/logout/${userId}`, {
+      withCredentials: true,
+    });
   }
 
 
