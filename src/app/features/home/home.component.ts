@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     const userId = this.userStoreService.currentUser()?.userId as string;
     if (userId) {
-      this.userService.getUser(userId).subscribe({
+      this.userService.getUser().subscribe({
         next: (value) => {
           this.userStoreService.updateUser(value);
         }
