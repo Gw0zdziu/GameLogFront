@@ -5,14 +5,15 @@ import {providePrimeNG} from 'primeng/config';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import Aura from '@primeng/themes/aura';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
-import {authInterceptor} from './core/interceptors/auth.interceptor';
+import {authInterceptor} from './core/interceptors/auth/auth.interceptor';
+import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh-token.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([refreshTokenInterceptor, authInterceptor])),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
