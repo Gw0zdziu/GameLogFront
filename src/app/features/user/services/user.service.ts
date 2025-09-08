@@ -28,8 +28,8 @@ export class UserService {
     return this.httpClient.post<void>(`${this.apiUrl}/resend-code`, { userId: userId});
   }
 
-  getUser(userId: string): Observable<GetUserDto> {
-    return this.httpClient.get<GetUserDto>(`${this.apiUrl}/get-user/${userId}`);
+  getUser(): Observable<GetUserDto> {
+    return this.httpClient.get<GetUserDto>(`${this.apiUrl}/get-user`);
   }
 
   recoveryPassword(userEmail: string): Observable<void> {
