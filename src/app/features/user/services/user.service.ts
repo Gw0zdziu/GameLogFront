@@ -1,11 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpContext} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {GetUserDto} from '../../../shared/models/get-user.dto';
 import {RecoveryUpdatePasswordDto} from '../../auth/models/recovery-update-password.dto';
 import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
 import {ConfirmCodeDto} from '../models/confirm-code.dto';
+import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,10 @@ export class UserService {
   }
 
   getUser(): Observable<GetUserDto> {
-    return this.httpClient.get<GetUserDto>(`${this.apiUrl}/get-user`);
+    return this.httpClient.get<GetUserDto>(`${this.apiUrl}/get-user`,{
+      withCredentials: true,
+      context: new HttpContext().set(IS_AUTH_REQUIRED, true)
+    });
   }
 
   recoveryPassword(userEmail: string): Observable<void> {
