@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit{
   }
 
   logout(){
-    const userId = this.userStoreService.currentUser()?.userId as string;
     this.authService.logoutUser().subscribe({
       next: () => {
         this.userStoreService.cleanStore()
