@@ -20,8 +20,8 @@ export class AuthService {
     });
   }
 
-   logoutUser(userId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/logout/${userId}`, {
+   logoutUser(): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/logout`, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     });
