@@ -1,0 +1,8 @@
+:host{
+  display: block;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: inherit;
+  padding: 1rem;
+  height: inherit;
+}

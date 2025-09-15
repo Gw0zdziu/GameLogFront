@@ -1,24 +1,34 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {RouterLink} from '@angular/router';
 import {UserService} from '../user/services/user.service';
-import {AuthService} from '../auth/services/auth.service';
-import {Button} from 'primeng/button';
 import {UserStoreService} from '../../core/store/user-store/user-store.service';
+import {NavbarComponent} from '../../core/components/navbar/navbar.component';
+import {LayoutService} from '../../shared/services/layout/layout.service';
+import {MenuComponent} from '../../core/components/menu/menu.component';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-home',
   imports: [
-    RouterLink,
-    Button,
+    NavbarComponent,
+    MenuComponent,
+    RouterOutlet,
   ],
-  templateUrl: './home.component.html',
+  template: `
+    <app-navbar/>
+    <section class="container">
+      <app-menu/>
+      <div class="content" [class.expanded]="isMenuOpen$()" >
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  `,
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
   private userStoreService = inject(UserStoreService);
   private userService = inject(UserService);
-  private authService = inject(AuthService);
-  user$ = this.userStoreService.currentUser;
+  private layoutService = inject(LayoutService);
+  isMenuOpen$ = this.layoutService.isMenuOpen$;
 
   ngOnInit(): void {
     const userId = this.userStoreService.currentUser()?.userId as string;
@@ -29,13 +39,5 @@ export class HomeComponent implements OnInit{
         }
       })
     }
-  }
-
-  logout(){
-    this.authService.logoutUser().subscribe({
-      next: () => {
-        this.userStoreService.cleanStore()
-      }
-    })
   }
 }

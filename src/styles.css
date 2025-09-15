@@ -3,6 +3,7 @@
 
 body{
   font-family: 'Instrumentsans', sans-serif;
+  background: #f1f5f9;
 }
 
 /* 1. Use a more-intuitive box-sizing model */
@@ -18,7 +19,7 @@ body{
 /* 3. Enable keyword animations */
 @media (prefers-reduced-motion: no-preference) {
   html {
-    interpolate-size: allow-keywords;
+    interpolate-s«ize: allow-keywords;
   }
 }
 
