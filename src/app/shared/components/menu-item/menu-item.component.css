@@ -1,0 +1,17 @@
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.active{
+  color: #8b5cf6;
+}
