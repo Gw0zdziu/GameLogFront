@@ -21,3 +21,9 @@
   transition: all 0.4s ease-in-out;
 
 }
+
+@media (max-width: 991px){
+  .content{
+    margin-left: 0.5rem;
+  }
+}

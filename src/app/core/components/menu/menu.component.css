@@ -31,4 +31,21 @@
 
 
 
+@media (max-width: 991px){
+  :host{
+
+  }
+  .sidebar{
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    transform: translateX(-100%);
+  }
+
+  .closed{
+    transform: translateX(0);
+    transition: transform 200ms ease-in-out;
+  }
+}
 
