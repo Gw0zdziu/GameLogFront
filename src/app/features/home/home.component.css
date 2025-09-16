@@ -5,15 +5,12 @@
 .container{
   display: flex;
   flex-direction: row;
-  height: 100vh;
 }
 
 
 .content {
-  margin: 5.5rem 0.5rem 6rem 22rem;
+  margin: 5.5rem 0.5rem 0.5rem 22rem;
   transition: all 0.4s ease-in-out;
-  height: 100vh;
-
   border-radius: 10px;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.02),0 1px 2px 0 rgba(0,0,0,0.04);
 }
