@@ -8,7 +8,6 @@
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.02),0 1px 2px 0 rgba(0,0,0,0.04);
   grid-template-areas: 'menu-button logo theme-toggle user-button';
   grid-template-columns: auto 1fr repeat(3, auto);
-  position: fixed;
 }
 
 .menu-button {

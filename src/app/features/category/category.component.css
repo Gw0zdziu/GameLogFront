@@ -1,8 +1,6 @@
 :host{
-  display: block;
+  display: flex;
   border-radius: 10px;
   background-color: #fff;
-  box-shadow: inherit;
   padding: 1rem;
-  height: inherit;
 }

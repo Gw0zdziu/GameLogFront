@@ -11,9 +11,14 @@ export class LayoutService {
   constructor() {
   }
 
+  setStateMenu(value: boolean){
+    this.isMenuOpen.set(value);
+  }
 
 
   toggleMenu(){
-    this.isMenuOpen.update(value => !value);
+    this.isMenuOpen.update(value =>{
+      return !value;
+    });
   }
 }

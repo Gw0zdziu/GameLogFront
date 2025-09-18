@@ -1,10 +1,9 @@
-.sidebar{
-  position: fixed;
-  top: 5.5rem;
-  left: 0.5rem;
+:host{
+  display: block;
+  margin: 1rem;
   border-radius: 10px;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.02),0 1px 2px 0 rgba(0,0,0,0.04);
-  background-color: #fff;
+  background: #fff;
   height: calc(100vh - 6rem);
   width: 20rem;
   overflow-y: auto;
@@ -23,27 +22,38 @@
   color: #0a0338;
 }
 
-.closed{
+:host(.closed){
   transform: translateX(-100%);
-  left: 0;
-  transition: transform 200ms ease-in-out, left 200ms ease-in-out;
+  margin-left: 0;
+  transition: transform 200ms ease-in-out, margin-left 200ms ease-in-out;
 }
 
-
+.menu-button{
+  align-self: end;
+}
 
 @media (max-width: 991px){
   :host{
 
-  }
-  .sidebar{
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
+    width: 100vw;
     z-index: 999;
+    margin: 0;
     transform: translateX(-100%);
+    border-radius: 0;
+    background: transparent;
   }
 
-  .closed{
+  .sidebar{
+    height: inherit;
+    width: 20rem;
+    background-color: #fff;
+  }
+
+  :host(.closed){
     transform: translateX(0);
     transition: transform 200ms ease-in-out;
   }
