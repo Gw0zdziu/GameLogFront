@@ -7,17 +7,25 @@ import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
 @Component({
   selector: 'app-menu',
   imports: [
-    MenuItemComponent,
-    CloseSidebarDirective
+    MenuItemComponent
   ],
+  hostDirectives:[
+    {
+      directive: CloseSidebarDirective
+    }
+  ],
+  host: {
+    '[class.closed]': 'isMenuOpen$()'
+  },
   template: `
-   <div class="sidebar" [class.closed]="isMenuOpen$()">
-    <ul class="menu-sidebar">
-      @for (item  of menuItems; track item.label) {
-        <app-menu-item appCloseSidebar [item]="item"></app-menu-item>
-      }
-    </ul>
-  </div>
+    <section class="sidebar">
+      <ul class="menu-sidebar">
+        @for (item  of menuItems; track item.label) {
+          <app-menu-item  [item]="item"></app-menu-item>
+        }
+      </ul>
+    </section>
+
   `,
   styleUrl: './menu.component.css',
 
@@ -45,5 +53,9 @@ export class MenuComponent implements OnInit{
         routerLink: './games'
       }
     ]
+  }
+
+  toggleMenu(){
+    this.layoutService.toggleMenu();
   }
 }
