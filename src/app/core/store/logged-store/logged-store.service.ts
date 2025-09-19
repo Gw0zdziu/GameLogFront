@@ -6,7 +6,6 @@ import {computed, Injectable, signal} from '@angular/core';
 export class LoggedStoreService {
   private isLogged = signal(false);
   isLogged$ = computed(() => {
-    console.log(this.isLogged());
     return this.isLogged();
   })
 
