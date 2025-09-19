@@ -1,10 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpContext} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 import {LoginUserDto} from '../models/login-user.dto';
 import {LoginResponseDto} from '../models/login-response.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
+import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
+import {UserStoreService} from '../../../core/store/user-store/user-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +14,53 @@ import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`
   private httpClient = inject(HttpClient);
+  private loggedStoreService = inject(LoggedStoreService);
+  private userStoreService = inject(UserStoreService);
+
+  constructor() {
+  }
 
   loginUser(loginUser: LoginUserDto): Observable<LoginResponseDto> {
     return this.httpClient.post<LoginResponseDto>(`${this.apiUrl}/login`, loginUser, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
-    });
+    }).pipe(
+      catchError((err, caught) => {
+        this.loggedStoreService.setLogged(false);
+        return of(err)
+      }),
+      map(value => {
+        this.userStoreService.updateUser({token: value.token});
+        this.loggedStoreService.setLogged(true);
+        return value;
+      }),
+    );
   }
 
    logoutUser(): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiUrl}/logout`, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
-    });
+    }).pipe(map(() => {
+      this.userStoreService.cleanStore();
+      this.loggedStoreService.setLogged(false);
+    }));
+  }
+
+  verify(){
+    return this.httpClient.get<boolean>(`${this.apiUrl}/verify`, {
+      withCredentials: true,
+      context: new HttpContext().set(IS_AUTH_REQUIRED, true)
+    }).pipe(
+      map(value => {
+        this.loggedStoreService.setLogged(value);
+        return value;
+      }),
+      catchError(() => {
+        this.loggedStoreService.setLogged(false);
+        return of(false)
+      })
+    )
   }
 
 
