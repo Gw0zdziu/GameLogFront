@@ -5,6 +5,8 @@ import {Menu} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
+import {Router} from '@angular/router';
+import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,13 +27,12 @@ export class NavbarComponent implements OnInit{
   private userStoreService = inject(UserStoreService);
   private authService = inject(AuthService);
   private layoutService = inject(LayoutService);
-  user = this.userStoreService.currentUser;
-  items: MenuItem[] | undefined = [
-
-  ]
+  private loggedStoreService = inject(LoggedStoreService);
+  private router = inject(Router);
+  items: MenuItem[] | undefined;
 
   ngOnInit(): void {
-    if (this.user()) {
+    if (this.loggedStoreService.isLogged$()) {
       this.items = [
         {
           label: 'Logout',
@@ -62,17 +63,16 @@ export class NavbarComponent implements OnInit{
   logout(){
     this.authService.logoutUser().subscribe({
       next: () => {
-        this.userStoreService.cleanStore();
         this.items = [
           {
             label: 'Login',
             icon: 'pi pi-fw pi-sign-in',
-            routerLink: ['login']
+            routerLink: ['/login']
           },
           {
             label: 'Register',
             icon: 'pi pi-fw pi-user-plus',
-            routerLink: ['register']
+            routerLink: ['/registration']
           },
         ]
       }

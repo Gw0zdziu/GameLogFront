@@ -37,8 +37,7 @@ export class LoginComponent {
     const loginUser: LoginUserDto = this.loginForm.value as LoginUserDto;
     this.authService.loginUser(loginUser)
       .subscribe({
-      next: (value) => {
-        this.userStoreService.updateUser({userId: value.userId, token: value.token});
+      next: () => {
         this.router.navigate([''])
       },
       error: () => {

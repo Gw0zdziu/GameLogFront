@@ -6,12 +6,16 @@ import {IS_AUTH_REQUIRED} from "../../tokens/tokens";
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const userStoreService = inject(UserStoreService);
   if(req.context.get(IS_AUTH_REQUIRED)){
-    const request = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${userStoreService.currentUser()?.token}`
-      }
-    });
-    return next(request);
+    if (userStoreService.currentUser()?.token) {
+      const request = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${userStoreService.currentUser()?.token}`
+        }
+      });
+      return next(request);
+    } else {
+      return next(req);
+    }
   } else {
     return next(req);
   }
