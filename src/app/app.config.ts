@@ -10,22 +10,59 @@ import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh
 import {definePreset} from '@primeng/themes';
 
 const Preset = definePreset(Aura, {
-  semantic: {
-      primary: {
-        50: '{violet.50}',
-        100: '{violet.100}',
-        200: '{violet.200}',
-        300: '{violet.300}',
-        400: '{violet.400}',
-        500: '{violet.500}',
-        600: '{violet.600}',
-        700: '{violet.700}',
-        800: '{violet.800}',
-        900: '{violet.900}',
-        950: '{violet.950}'
+  components: {
+    menu: {
+      colorScheme: {
+        light:{
+          root: {
+            background: 'var(--gray-light)',
+            borderColor: 'var(--gray-light)',
+          },
+          item: {
+            color: 'var(--black-raw)',
+            focusColor: '{violet.500}',
+            focusBackground: 'var(--gray-light)',
+            icon: {
+              focusColor: '{violet.500}',
+              color: 'var(--black-raw)',
+            }
+          }
+        },
+        dark:{
+          root: {
+            background: 'var(--gray-light)',
+            borderColor: 'var(--gray-light)',
+          },
+          item: {
+            color: 'var(--black-raw)',
+            focusColor: '{violet.500}',
+            icon: {
+              focusColor: '{violet.500}',
+              color: 'var(--black-raw)',
+            }
+          }
+        }
       }
+    }
+  },
+  semantic: {
+    primary: {
+      0: '#fff',
+      50: '{violet.50}',
+      100: '{violet.100}',
+      200: '{violet.200}',
+      300: '{violet.300}',
+      400: '{violet.400}',
+      500: '{violet.500}',
+      600: '{violet.600}',
+      700: '{violet.700}',
+      800: '{violet.800}',
+      900: '{violet.900}',
+      950: '{violet.950}'
+    }
   }
 })
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,7 +74,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Preset,
         options: {
-          darkModeSelector: false,
+          darkModeSelector: 'dark-theme',
           ripple: true,
         }
       }
