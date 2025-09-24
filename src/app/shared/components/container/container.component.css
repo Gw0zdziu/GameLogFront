@@ -12,6 +12,7 @@
   padding: 24px;
   border-radius: 10px;
   box-shadow: 0 0 30px 10px rgba(10, 3, 56, 0.05);
+  background: var(--gray-light);
   position: relative;
   overflow: hidden;
 }
