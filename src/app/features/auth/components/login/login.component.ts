@@ -7,6 +7,7 @@ import {LoginUserDto} from '../../models/login-user.dto';
 import {Router, RouterLink} from '@angular/router';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 import {ContainerComponent} from '../../../../shared/components/container/container.component';
+import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ import {ContainerComponent} from '../../../../shared/components/container/contai
     ButtonLabel,
     ButtonDirective,
     RouterLink,
-    ContainerComponent
+    ContainerComponent,
+    ThemeToggleComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

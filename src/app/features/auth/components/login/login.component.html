@@ -1,3 +1,4 @@
+<app-theme-toggle></app-theme-toggle>
 <app-container>
   <h1 class="container-header">Zaloguj się</h1>
   <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="container-inputs">
@@ -11,7 +12,7 @@
     </section>
     <a [routerLink]="['','recovery-password']" class="link-recovery-password">Zapomniałaś hasło</a>
     <div class="container-buttons">
-      <button class="button" pButton severity="contrast" type="submit">
+      <button class="button" pButton type="submit">
         @if (isLogin()){
           <i class="pi pi-spin pi-spinner"></i>
         }
