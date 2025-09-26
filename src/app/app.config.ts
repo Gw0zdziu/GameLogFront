@@ -63,19 +63,20 @@ const Preset = definePreset(Aura, {
   }
 })
 
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
     provideHttpClient(withInterceptors([refreshTokenInterceptor, authInterceptor])),
+    provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
         preset: Preset,
         options: {
           darkModeSelector: 'dark-theme',
+/*
           ripple: true,
+*/
         }
       }
     })

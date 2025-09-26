@@ -35,7 +35,7 @@ export class ThemeStoreService {
     const theme: ThemeStore = {
       theme: this.theme().theme === 'light' ? 'dark' : 'light',
       isDark: this.theme().theme === 'light',
-      icon: this.theme().theme === 'light' ? 'sun' : 'moon'
+      icon: this.theme().theme === 'light' ? 'moon' : 'sun'
     }
     this.theme.set(theme);
   }
