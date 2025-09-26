@@ -6,7 +6,7 @@ import {GetUserDto} from '../../../shared/models/get-user.dto';
 })
 export class UserStoreService {
   private user = signal<Partial<GetUserDto>| null>(JSON.parse(localStorage.getItem('user') as string));
-  currentUser = computed(() => this.user());
+  user$ = computed(() => this.user());
 
 
   constructor() {

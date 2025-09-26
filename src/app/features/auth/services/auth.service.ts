@@ -27,7 +27,7 @@ export class AuthService {
     }).pipe(
       catchError((err, caught) => {
         this.loggedStoreService.setLogged(false);
-        return of(err)
+        return caught
       }),
       map(value => {
         this.userStoreService.updateUser({token: value.token});

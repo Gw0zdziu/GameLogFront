@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {UserService} from '../user/services/user.service';
-import {UserStoreService} from '../../core/store/user-store/user-store.service';
 import {NavbarComponent} from '../../core/components/navbar/navbar.component';
 import {LayoutService} from '../../shared/services/layout/layout.service';
 import {MenuComponent} from '../../core/components/menu/menu.component';
 import {RouterOutlet} from '@angular/router';
+import {LoggedStoreService} from '../../core/store/logged-store/logged-store.service';
 
 @Component({
   selector: 'app-home',
@@ -25,19 +25,14 @@ import {RouterOutlet} from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
-  private userStoreService = inject(UserStoreService);
   private userService = inject(UserService);
   private layoutService = inject(LayoutService);
+  private loggedStoreService = inject(LoggedStoreService);
   isMenuOpen$ = this.layoutService.isMenuOpen$;
 
   ngOnInit(): void {
-    const userId = this.userStoreService.currentUser()?.userId as string;
-    if (userId) {
-      this.userService.getUser().subscribe({
-        next: (value) => {
-          this.userStoreService.updateUser(value);
-        }
-      })
+    if (this.loggedStoreService.isLogged$()) {
+      this.userService.getUser().subscribe();
     }
   }
 }
