@@ -3,7 +3,6 @@ import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpContext} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
 import {LoginUserDto} from '../models/login-user.dto';
-import {LoginResponseDto} from '../models/login-response.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStoreService} from '../../../core/store/user-store/user-store.service';
@@ -20,19 +19,20 @@ export class AuthService {
   constructor() {
   }
 
-  loginUser(loginUser: LoginUserDto): Observable<LoginResponseDto> {
-    return this.httpClient.post<LoginResponseDto>(`${this.apiUrl}/login`, loginUser, {
+  loginUser(loginUser: LoginUserDto): Observable<string> {
+    return this.httpClient.post(`${this.apiUrl}/login`, loginUser, {
       withCredentials: true,
-      context: new HttpContext().set(IS_AUTH_REQUIRED, true)
+      context: new HttpContext().set(IS_AUTH_REQUIRED, false),
+      responseType: 'text'
     }).pipe(
-      catchError((err, caught) => {
-        this.loggedStoreService.setLogged(false);
-        return caught
-      }),
       map(value => {
-        this.userStoreService.updateUser({token: value.token});
+        this.userStoreService.updateUser({token: value});
         this.loggedStoreService.setLogged(true);
         return value;
+      }),
+      catchError((err, caught) => {
+        this.loggedStoreService.setLogged(false);
+        return of(err)
       }),
     );
   }
