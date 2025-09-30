@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, effect, inject, OnInit} from '@angular/core';
 import {Button} from 'primeng/button';
 import {Menu} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
@@ -27,31 +27,38 @@ export class NavbarComponent implements OnInit{
   private authService = inject(AuthService);
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
+  isLogged$ = this.loggedStoreService.isLogged$;
   items: MenuItem[] | undefined;
 
+  constructor() {
+    effect(() => {
+      if (this.isLogged$()) {
+        this.items = [
+          {
+            label: 'Wyloguj',
+            icon: 'pi pi-fw pi-sign-out',
+            command: () => this.logout()
+          }
+        ]
+      } else {
+        this.items = [
+          {
+            label: 'Zaloguj',
+            icon: 'pi pi-fw pi-sign-in',
+            routerLink: ['/login'],
+          },
+          {
+            label: 'Zarejestruj',
+            icon: 'pi pi-fw pi-user-plus',
+            routerLink: ['/registration']
+          },
+        ]
+      }
+    });
+  }
+
   ngOnInit(): void {
-    if (this.loggedStoreService.isLogged$()) {
-      this.items = [
-        {
-          label: 'Wyloguj',
-          icon: 'pi pi-fw pi-sign-out',
-          command: () => this.logout()
-        }
-      ]
-    } else {
-      this.items = [
-        {
-          label: 'Zaloguj',
-          icon: 'pi pi-fw pi-sign-in',
-          routerLink: ['/login'],
-        },
-        {
-          label: 'Zarejestruj',
-          icon: 'pi pi-fw pi-user-plus',
-          routerLink: ['/registration']
-        },
-      ]
-    }
+
   }
 
   toggleMenu(){
@@ -59,21 +66,6 @@ export class NavbarComponent implements OnInit{
   }
 
   logout(){
-    this.authService.logoutUser().subscribe({
-      next: () => {
-        this.items = [
-          {
-            label: 'Login',
-            icon: 'pi pi-fw pi-sign-in',
-            routerLink: ['/login']
-          },
-          {
-            label: 'Register',
-            icon: 'pi pi-fw pi-user-plus',
-            routerLink: ['/registration']
-          },
-        ]
-      }
-    })
+    this.authService.logoutUser().subscribe()
   }
 }
