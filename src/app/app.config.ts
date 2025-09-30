@@ -66,7 +66,7 @@ const Preset = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([refreshTokenInterceptor, authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({

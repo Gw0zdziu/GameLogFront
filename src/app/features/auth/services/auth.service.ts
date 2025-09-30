@@ -41,10 +41,16 @@ export class AuthService {
     return this.httpClient.delete<void>(`${this.apiUrl}/logout`, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
-    }).pipe(map(() => {
+    }).pipe(
+      map(() => {
       this.userStoreService.cleanStore();
       this.loggedStoreService.setLogged(false);
-    }));
+    }),
+      catchError((err, caught) => {
+        this.userStoreService.cleanStore();
+        this.loggedStoreService.setLogged(false);
+        return of(err)
+      }),);
   }
 
   verify(){
@@ -56,9 +62,9 @@ export class AuthService {
         this.loggedStoreService.setLogged(value);
         return value;
       }),
-      catchError(() => {
+      catchError((err, caught) => {
         this.loggedStoreService.setLogged(false);
-        return of(false)
+        return of(err)
       })
     )
   }
