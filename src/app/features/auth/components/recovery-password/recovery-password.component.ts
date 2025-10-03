@@ -5,6 +5,7 @@ import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
 import {UserService} from '../../../user/services/user.service';
 import {ContainerComponent} from '../../../../shared/components/container/container.component';
+import {Message} from 'primeng/message';
 
 @Component({
   selector: 'app-recovery-password',
@@ -16,7 +17,8 @@ import {ContainerComponent} from '../../../../shared/components/container/contai
     ButtonDirective,
     ButtonLabel,
     RouterLink,
-    ContainerComponent
+    ContainerComponent,
+    Message
   ],
   templateUrl: './recovery-password.component.html',
   styleUrl: './recovery-password.component.css'
@@ -25,7 +27,8 @@ export class RecoveryPasswordComponent {
     private userService = inject(UserService);
     private router = inject(Router);
     userEmail = new FormControl('', {
-      validators: [Validators.required, Validators.email]
+      validators: [Validators.required, Validators.email],
+      updateOn: 'blur',
     });
     isSubmit = signal(false);
 
