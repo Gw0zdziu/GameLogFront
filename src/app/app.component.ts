@@ -3,15 +3,19 @@ import {RouterOutlet} from '@angular/router';
 import {AuthService} from './features/auth/services/auth.service';
 import {ThemeStoreService} from './core/store/theme-store/theme-store.service';
 import {DOCUMENT} from '@angular/common';
+import {Toast} from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet
+    RouterOutlet,
+    Toast
   ],
-  template: `<router-outlet>
-  </router-outlet>`,
-  styleUrl: './app.component.css'
+  template: `
+  <router-outlet/>
+  <p-toast position="bottom-center"></p-toast>
+  `,
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit{
   title = 'GameLogFront';
@@ -22,7 +26,6 @@ export class AppComponent implements OnInit{
   private renderer = inject(Renderer2);
 
   ngOnInit(): void {
-    this.authService.verify().subscribe();
     this.renderer.setAttribute(this.document.documentElement,'data-theme', this.theme.theme);
   }
 }
