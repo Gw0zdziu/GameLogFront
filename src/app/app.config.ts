@@ -8,6 +8,7 @@ import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {authInterceptor} from './core/interceptors/auth/auth.interceptor';
 import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh-token.interceptor';
 import {definePreset} from '@primeng/themes';
+import {MessageService} from 'primeng/api';
 
 const Preset = definePreset(Aura, {
   components: {
@@ -65,6 +66,7 @@ const Preset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
     provideRouter(routes),

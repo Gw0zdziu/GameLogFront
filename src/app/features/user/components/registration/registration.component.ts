@@ -1,26 +1,30 @@
-import {Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
-import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
+import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RegisterNewUserRequestDto} from '../../models/register-new-user-request.dto';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {delay} from 'rxjs';
 import {UserService} from '../../services/user.service';
 import {ContainerComponent} from '../../../../shared/components/container/container.component';
+import {Message} from 'primeng/message';
+import {NgClass} from '@angular/common';
+import {matchValueValidator} from '../../../../core/validators/match-value.validator';
 
 @Component({
   selector: 'app-registration',
   imports: [
     InputText,
     ReactiveFormsModule,
-    Button,
     ButtonDirective,
     ButtonLabel,
-    RouterLink,
     ContainerComponent,
+    Message,
+    NgClass,
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css'
+  styleUrl: './registration.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegistrationComponent{
   isSubmit = signal(false);
@@ -28,12 +32,39 @@ export class RegistrationComponent{
   private formBuilder = inject(NonNullableFormBuilder);
   private router = inject(Router);
   registerForm = this.formBuilder.group({
-    userName: ['', [Validators.required, Validators.minLength(3)]],
-    firstname: ['', [Validators.required, Validators.minLength(3)]],
-    lastname: ['', [Validators.required, Validators.minLength(3)]],
-    userEmail: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+    userName: ['',
+      {
+        validators: [Validators.required, Validators.minLength(3)],
+        updateOn: 'blur',
+
+  }],
+    firstname: ['',
+      {
+        validators:[Validators.required, Validators.minLength(3)],
+        updateOn: 'blur',
+      }],
+    lastname: ['',
+      {
+        validators: [Validators.required, Validators.minLength(3)],
+        updateOn: 'blur',
+      }],
+    userEmail: ['',
+      {
+        validators:[Validators.required, Validators.email],
+        updateOn: 'blur',
+      }],
+    password: ['',
+      {
+        validators:[Validators.required, Validators.minLength(8)],
+        updateOn: 'blur',
+      }],
+    confirmPassword: ['',
+      {
+        validators:[Validators.required, Validators.minLength(8)],
+        updateOn: 'blur',
+      }],
+  },{
+    validators: [matchValueValidator('password', 'confirmPassword')]
   })
 
 

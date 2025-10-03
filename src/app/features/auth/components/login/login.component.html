@@ -5,10 +5,20 @@
     <section class="input" >
       <label for="username" >Nazwa użytkownika</label>
       <input formControlName="userName" pSize="large" pInputText id="username" type="text">
+      @if (loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched) {
+        @if (loginForm.get('userName')?.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+      }
     </section>
     <section class="input input-password" >
       <label for="password" >Hasło</label>
       <input formControlName="password" pSize="large" pInputText id="password" type="text">
+      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+        @if (loginForm.get('password')?.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+      }
     </section>
     <a [routerLink]="['','recovery-password']" class="link-recovery-password">Zapomniałaś hasło</a>
     <div class="container-buttons">

@@ -15,10 +15,12 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
       return refreshTokenService.refreshToken().pipe(
         map(x => {
           userStoreService.updateUser({token: x});
-          return next(req);
+          loggedStoreService.setLogged(true);
+          return next(req)
         }),
-        catchError((err, caught) => {
+        catchError((err) => {
           userStoreService.cleanStore();
+          loggedStoreService.setLogged(false);
           return of(err)
         })
       )} else {
