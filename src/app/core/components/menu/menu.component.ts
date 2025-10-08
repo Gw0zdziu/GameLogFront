@@ -1,8 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng/api';
+import {Component, computed, inject, OnInit} from '@angular/core';
 import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.component';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
 import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
+import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 
 @Component({
   selector: 'app-menu',
@@ -20,7 +20,7 @@ import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
   template: `
     <section class="sidebar">
       <ul class="menu-sidebar">
-        @for (item  of menuItems; track item.label) {
+        @for (item  of menuItems(); track item.label) {
           <app-menu-item  [item]="item"></app-menu-item>
         }
       </ul>
@@ -32,30 +32,33 @@ import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
 })
 export class MenuComponent implements OnInit{
   private layoutService = inject(LayoutService);
+  private loggedStoreService = inject(LoggedStoreService);
+  isLogged$ = this.loggedStoreService.isLogged$;
   isMenuOpen$ = this.layoutService.isMenuOpen$;
-  menuItems: MenuItem[] | undefined = [];
+  menuItems = computed(() => {
+    if (this.isLogged$()) {
+      return [
+        {
+          label: 'Pulpit nawigacyjny',
+          icon: 'pi pi-fw pi-home',
+          routerLink: './dashboard'
+        },
+        {
+          label: 'Kategorie gier',
+          icon: 'pi pi-fw pi-tags',
+          routerLink: './categories'
+        },
+        {
+          label: 'Gry',
+          icon: 'pi pi-fw pi-video',
+          routerLink: './games'
+        }
+      ]
+    } else {
+      return []
+    }
+  })
 
   ngOnInit(): void {
-    this.menuItems = [
-      {
-        label: 'Pulpit nawigacyjny',
-        icon: 'pi pi-fw pi-home',
-        routerLink: './dashboard'
-      },
-      {
-        label: 'Kategorie gier',
-        icon: 'pi pi-fw pi-tags',
-        routerLink: './categories'
-      },
-      {
-        label: 'Gry',
-        icon: 'pi pi-fw pi-video',
-        routerLink: './games'
-      }
-    ]
-  }
-
-  toggleMenu(){
-    this.layoutService.toggleMenu();
   }
 }
