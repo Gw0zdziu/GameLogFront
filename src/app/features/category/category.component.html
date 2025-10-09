@@ -1,4 +1,4 @@
-<button class="button" pButton type="submit">
+<button (click)="openAddCategoryDialog()" class="button" pButton type="button">
   <span pButtonLabel>Dodaj</span>
 </button>
 <app-category-table [categories]="categories()"></app-category-table>
