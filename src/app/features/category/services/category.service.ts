@@ -4,6 +4,7 @@ import {HttpClient, HttpContext} from '@angular/common/http';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {Observable} from 'rxjs';
 import {CategoryDto} from '../models/category.dto';
+import {CategoryPostDto} from '../models/category-post.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,18 @@ export class CategoryService {
   private http = inject(HttpClient);
 
   getUserCategories(): Observable<CategoryDto[]> {
-    return this.http.get<CategoryDto[]>(`${this.apiUrl}/user-categories`, {
+    return this.http.get<CategoryDto[]>(`${this.apiUrl}/get-user-categories`, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     });
   }
+
+  createCategory(categoryPost: CategoryPostDto): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/create-category`, categoryPost, {
+      withCredentials: true,
+      context: new HttpContext().set(IS_AUTH_REQUIRED, true)
+    })
+  }
+
+
 }
