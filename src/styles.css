@@ -8,11 +8,11 @@
   --gray-light: light-dark(#ffffff, #262a33);
   --background: light-dark(#fff, #1a1b26);
 
-  &[data-theme='dark'] {
+  &[dark-theme='dark'] {
     color-scheme: dark;
   }
 
-  &[data-theme='light'] {
+  &[dark-theme='light'] {
     color-scheme: light;
   }
 }

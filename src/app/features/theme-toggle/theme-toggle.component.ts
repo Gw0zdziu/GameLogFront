@@ -22,7 +22,13 @@ export class ThemeToggleComponent {
 
   toggleTheme() {
     const currentTheme = !this.theme().isDark ? 'dark' : 'light';
-    this.renderer.setAttribute(this.document.documentElement,'data-theme', currentTheme);
+    this.renderer.setAttribute(this.document.documentElement,'dark-theme', currentTheme);
+    const element = this.document.querySelector('html') as HTMLHtmlElement;
+    if (currentTheme === 'dark') {
+      element.classList.add('dark');
+    } else {
+      element.classList.remove('dark');
+    }
     this.themeStore.setTheme();
   }
 }
