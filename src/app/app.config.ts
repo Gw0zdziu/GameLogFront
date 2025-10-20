@@ -8,7 +8,7 @@ import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {authInterceptor} from './core/interceptors/auth/auth.interceptor';
 import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh-token.interceptor';
 import {definePreset} from '@primeng/themes';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 
 const Preset = definePreset(Aura, {
   components: {
@@ -27,7 +27,7 @@ const Preset = definePreset(Aura, {
               focusColor: '{violet.500}',
               color: 'var(--black-raw)',
             }
-          }
+          },
         },
         dark:{
           root: {
@@ -41,7 +41,21 @@ const Preset = definePreset(Aura, {
               focusColor: '{violet.500}',
               color: 'var(--black-raw)',
             }
-          }
+          },
+        }
+      }
+    },
+    datatable: {
+      colorScheme: {
+        light:{
+          root: {
+            background: 'var(--gray-light)'
+          },
+        },
+        dark:{
+          root: {
+            background: 'var(--gray-light)'
+          },
         }
       }
     }
@@ -60,6 +74,11 @@ const Preset = definePreset(Aura, {
       800: '{violet.800}',
       900: '{violet.900}',
       950: '{violet.950}'
+    },
+    colorScheme: {
+      dark: {
+
+      }
     }
   }
 })
@@ -67,6 +86,7 @@ const Preset = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     MessageService,
+    ConfirmationService,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
     provideRouter(routes),
@@ -75,10 +95,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Preset,
         options: {
-          darkModeSelector: 'dark-theme',
-/*
-          ripple: true,
-*/
+          darkModeSelector: '.dark',
         }
       }
     })
