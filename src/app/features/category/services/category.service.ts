@@ -27,5 +27,12 @@ export class CategoryService {
     })
   }
 
+  deleteCategory(categoryId: string){
+    return this.http.delete<void>(`${this.apiUrl}/delete/${categoryId}`, {
+      withCredentials: true,
+      context: new HttpContext().set(IS_AUTH_REQUIRED, true)
+    })
+  }
+
 
 }

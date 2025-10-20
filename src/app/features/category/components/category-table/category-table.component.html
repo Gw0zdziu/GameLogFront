@@ -5,6 +5,7 @@
       <th>Opis</th>
       <th>Data utworzenia</th>
       <th>Data aktualizacji</th>
+      <th>Akcje</th>
     </tr>
   </ng-template>
   <ng-template #body let-category>
@@ -13,6 +14,7 @@
       <td>{{ category.description }}</td>
       <td>{{ category.createdDate | formatDateDistance }}</td>
       <td>{{ category.updatedDate | formatDateDistance }}</td>
+      <td><p-button icon="pi pi-trash" aria-label="Save" (click)="deleteCategory(category.categoryId)" /></td>
     </tr>
   </ng-template>
 </p-table>
