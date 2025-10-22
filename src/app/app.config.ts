@@ -75,11 +75,6 @@ const Preset = definePreset(Aura, {
       900: '{violet.900}',
       950: '{violet.950}'
     },
-    colorScheme: {
-      dark: {
-
-      }
-    }
   }
 })
 
