@@ -1,4 +1,4 @@
-export interface CategoryPostDto {
-  categoryName: string;
-  description: string;
+import {CategoryBaseDto} from './category-base.dto';
+
+export interface CategoryPostDto extends CategoryBaseDto{
 }
