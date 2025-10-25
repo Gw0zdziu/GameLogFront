@@ -4,6 +4,8 @@ import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/d
 import {CategoryService} from '../../services/category.service';
 import {CategoryDto} from '../../models/category.dto';
 import {CategoryPutDto} from '../../models/category-put.dto';
+import {ToastService} from '../../../../core/services/toast/toast.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-category-update',
@@ -17,6 +19,7 @@ export class CategoryUpdateComponent implements OnInit {
   private dynamicDialogRef = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
   private categoryService = inject(CategoryService);
+  private toastService = inject(ToastService);
   instance: DynamicDialogComponent | undefined;
   categoryId: string;
   isSubmit = signal(false);
@@ -56,6 +59,10 @@ export class CategoryUpdateComponent implements OnInit {
           return newCategory
         })
         this.dynamicDialogRef.close(this.category());
+        this.toastService.showSuccess('Zaktualizowano kategorię');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastService.showError(error.error);
       },
       complete: () => {
         this.isSubmit = signal(false);

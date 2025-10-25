@@ -6,7 +6,6 @@ import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryTableComponent} from './components/category-table/category-table.component';
 import {CategoryAddComponent} from './components/category-add/category-add.component';
-import {ToastService} from '../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-category',
@@ -23,7 +22,6 @@ import {ToastService} from '../../core/services/toast/toast.service';
 export class CategoryComponent implements OnInit{
   private categoryService = inject(CategoryService);
   private dialogService = inject(DialogService);
-  private toastService = inject(ToastService);
   categories = signal<CategoryDto[]>([]);
 
   ref: DynamicDialogRef | undefined;
@@ -37,6 +35,7 @@ export class CategoryComponent implements OnInit{
   private getCategories() {
     this.categoryService.getUserCategories().subscribe({
       next: (response) => {
+        console.log(response)
         this.categories.set(response);
       },
     });
@@ -49,7 +48,6 @@ export class CategoryComponent implements OnInit{
     })
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) return;
-      this.toastService.showSuccess('Utworzono nową kategorię');
       this.getCategories();
     });
 
