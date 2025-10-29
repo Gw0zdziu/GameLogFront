@@ -1,23 +1,2 @@
-<p-table [value]="categories()">
-  <ng-template #header>
-    <tr>
-      <th>Nazwa</th>
-      <th>Opis</th>
-      <th>Data utworzenia</th>
-      <th>Data aktualizacji</th>
-      <th>Akcje</th>
-    </tr>
-  </ng-template>
-  <ng-template #body let-category>
-    <tr>
-      <td>{{ category.categoryName }}</td>
-      <td>{{ category.description }}</td>
-      <td>{{ category.createdDate | formatDateDistance }}</td>
-      <td>{{ category.updatedDate | formatDateDistance }}</td>
-      <td class="actions">
-        <p-button icon="pi pi-trash" aria-label="Save" (click)="deleteCategory(category.categoryId)" />
-        <p-button icon="pi pi-pencil" aria-label="Save" (click)="updateCategory(category.categoryId)" />
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+
+<app-table [columns]="columns()" [tableData]="categories()"></app-table>

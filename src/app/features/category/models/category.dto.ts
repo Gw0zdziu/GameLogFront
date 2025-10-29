@@ -2,8 +2,8 @@ export interface CategoryDto{
   categoryId: string;
   categoryName: string;
   description: string;
-  createdDate: Date;
-  updatedDate: Date;
+  createdDate: Date | string;
+  updatedDate: Date | string;
   createdBy: string;
   updatedBy: string;
 }

@@ -38,7 +38,6 @@ export class CategoryAddComponent {
       },
       error: (error: HttpErrorResponse) => {
         this.isSubmit.set(false);
-        console.log(error)
         this.toastService.showError(error.error);
 
       },

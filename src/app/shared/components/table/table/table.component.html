@@ -1,0 +1,25 @@
+<p-table [value]="tableData()" [columns]="columns()">
+  <ng-template #header let-columns>
+    <tr>
+      @for (column of columns; track $index) {
+        <th>{{ column.header }}</th>
+      }
+    </tr>
+  </ng-template>
+  <ng-template #body let-rowData let-columns="columns">
+    <tr>
+      @for (column of columns; track $index) {
+        @if(column.field){
+        <td>{{ rowData[column.field] }}</td>
+        } @else if (column.columnType === 'action'){
+          <td class="actions">
+            @for (action of column.actions; track $index) {
+              <p-button [icon]="action.icon" [ariaLabel]="action.label" (click)="action.action(rowData)"/>
+            }
+          </td>
+        }
+      }
+    </tr>
+  </ng-template>
+</p-table>
+
