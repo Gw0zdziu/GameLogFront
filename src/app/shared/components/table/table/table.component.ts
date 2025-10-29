@@ -2,7 +2,6 @@ import {Component, input, model} from '@angular/core';
 import {Column} from '../../../models/column';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
-import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
 
 
 @Component({
@@ -10,7 +9,6 @@ import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distanc
   imports: [
     TableModule,
     Button,
-    FormatDateDistancePipe
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'

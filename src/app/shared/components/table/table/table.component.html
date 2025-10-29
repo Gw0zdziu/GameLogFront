@@ -10,7 +10,7 @@
     <tr>
       @for (column of columns; track $index) {
         @if(column.field){
-        <td>{{ rowData[column.field] | formatDateDistance }}</td>
+        <td>{{ rowData[column.field] }}</td>
         } @else if (column.columnType === 'action'){
           <td class="actions">
             @for (action of column.actions; track $index) {
