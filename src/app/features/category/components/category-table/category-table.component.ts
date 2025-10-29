@@ -2,7 +2,6 @@ import {Component, inject, OnInit, signal} from '@angular/core';
 import {CategoryDto} from "../../models/category.dto";
 import {TableModule} from 'primeng/table';
 import {CategoryService} from '../../services/category.service';
-import {ToastService} from '../../../../core/services/toast/toast.service';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
@@ -10,6 +9,7 @@ import {TableComponent} from '../../../../shared/components/table/table/table.co
 import {Column} from '../../../../shared/models/column';
 import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
 import {CategoryStoreService} from '../../store/category-store.service';
+import {ToastService} from '../../../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-category-table',
@@ -24,10 +24,9 @@ import {CategoryStoreService} from '../../store/category-store.service';
 })
 export class CategoryTableComponent implements OnInit{
   private categoryService = inject(CategoryService);
-  private toastService = inject(ToastService);
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
-  private formatDateDistancePipe = inject(FormatDateDistancePipe);
+  private toastService = inject(ToastService);
   private categoryStoreService = inject(CategoryStoreService);
   protected categories$ = this.categoryStoreService.categories$
   private ref: DynamicDialogRef | undefined;
@@ -80,6 +79,7 @@ export class CategoryTableComponent implements OnInit{
       }
     ])
   }
+
   updateCategory(categoryId: string) {
     this.ref = this.dialogService.open(CategoryUpdateComponent, {
       modal: true,
@@ -108,7 +108,13 @@ export class CategoryTableComponent implements OnInit{
         severity: 'danger',
       },
       accept: () => {
-        this.categoryService.deleteCategory(categoryId).subscribe()
+        this.categoryService.deleteCategory(categoryId).subscribe(
+          {
+            next: () => {
+              this.toastService.showSuccess('Pomyślnie usunięto kategorię')
+            }
+          }
+        )
       }
     })
   }
