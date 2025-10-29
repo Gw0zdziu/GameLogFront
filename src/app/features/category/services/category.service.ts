@@ -2,10 +2,11 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpContext} from '@angular/common/http';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
-import {Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {CategoryDto} from '../models/category.dto';
 import {CategoryPostDto} from '../models/category-post.dto';
 import {CategoryPutDto} from '../models/category-put.dto';
+import {CategoryStoreService} from '../store/category-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,17 @@ import {CategoryPutDto} from '../models/category-put.dto';
 export class CategoryService {
   private apiUrl = `${environment.apiUrl}/category`;
   private http = inject(HttpClient);
+  private categoryStoreService = inject(CategoryStoreService);
 
   getUserCategories(): Observable<CategoryDto[]> {
     return this.http.get<CategoryDto[]>(`${this.apiUrl}/get-user-categories`, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
-    });
+    }).pipe(
+      tap(x => {
+        this.categoryStoreService.setCategories(x);
+      })
+    );
   }
 
   getCategory(categoryId: string): Observable<CategoryDto>{
@@ -28,11 +34,16 @@ export class CategoryService {
     })
   }
 
-  createCategory(categoryPost: CategoryPostDto): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/create-category`, categoryPost, {
+  createCategory(categoryPost: CategoryPostDto): Observable<CategoryDto> {
+    return this.http.post<CategoryDto>(`${this.apiUrl}/create-category`, categoryPost, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     })
+      .pipe(
+        tap(category => {
+          this.categoryStoreService.addCategory(category);
+        })
+      )
   }
 
   deleteCategory(categoryId: string){
@@ -40,13 +51,23 @@ export class CategoryService {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     })
+      .pipe(
+        tap(() => {
+          this.categoryStoreService.removeCategory(categoryId);
+        })
+      )
   }
 
-  updateCategory(categoryPut: CategoryPutDto, categoryId: string){
-    return this.http.put<void>(`${this.apiUrl}/update/${categoryId}`, categoryPut, {
+  updateCategory(categoryPut: CategoryPutDto, categoryId: string): Observable<CategoryDto>{
+    return this.http.put<CategoryDto>(`${this.apiUrl}/update/${categoryId}`, categoryPut, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     })
+      .pipe(
+        tap(category => {
+          this.categoryStoreService.updateCategory(category);
+        })
+      )
   }
 
 
