@@ -6,19 +6,17 @@
       @if (newCategoryForm.controls.categoryName.errors?.required) {
         <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
+      @if (newCategoryForm.controls.categoryName.errors?.minlength) {
+        <p-message severity="error" size="small" variant="simple">Wymagane jest min. 10 znaków</p-message>
+      }
     }
   </section>
   <section class="input" >
     <label for="username" >Opis</label>
     <textarea formControlName="description" pTextarea id="username" fluid></textarea>
-    @if (newCategoryForm.controls.description.invalid && newCategoryForm.controls.categoryName.touched) {
-      @if (newCategoryForm.controls.description.errors?.required) {
-        <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-      }
-    }
   </section>
-  <button class="button" pButton type="submit">
-    @if (isSubmit()){
+  <button [disabled]="newCategoryForm.invalid" class="button" pButton type="submit">
+    @if (store.isLoading()){
       <i class="pi pi-spin pi-spinner"></i>
     }
     <span pButtonLabel>Dodaj</span>

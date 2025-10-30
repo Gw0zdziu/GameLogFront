@@ -1,10 +1,11 @@
-import {Component, effect, inject, input, model, output} from '@angular/core';
+import {Component, effect, inject, model, output} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Message} from 'primeng/message';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {Textarea} from 'primeng/textarea';
 import {CategoryBaseDto} from '../../models/category-base.dto';
+import {CategoryStore} from '../../store/category-store';
 
 @Component({
   selector: 'app-category-form',
@@ -18,12 +19,14 @@ import {CategoryBaseDto} from '../../models/category-base.dto';
   ],
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.css',
+  providers: [CategoryStore],
 })
-export class CategoryFormComponent<TData extends CategoryBaseDto> {
+export class CategoryFormComponent<T extends CategoryBaseDto> {
   private formBuilder = inject(FormBuilder);
+  public store = inject(CategoryStore)
   newCategoryForm = this.formBuilder.group({
     categoryName: ['', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.minLength(10)],
       updateOn: 'blur'
     }],
     description: ['', {
@@ -31,9 +34,8 @@ export class CategoryFormComponent<TData extends CategoryBaseDto> {
       updateOn: 'blur'
     }]
   })
-  isSubmit = input.required();
   onSubmit = output();
-  category = model<TData | null>(null);
+  category = model<T | null>(null);
 
   constructor() {
     effect(() => {
@@ -47,7 +49,7 @@ export class CategoryFormComponent<TData extends CategoryBaseDto> {
   }
 
   submitForm(){
-    const newCategory = this.newCategoryForm.value as TData;
+    const newCategory = this.newCategoryForm.value as T;
     this.category.set(newCategory);
     this.onSubmit.emit();
   }
