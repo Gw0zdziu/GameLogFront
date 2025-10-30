@@ -2,10 +2,8 @@ import {Component, inject, OnInit, signal} from '@angular/core';
 import {CategoryFormComponent} from '../category-form/category-form.component';
 import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryService} from '../../services/category.service';
-import {CategoryDto} from '../../models/category.dto';
 import {CategoryPutDto} from '../../models/category-put.dto';
-import {ToastService} from '../../../../core/services/toast/toast.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import {CategoryStore} from '../../store/category-store';
 
 @Component({
   selector: 'app-category-update',
@@ -13,17 +11,16 @@ import {HttpErrorResponse} from '@angular/common/http';
     CategoryFormComponent,
   ],
   templateUrl: './category-update.component.html',
-  styleUrl: './category-update.component.css'
+  styleUrl: './category-update.component.css',
+  providers: [CategoryStore],
 })
 export class CategoryUpdateComponent implements OnInit {
   private dynamicDialogRef = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
   private categoryService = inject(CategoryService);
-  private toastService = inject(ToastService);
+  private store = inject(CategoryStore);
   instance: DynamicDialogComponent | undefined;
   categoryId: string;
-  isSubmit = signal(false);
-  category = signal<CategoryDto | null>(null);
   updatedCategory = signal<CategoryPutDto | null>(null);
 
   constructor() {
@@ -35,7 +32,6 @@ export class CategoryUpdateComponent implements OnInit {
     this.categoryService.getCategory(this.categoryId).subscribe({
       next: value => {
         this.updatedCategory.set(value);
-        this.category.set(value)
       }
     })
   }
@@ -43,29 +39,11 @@ export class CategoryUpdateComponent implements OnInit {
 
   submitForm(){
     const updatedCategory = this.updatedCategory() as CategoryPutDto;
-    this.categoryService.updateCategory(updatedCategory, this.categoryId).subscribe({
-      next: () => {
-        this.category.update(value => {
-          const currentDate = new Date();
-          const newCategory: CategoryDto = {
-            categoryId: value?.categoryId as string,
-            categoryName: updatedCategory.categoryName,
-            description: updatedCategory.description,
-            updatedBy: value?.updatedBy as string,
-            updatedDate: currentDate,
-            createdBy: value?.createdBy as string,
-            createdDate: value?.createdDate as Date,
-          }
-          return newCategory
-        })
-        this.dynamicDialogRef.close(this.category());
-        this.toastService.showSuccess('Zaktualizowano kategorię');
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastService.showError(error.error);
-      },
-      complete: () => {
-        this.isSubmit = signal(false);
+    this.store.updateCategory({
+      category: updatedCategory,
+      categoryId: this.categoryId,
+      onSuccess: () => {
+        this.instance?.close()
       }
     })
   }

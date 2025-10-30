@@ -1,15 +1,13 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {CategoryDto} from "../../models/category.dto";
 import {TableModule} from 'primeng/table';
-import {CategoryService} from '../../services/category.service';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
 import {TableComponent} from '../../../../shared/components/table/table/table.component';
 import {Column} from '../../../../shared/models/column';
 import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
-import {CategoryStoreService} from '../../store/category-store.service';
-import {ToastService} from '../../../../core/services/toast/toast.service';
+import {CategoryStore} from '../../store/category-store';
 
 @Component({
   selector: 'app-category-table',
@@ -20,22 +18,19 @@ import {ToastService} from '../../../../core/services/toast/toast.service';
   ],
   templateUrl: './category-table.component.html',
   styleUrl: './category-table.component.css',
-  providers: [FormatDateDistancePipe],
+  providers: [FormatDateDistancePipe, CategoryStore],
 })
 export class CategoryTableComponent implements OnInit{
-  private categoryService = inject(CategoryService);
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
-  private toastService = inject(ToastService);
-  private categoryStoreService = inject(CategoryStoreService);
-  protected categories$ = this.categoryStoreService.categories$
   private ref: DynamicDialogRef | undefined;
+  public store = inject(CategoryStore);
   columns = signal<Column<CategoryDto>[]>([]);
 
 
 
   ngOnInit(): void {
-    this.categoryService.getUserCategories().subscribe();
+    this.store.getCategories();
     this.columns.set([
       {
         field: 'categoryName',
@@ -108,13 +103,7 @@ export class CategoryTableComponent implements OnInit{
         severity: 'danger',
       },
       accept: () => {
-        this.categoryService.deleteCategory(categoryId).subscribe(
-          {
-            next: () => {
-              this.toastService.showSuccess('Pomyślnie usunięto kategorię')
-            }
-          }
-        )
+        this.store.deleteCategory(categoryId);
       }
     })
   }
