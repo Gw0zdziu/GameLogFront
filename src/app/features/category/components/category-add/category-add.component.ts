@@ -14,7 +14,6 @@ import {CategoryStore} from '../../store/category-store';
   ],
   templateUrl: './category-add.component.html',
   styleUrl: './category-add.component.css',
-  providers: [CategoryStore],
 })
 export class CategoryAddComponent {
   private dynamicDialogRef = inject(DynamicDialogRef);
