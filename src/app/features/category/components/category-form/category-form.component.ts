@@ -19,7 +19,6 @@ import {CategoryStore} from '../../store/category-store';
   ],
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.css',
-  providers: [CategoryStore],
 })
 export class CategoryFormComponent<T extends CategoryBaseDto> {
   private formBuilder = inject(FormBuilder);

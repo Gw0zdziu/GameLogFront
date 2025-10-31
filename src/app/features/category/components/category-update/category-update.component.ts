@@ -12,7 +12,6 @@ import {CategoryStore} from '../../store/category-store';
   ],
   templateUrl: './category-update.component.html',
   styleUrl: './category-update.component.css',
-  providers: [CategoryStore],
 })
 export class CategoryUpdateComponent implements OnInit {
   private dynamicDialogRef = inject(DynamicDialogRef);
@@ -43,7 +42,7 @@ export class CategoryUpdateComponent implements OnInit {
       category: updatedCategory,
       categoryId: this.categoryId,
       onSuccess: () => {
-        this.instance?.close()
+        this.dynamicDialogRef.close();
       }
     })
   }

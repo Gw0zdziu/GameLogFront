@@ -14,11 +14,10 @@ import {CategoryStore} from '../../store/category-store';
   imports: [
     TableModule,
     TableComponent,
-
   ],
   templateUrl: './category-table.component.html',
   styleUrl: './category-table.component.css',
-  providers: [FormatDateDistancePipe, CategoryStore],
+  providers: [FormatDateDistancePipe],
 })
 export class CategoryTableComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
