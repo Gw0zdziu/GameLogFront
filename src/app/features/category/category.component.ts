@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {CategoryService} from './services/category.service';
 import {TableModule} from 'primeng/table';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
@@ -20,9 +19,7 @@ import {FormatDateDistancePipe} from '../../core/pipes/format-date-distance.pipe
   providers: [DialogService, FormatDateDistancePipe],
 })
 export class CategoryComponent{
-  private categoryService = inject(CategoryService);
   private dialogService = inject(DialogService);
-  private formatDateDistancePipe = inject(FormatDateDistancePipe);
   ref: DynamicDialogRef | undefined;
 
   openAddCategoryDialog(){
