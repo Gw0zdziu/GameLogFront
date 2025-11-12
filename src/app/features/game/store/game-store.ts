@@ -56,8 +56,9 @@ export const GameStore = signalStore(
                   games: value,
                 })
               },
-              error: () => {
+              error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
+                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
@@ -86,7 +87,8 @@ export const GameStore = signalStore(
                   toastService.showSuccess('Pomyślnie dodano grę');
                 },
                 error: (error: HttpErrorResponse) => {
-                  console.log(error)
+                  patchState(store, {isLoading: false});
+                  toastService.showError(error.error);
                 },
                 complete: () => patchState(store, {isLoading: false}),
               })
@@ -110,8 +112,9 @@ export const GameStore = signalStore(
                 });
                 toastService.showSuccess('Pomyślnie usunięto grę');
               },
-              error: () => {
+              error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
+                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
@@ -144,7 +147,7 @@ export const GameStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                console.log(error.error)
+                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
