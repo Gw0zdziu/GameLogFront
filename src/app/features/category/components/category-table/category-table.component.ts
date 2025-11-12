@@ -77,7 +77,7 @@ export class CategoryTableComponent implements OnInit{
   updateCategory(categoryId: string) {
     this.ref = this.dialogService.open(CategoryUpdateComponent, {
       modal: true,
-      header: 'Zaktualizuj grę',
+      header: 'Zaktualizuj kategorię',
       data: categoryId,
     })
     this.ref.onClose.subscribe({
