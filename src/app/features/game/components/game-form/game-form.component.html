@@ -10,17 +10,19 @@
   </section>
   <section class="input">
     <label>Kategoria</label>
-    <p-auto-complete [lazy]="true" [required]="true" dropdown="true" #category="ngModel" (completeMethod)="filterCategory($event)" name="category"  appendTo="body" [(ngModel)]="selectedCategory" optionLabel="categoryName" [suggestions]="filteredCategories()"></p-auto-complete>
+    <p-auto-complete  [required]="true" dropdown="true" #category="ngModel" (change)="onChangeInput()"  (onSelect)="selectCategory()" (completeMethod)="filterCategory($event)" name="category"  appendTo="body" [(ngModel)]="selectedCategory" optionLabel="categoryName" [suggestions]="filteredCategories()"></p-auto-complete>
     @if (category.invalid && category.touched) {
       @if (category.errors?.required) {
         <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
     }
   </section>
-  <button [disabled]="gameForm.invalid" class="button" pButton type="submit">
+  <button [disabled]="gameForm.invalid || gameStore.isLoading() || !isSelectCategory()" class="button" pButton type="submit">
     @if (gameStore.isLoading()){
       <i class="pi pi-spin pi-spinner"></i>
     }
     <span pButtonLabel>Dodaj</span>
   </button>
 </form>
+{{isSelectCategory()}}
+
