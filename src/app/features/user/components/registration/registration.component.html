@@ -26,6 +26,15 @@
       }
     </section>
     <section class="input">
+      <label for="invitationCode">Kod zaproszenia</label>
+      <input formControlName="invitationCode" pSize="large" pInputText id="invitationCode" type="text">
+      @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
+        @if (registerForm.controls.invitationCode.errors?.required){
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+      }
+    </section>
+    <section class="input">
       <label for="lastname" >Nazwisko</label>
       <input formControlName="lastname" pSize="large" pInputText id="lastname" type="text">
       @if (registerForm.controls.lastname.invalid && registerForm.controls.lastname.touched) {
