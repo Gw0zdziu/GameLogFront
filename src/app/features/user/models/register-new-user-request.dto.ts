@@ -4,4 +4,5 @@ export interface RegisterNewUserRequestDto {
   lastname: string;
   userEmail: string;
   password: string;
+  invitationCode: string;
 }
