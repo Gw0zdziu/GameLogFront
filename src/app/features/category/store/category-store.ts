@@ -1,8 +1,8 @@
 import {CategoryDto} from '../models/category.dto';
-import {getState, patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
+import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
-import {computed, effect, inject} from '@angular/core';
+import {computed, inject} from '@angular/core';
 import {tapResponse} from '@ngrx/operators';
 import {CategoryService} from '../services/category.service';
 import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
@@ -33,14 +33,6 @@ export const CategoryStore = signalStore(
       }
     }))
   })),
-  withHooks({
-    onInit: (store) => {
-      effect(() => {
-        const state = getState(store);
-        console.log(state.categories)
-      });
-    }
-  }),
   withMethods((store,
                categoryService = inject(CategoryService),
                toastService = inject(ToastService)) => ({
@@ -138,7 +130,6 @@ export const CategoryStore = signalStore(
           return categoryService.updateCategory(value.category, value.categoryId).pipe(
             tapResponse({
               next: (response) => {
-                console.log(store.categories())
                 patchState(store, {
                   isLoading: false,
                   categories: store.categories().map(category => {
