@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, effect, inject, input, OnInit, output, signal, ViewChild} from '@angular/core';
+import {Component, effect, inject, input, OnInit, output, signal, ViewChild} from '@angular/core';
 import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
 import {FormsModule, NgModel, ReactiveFormsModule} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
@@ -25,7 +25,7 @@ import {GameStore} from '../../store/game-store';
   templateUrl: './game-form.component.html',
   styleUrl: './game-form.component.css',
 })
-export class GameFormComponent<T extends GameBaseDto> implements OnInit, AfterViewInit{
+export class GameFormComponent<T extends GameBaseDto> implements OnInit{
   private categoryStore = inject(CategoryStore);
   gameStore = inject(GameStore);
   gameName = signal('');
@@ -44,11 +44,7 @@ export class GameFormComponent<T extends GameBaseDto> implements OnInit, AfterVi
     });
   }
 
-  ngAfterViewInit() {
-    if (this.categoryInput){
-      console.log(this.categoryInput)
-    }
-  }
+
 
   ngOnInit(): void {
     this.categoryStore.getCategories();
