@@ -36,8 +36,7 @@ export class RegistrationComponent{
       {
         validators: [Validators.required, Validators.minLength(3)],
         updateOn: 'blur',
-
-  }],
+      }],
     firstname: ['',
       {
         validators:[Validators.required, Validators.minLength(3)],
@@ -63,6 +62,10 @@ export class RegistrationComponent{
         validators:[Validators.required, Validators.minLength(8)],
         updateOn: 'blur',
       }],
+    invitationCode: ['', {
+      validators: [Validators.required],
+      updateOn: 'blur',
+    }]
   },{
     validators: [matchValueValidator('password', 'confirmPassword')]
   })
