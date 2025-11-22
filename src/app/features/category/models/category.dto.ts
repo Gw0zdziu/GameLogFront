@@ -6,4 +6,5 @@ export interface CategoryDto{
   updatedDate: Date | string;
   createdBy: string;
   updatedBy: string;
+  gamesCount: number;
 }
