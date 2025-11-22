@@ -5,11 +5,11 @@ import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
 import {computed, inject} from '@angular/core';
 import {tapResponse} from '@ngrx/operators';
 import {CategoryService} from '../services/category.service';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
 import {CategoryPostDto} from '../models/category-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
+import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
 
 type CategoryState = {
   categories: CategoryDto[];
@@ -42,7 +42,6 @@ export const CategoryStore = signalStore(
           isLoading: true,
         })),
         debounceTime(300),
-        distinctUntilChanged(),
         switchMap(() => {
           return categoryService.getUserCategories().pipe(
             tapResponse({

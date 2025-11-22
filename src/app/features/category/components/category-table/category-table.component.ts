@@ -40,6 +40,10 @@ export class CategoryTableComponent implements OnInit{
         header: 'Opis',
       },
       {
+        field: 'gamesCount',
+        header: 'Liczba gier',
+      },
+      {
         field: 'createdDate',
         header: 'Data utworzenia',
       },
