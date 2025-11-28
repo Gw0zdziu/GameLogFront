@@ -1,0 +1,13 @@
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  flex-wrap: nowrap;
+}
+
+
+.loader{
+  display: flex;
+  justify-content: center;
+}
+

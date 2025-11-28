@@ -1,0 +1,20 @@
+app-theme-toggle{
+  display: flex;
+}
+
+
+.button {
+  width: 100%;
+}
+
+.input-password{
+  margin-bottom: 4px;
+}
+
+.link-register {
+  margin-top: 12px;
+}
+
+.link-recovery-password {
+  align-self: end;
+}

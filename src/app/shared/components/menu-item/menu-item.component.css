@@ -1,0 +1,19 @@
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-link {
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  color: var(--black-raw);
+}
+
+.active{
+  color: var(--p-violet-500);
+}
+
+

@@ -1,0 +1,30 @@
+:host{
+  display: block;
+  height: 100vh;
+}
+
+.container{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.content {
+  border-radius: 10px;
+  transition: margin-left 200ms ease-in-out;
+  margin: 1rem;
+  width: 100%;
+}
+
+.expanded{
+  margin-left: -20rem;
+  transition: margin-left 200ms ease-in-out;
+
+}
+
+@media (max-width: 991px){
+  .content{
+    margin-left: 0.5rem;
+  }
+}

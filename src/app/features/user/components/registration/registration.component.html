@@ -1,0 +1,101 @@
+<app-container>
+  <h1 class="container-header">Rejestracja</h1>
+  <form [formGroup]="registerForm" (ngSubmit)="postNewUser()" class="container-inputs">
+    <section class="input" >
+      <label for="username" >Nazwa użytkownika</label>
+      <input formControlName="userName" [ngClass]="{'ng-invalid ng-dirty': registerForm.controls.userName.invalid}" pSize="large" pInputText id="username" type="text">
+      @if (registerForm.controls.userName.invalid && registerForm.controls.userName.touched) {
+        @if (registerForm.controls.userName.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+        @if (registerForm.controls.userName.errors?.minlength) {
+          <p-message severity="error" size="small" variant="simple">Pole musi zawierać conajmniej 3 znaki</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="firstname" >Imię</label>
+      <input formControlName="firstname" pSize="large" pInputText id="firstname" type="text">
+      @if (registerForm.controls.firstname.invalid && registerForm.controls.firstname.touched) {
+        @if (registerForm.controls.firstname.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+        @if (registerForm.controls.firstname.errors?.minlength) {
+          <p-message severity="error" size="small" variant="simple">Pole musi zawierać conajmniej 3 znaki</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="invitationCode">Kod zaproszenia</label>
+      <input formControlName="invitationCode" pSize="large" pInputText id="invitationCode" type="text">
+      @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
+        @if (registerForm.controls.invitationCode.errors?.required){
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="lastname" >Nazwisko</label>
+      <input formControlName="lastname" pSize="large" pInputText id="lastname" type="text">
+      @if (registerForm.controls.lastname.invalid && registerForm.controls.lastname.touched) {
+        @if (registerForm.controls.lastname.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+        @if (registerForm.controls.lastname.errors?.minlength) {
+          <p-message severity="error" size="small" variant="simple">Pole musi zawierać conajmniej 3 znaki</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="user-email" >E-mail</label>
+      <input formControlName="userEmail" pSize="large" pInputText id="user-email" type="text">
+      @if (registerForm.controls.userEmail.invalid && registerForm.controls.userEmail.touched) {
+        @if (registerForm.controls.userEmail.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+        @if (registerForm.controls.userEmail.errors?.minlength) {
+          <p-message severity="error" size="small" variant="simple">Pole zawierać mieć conajmniej 3 znaki</p-message>
+        }
+        @if (registerForm.controls.userEmail.errors?.email) {
+          <p-message severity="error" size="small" variant="simple">Błędny format adresu e-mail</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="password" >Hasło</label>
+      <input formControlName="password" pSize="large" pInputText id="password" type="text">
+      @if (registerForm.controls.password.invalid && registerForm.controls.password.touched) {
+        @if (registerForm.controls.password.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+        @if (registerForm.controls.password.errors?.minlength) {
+          <p-message severity="error" size="small" variant="simple">Pole musi zawierać conajmniej 8 znaków</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="confirm-password" >Potwierdź hasło</label>
+      <input formControlName="confirmPassword" pSize="large" pInputText id="confirm-password" type="text">
+      @if (registerForm.controls.confirmPassword.invalid && registerForm.controls.confirmPassword.touched) {
+        @if (registerForm.controls.confirmPassword.errors?.required) {
+          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        }
+        @if (registerForm.controls.confirmPassword.errors?.minlength) {
+          <p-message severity="error" size="small" variant="simple">Pole musi zawierać conajmniej 8 znaków</p-message>
+        }
+        @if (registerForm.controls.confirmPassword.errors?.mustMatch) {
+          <p-message severity="error" size="small" variant="simple">Hasła się nie zgadzają</p-message>
+        }
+      }
+    </section>
+    <section class="container-buttons">
+      <button [disabled]="registerForm.invalid" pButton  type="submit" severity="contrast">
+        @if (isSubmit()) {
+          <i class="pi pi-spin pi-spinner"></i>
+        }
+        <span pButtonLabel>Zarejestruj się</span>
+      </button>
+    </section>
+  </form>
+  <div class="container-blur"></div>
+</app-container>
