@@ -1,13 +1,13 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
-import {CategoryDto} from "../../models/category.dto";
-import {TableModule} from 'primeng/table';
-import {ConfirmationService} from 'primeng/api';
-import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {CategoryUpdateComponent} from '../category-update/category-update.component';
-import {TableComponent} from '../../../../shared/components/table/table/table.component';
-import {Column} from '../../../../shared/models/column';
-import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
-import {CategoryStore} from '../../store/category-store';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { CategoryDto } from '../../models/category.dto';
+import { TableModule } from 'primeng/table';
+import { ConfirmationService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { CategoryUpdateComponent } from '../category-update/category-update.component';
+import { TableComponent } from '../../../../shared/components/table/table/table.component';
+import { Column } from '../../../../shared/models/column';
+import { FormatDateDistancePipe } from '../../../../core/pipes/format-date-distance.pipe';
+import { CategoryStore } from '../../store/category-store';
 
 @Component({
   selector: 'app-category-table',
@@ -18,6 +18,7 @@ import {CategoryStore} from '../../store/category-store';
   templateUrl: './category-table.component.html',
   styleUrl: './category-table.component.css',
   providers: [FormatDateDistancePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryTableComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
