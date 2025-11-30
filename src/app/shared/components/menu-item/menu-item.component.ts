@@ -1,20 +1,22 @@
-import {Component, input} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {MenuItem} from 'primeng/api';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-menu-item',
+  selector: 'li[app-menu-item]',
   imports: [
     RouterLink,
     RouterLinkActive
   ],
+  host: {
+    class: 'menu-item'
+  },
   template: `
-    <li class="menu-item">
-      <a class="item-link" [routerLinkActive]="['active']" [routerLink]="[item()?.routerLink]" >{{item()?.label}}</a>
-    </li>
+      <a class="item-link" [routerLink]="[item()?.routerLink]" [routerLinkActive]="['active']" >{{item()?.label}}</a>
   `,
-  styleUrl: './menu-item.component.css'
+  styleUrl: './menu-item.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuItemComponent {
-  item = input<MenuItem>();
+  readonly item = input<MenuItem>();
 }
