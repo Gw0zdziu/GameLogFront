@@ -1,8 +1,8 @@
-import {Component, computed, inject, OnInit} from '@angular/core';
-import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.component';
-import {LayoutService} from '../../../shared/services/layout/layout.service';
-import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
-import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { LayoutService } from '../../../shared/services/layout/layout.service';
+import { CloseSidebarDirective } from '../../directives/close-sidebar.directive';
+import { LoggedStoreService } from '../../store/logged-store/logged-store.service';
+import { MenuItemComponent } from '../../../shared/components/menu-item/menu-item.component';
 
 @Component({
   selector: 'app-menu',
@@ -20,15 +20,15 @@ import {LoggedStoreService} from '../../store/logged-store/logged-store.service'
   template: `
     <section class="sidebar">
       <ul class="menu-sidebar">
-        @for (item  of menuItems(); track item.label) {
-          <app-menu-item  [item]="item"></app-menu-item>
+        @for (item of menuItems(); track item.label) {
+          <li app-menu-item [item]="item"></li>
         }
       </ul>
     </section>
 
   `,
   styleUrl: './menu.component.css',
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit{
   private layoutService = inject(LayoutService);
