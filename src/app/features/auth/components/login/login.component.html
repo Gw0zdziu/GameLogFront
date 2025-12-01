@@ -1,26 +1,16 @@
-<app-theme-toggle></app-theme-toggle>
+<app-theme-toggle />
 <app-container>
   <h1 class="container-header">Zaloguj się</h1>
-  <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="container-inputs">
+  <form class="container-inputs" [formGroup]="loginForm" (ngSubmit)="loginUser()">
     <section class="input" >
       <label for="username" >Nazwa użytkownika</label>
-      <input formControlName="userName" pSize="large" pInputText id="username" type="text">
-      @if (loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched) {
-        @if (loginForm.get('userName')?.errors?.required) {
-          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-        }
-      }
+      <input formControlName="userName" id="username" pInputText pSize="large" type="text">
     </section>
     <section class="input input-password" >
       <label for="password" >Hasło</label>
-      <input formControlName="password" pSize="large" pInputText id="password" type="text">
-      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-        @if (loginForm.get('password')?.errors?.required) {
-          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-        }
-      }
+      <p-password feedback="false" formControlName="password" id="password" size="large" type="password" [fluid]="true" [toggleMask]="true" />
     </section>
-    <a [routerLink]="['','recovery-password']" class="link-recovery-password">Zapomniałaś hasło</a>
+    <a class="link-recovery-password" [routerLink]="['','recovery-password']">Zapomniałaś hasło</a>
     <div class="container-buttons">
       <button class="button" pButton type="submit">
         @if (isLogin()){
