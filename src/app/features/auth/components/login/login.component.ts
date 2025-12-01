@@ -1,13 +1,13 @@
-import {Component, inject, signal} from '@angular/core';
-import {InputText} from 'primeng/inputtext';
-import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {AuthService} from '../../services/auth.service';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginUserDto} from '../../models/login-user.dto';
-import {Router, RouterLink} from '@angular/router';
-import {ContainerComponent} from '../../../../shared/components/container/container.component';
-import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
-import {Message} from 'primeng/message';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { InputText } from 'primeng/inputtext';
+import { ButtonDirective, ButtonLabel } from 'primeng/button';
+import { AuthService } from '../../services/auth.service';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoginUserDto } from '../../models/login-user.dto';
+import { Router, RouterLink } from '@angular/router';
+import { ContainerComponent } from '../../../../shared/components/container/container.component';
+import { ThemeToggleComponent } from '../../../theme-toggle/theme-toggle.component';
+import { Password } from 'primeng/password';
 
 @Component({
   selector: 'app-login',
@@ -19,16 +19,17 @@ import {Message} from 'primeng/message';
     RouterLink,
     ContainerComponent,
     ThemeToggleComponent,
-    Message
+    Password
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
-  isLogin = signal(false);
+  readonly isLogin = signal(false);
   loginForm = this.formBuilder.group({
     userName: ['', {
       validators:[Validators.required],
