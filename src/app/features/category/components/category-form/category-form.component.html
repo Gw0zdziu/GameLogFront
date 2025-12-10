@@ -1,7 +1,7 @@
 <form [formGroup]="newCategoryForm" (ngSubmit)="submitForm()" >
   <section class="input" >
     <label for="username" >Nazwa</label>
-    <input formControlName="categoryName" pSize="large" pInputText id="username" type="text">
+    <input formControlName="categoryName" id="username" pInputText pSize="large" type="text">
     @if (newCategoryForm.controls.categoryName.invalid && newCategoryForm.controls.categoryName.touched) {
       @if (newCategoryForm.controls.categoryName.errors?.required) {
         <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
@@ -13,9 +13,9 @@
   </section>
   <section class="input" >
     <label for="username" >Opis</label>
-    <textarea formControlName="description" pTextarea id="username" fluid></textarea>
+    <textarea fluid formControlName="description" id="username" pTextarea></textarea>
   </section>
-  <button [disabled]="newCategoryForm.invalid" class="button" pButton type="submit">
+  <button class="button" pButton type="submit" [disabled]="newCategoryForm.invalid">
     @if (store.isLoading()){
       <i class="pi pi-spin pi-spinner"></i>
     }
