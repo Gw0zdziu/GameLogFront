@@ -1,11 +1,11 @@
-import {Component, effect, inject, model, output} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Message} from 'primeng/message';
-import {InputText} from 'primeng/inputtext';
-import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {Textarea} from 'primeng/textarea';
-import {CategoryBaseDto} from '../../models/category-base.dto';
-import {CategoryStore} from '../../store/category-store';
+import { ChangeDetectionStrategy, Component, effect, inject, model, output } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Message } from 'primeng/message';
+import { InputText } from 'primeng/inputtext';
+import { ButtonDirective, ButtonLabel } from 'primeng/button';
+import { Textarea } from 'primeng/textarea';
+import { CategoryBaseDto } from '../../models/category-base.dto';
+import { CategoryStore } from '../../store/category-store';
 
 @Component({
   selector: 'app-category-form',
@@ -19,10 +19,11 @@ import {CategoryStore} from '../../store/category-store';
   ],
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryFormComponent<T extends CategoryBaseDto> {
   private formBuilder = inject(FormBuilder);
-  public store = inject(CategoryStore)
+  store = inject(CategoryStore)
   newCategoryForm = this.formBuilder.group({
     categoryName: ['', {
       validators: [Validators.required, Validators.minLength(10)],
@@ -33,8 +34,8 @@ export class CategoryFormComponent<T extends CategoryBaseDto> {
       updateOn: 'blur'
     }]
   })
-  onSubmit = output();
-  category = model<T | null>(null);
+  readonly submitEmitter = output();
+  readonly category = model<T | null>(null);
 
   constructor() {
     effect(() => {
@@ -47,10 +48,10 @@ export class CategoryFormComponent<T extends CategoryBaseDto> {
     });
   }
 
-  submitForm(){
+  submitForm(): void{
     const newCategory = this.newCategoryForm.value as T;
     this.category.set(newCategory);
-    this.onSubmit.emit();
+    this.submitEmitter.emit();
   }
 
 }
