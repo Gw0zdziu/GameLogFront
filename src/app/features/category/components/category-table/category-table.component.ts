@@ -6,7 +6,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CategoryUpdateComponent } from '../category-update/category-update.component';
 import { TableComponent } from '../../../../shared/components/table/table/table.component';
 import { Column } from '../../../../shared/models/column';
-import { FormatDateDistancePipe } from '../../../../core/pipes/format-date-distance.pipe';
 import { CategoryStore } from '../../store/category-store';
 
 @Component({
@@ -17,15 +16,14 @@ import { CategoryStore } from '../../store/category-store';
   ],
   templateUrl: './category-table.component.html',
   styleUrl: './category-table.component.css',
-  providers: [FormatDateDistancePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryTableComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
-  public store = inject(CategoryStore);
-  columns = signal<Column<CategoryDto>[]>([]);
+  store = inject(CategoryStore);
+  readonly columns = signal<Column<CategoryDto>[]>([]);
 
 
 
@@ -61,7 +59,7 @@ export class CategoryTableComponent implements OnInit{
             icon: 'pi pi-trash',
             label: 'Usuń',
             actionType: 'delete',
-            action: (item: CategoryDto) => {
+            action: (item: CategoryDto): void => {
               this.deleteCategory(item.categoryId)
             }
           },
@@ -70,7 +68,7 @@ export class CategoryTableComponent implements OnInit{
             icon: 'pi pi-pencil',
             label: 'Edytuj',
             actionType: 'update',
-            action: (item: CategoryDto) => {
+            action: (item: CategoryDto): void => {
               this.updateCategory(item.categoryId)
             }
           }
@@ -79,7 +77,7 @@ export class CategoryTableComponent implements OnInit{
     ])
   }
 
-  updateCategory(categoryId: string) {
+  updateCategory(categoryId: string): void {
     this.ref = this.dialogService.open(CategoryUpdateComponent, {
       modal: true,
       header: 'Zaktualizuj kategorię',
@@ -87,12 +85,12 @@ export class CategoryTableComponent implements OnInit{
     })
     this.ref.onClose.subscribe({
       next: (value: CategoryDto) => {
-        if (!value) return;
+        if (!value) {return;}
       }
     })
   }
 
-  deleteCategory(categoryId: string) {
+  deleteCategory(categoryId: string): void {
     this.confirmationService.confirm({
       message: 'Czy chcesz usunąć kategorię?',
       header: 'Usuwanie kategorii',
