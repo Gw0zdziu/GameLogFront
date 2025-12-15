@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {GameStore} from '../../store/game-store';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GamePostDto} from '../../models/game-post.dto';
@@ -10,14 +10,14 @@ import {GameFormComponent} from '../game-form/game-form.component';
     GameFormComponent
   ],
   templateUrl: './game-add.component.html',
-  styleUrl: './game-add.component.css'
+  styleUrl: './game-add.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameAddComponent {
     private dynamicDialogRef = inject(DynamicDialogRef);
     private gameStore = inject(GameStore);
-    game = signal<GamePostDto | null>(null);
 
-    submitNewGame(newGame: GamePostDto){
+    submitNewGame(newGame: GamePostDto): void{
       this.gameStore.postGame({
         newGame: newGame,
         onSuccess: () => {
