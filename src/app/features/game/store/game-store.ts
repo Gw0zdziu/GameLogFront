@@ -1,6 +1,6 @@
 import {GameDto} from '../models/game.dto';
-import {getState, patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
-import {computed, effect, inject} from '@angular/core';
+import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
+import {computed, inject} from '@angular/core';
 import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
 import {GameService} from '../services/game.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
@@ -33,14 +33,10 @@ export const GameStore = signalStore(
       }
     }))
   })),
-  withHooks({
-    onInit: (store) => {
-      effect(() => {
-        const state = getState(store);
-      });
-    }
-  }),
   withMethods((store, gameService = inject(GameService), toastService = inject(ToastService)) => ({
+    setGameState(state: GameState): void {
+      patchState(store, state);
+    },
     getGames: rxMethod<void>(
       pipe(
         tap(() => patchState(store, {

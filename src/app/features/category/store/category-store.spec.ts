@@ -1,12 +1,12 @@
-import { CategoryStore } from './category-store';
-import { CategoryPostDto } from '../models/category-post.dto';
-import { CategoryService } from '../services/category.service';
-import { of, throwError } from 'rxjs';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { CategoryDto } from '../models/category.dto';
-import { FormatDateDistancePipe } from '../../../core/pipes/format-date-distance.pipe';
-import { ToastService } from '../../../core/services/toast/toast.service';
-import { CategoryPutDto } from '../models/category-put.dto';
+import {CategoryStore} from './category-store';
+import {CategoryPostDto} from '../models/category-post.dto';
+import {CategoryService} from '../services/category.service';
+import {of, throwError} from 'rxjs';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {CategoryDto} from '../models/category.dto';
+import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
+import {ToastService} from '../../../core/services/toast/toast.service';
+import {CategoryPutDto} from '../models/category-put.dto';
 
 describe('CategoryStore', () => {
   const category: CategoryDto = {
