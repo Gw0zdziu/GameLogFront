@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {GameStore} from '../../store/game-store';
 import {Column} from '../../../../shared/models/column';
 import {GameDto} from '../../models/game.dto';
@@ -13,14 +13,15 @@ import {GameUpdateComponent} from '../game-update/game-update.component';
     TableComponent
   ],
   templateUrl: './game-table.component.html',
-  styleUrl: './game-table.component.css'
+  styleUrl: './game-table.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameTableComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
   store = inject(GameStore);
   ref: DynamicDialogRef | undefined;
-  columns = signal<Column<GameDto>[]>([]);
+  readonly columns = signal<Column<GameDto>[]>([]);
 
   ngOnInit(): void {
     this.store.getGames();
@@ -50,7 +51,7 @@ export class GameTableComponent implements OnInit{
             toolTip: 'Usuń',
             label: 'Usuń',
             icon: 'pi pi-trash',
-            action: (item) => {
+            action: (item) : void=> {
               this.deleteGame(item.gameId);
             }
           },
@@ -59,7 +60,7 @@ export class GameTableComponent implements OnInit{
             toolTip: 'Edytuj',
             label: 'Edytuj',
             icon: 'pi pi-pencil',
-            action: (item) => {
+            action: (item): void => {
               this.updateGame(item.gameId);
             }
           }
@@ -95,7 +96,7 @@ export class GameTableComponent implements OnInit{
       header: 'Zaktualizuj grę'
     })
     this.ref.onClose.subscribe((x: boolean) => {
-      if (!x) return;
+      if (!x) {return;}
     });
   }
 }
