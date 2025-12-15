@@ -1,15 +1,15 @@
-import { CategoryDto } from '../models/category.dto';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
-import { computed, inject } from '@angular/core';
-import { tapResponse } from '@ngrx/operators';
-import { CategoryService } from '../services/category.service';
-import { CategoryPostDto } from '../models/category-post.dto';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ToastService } from '../../../core/services/toast/toast.service';
-import { CategoryPutDto } from '../models/category-put.dto';
-import { FormatDateDistancePipe } from '../../../core/pipes/format-date-distance.pipe';
+import {CategoryDto} from '../models/category.dto';
+import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
+import {rxMethod} from '@ngrx/signals/rxjs-interop';
+import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
+import {computed, inject} from '@angular/core';
+import {tapResponse} from '@ngrx/operators';
+import {CategoryService} from '../services/category.service';
+import {CategoryPostDto} from '../models/category-post.dto';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastService} from '../../../core/services/toast/toast.service';
+import {CategoryPutDto} from '../models/category-put.dto';
+import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
 
 type CategoryState = {
   categories: CategoryDto[];
