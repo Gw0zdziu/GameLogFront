@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Button } from 'primeng/button';
-import { Menu } from 'primeng/menu';
-import { AuthService } from '../../../features/auth/services/auth.service';
-import { LayoutService } from '../../../shared/services/layout/layout.service';
-import { LoggedStoreService } from '../../store/logged-store/logged-store.service';
-import { ThemeToggleComponent } from '../../../features/theme-toggle/theme-toggle.component';
+import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {Button} from 'primeng/button';
+import {Menu} from 'primeng/menu';
+import {AuthService} from '../../../features/auth/services/auth.service';
+import {LayoutService} from '../../../shared/services/layout/layout.service';
+import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
+import {ThemeToggleComponent} from '../../../features/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'header[app-navbar]',
@@ -34,7 +34,7 @@ export class NavbarComponent {
     if (this.isLogged$()) {
       return [
         {
-          label: 'Wyloguj',
+          label: $localize`Wyloguj`,
           icon: 'pi pi-fw pi-sign-out',
           command: (): void => this.logout()
         }
@@ -42,12 +42,12 @@ export class NavbarComponent {
     } else {
       return [
         {
-          label: 'Zaloguj',
+          label: $localize`Zaloguj`,
           icon: 'pi pi-fw pi-sign-in',
           routerLink: ['/login'],
         },
         {
-          label: 'Zarejestruj',
+          label: $localize`Zarejestruj`,
           icon: 'pi pi-fw pi-user-plus',
           routerLink: ['/registration']
         },

@@ -1,19 +1,19 @@
 <form #gameForm="ngForm" class="" (ngSubmit)="formSubmit()">
   <section class="input">
-    <label for="gameName">Nazwa</label>
+    <label for="gameName" i18n>Nazwa</label>
     <input #game="ngModel" id="gameName" name="gameName" pInputText pSize="large" type="text" [required]="true" [(ngModel)]="gameName">
     @if (game.invalid && game.touched) {
       @if (game.errors?.required) {
-        <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
     }
   </section>
   <section class="input">
-    <label for="category">Kategoria</label>
+    <label for="category" i18n>Kategoria</label>
     <p-auto-complete  #category="ngModel" appendTo="body" dropdown="true" id="category" name="category"  optionLabel="categoryName" [required]="true" [suggestions]="filteredCategories()"  [(ngModel)]="selectedCategory" (change)="onChangeInput()" (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
     @if (category.invalid && category.touched) {
       @if (category.errors?.required) {
-        <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
     }
   </section>
@@ -21,7 +21,7 @@
     @if (gameStore.isLoading()){
       <i class="pi pi-spin pi-spinner"></i>
     }
-    <span pButtonLabel>Dodaj</span>
+    <span i18n pButtonLabel>Dodaj</span>
   </button>
 </form>
 

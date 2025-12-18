@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
-import { LayoutService } from '../../../shared/services/layout/layout.service';
-import { CloseSidebarDirective } from '../../directives/close-sidebar.directive';
-import { LoggedStoreService } from '../../store/logged-store/logged-store.service';
-import { MenuItemComponent } from '../../../shared/components/menu-item/menu-item.component';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit} from '@angular/core';
+import {LayoutService} from '../../../shared/services/layout/layout.service';
+import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
+import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
+import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.component';
 
 @Component({
   selector: 'app-menu',
@@ -35,21 +35,21 @@ export class MenuComponent implements OnInit{
   private loggedStoreService = inject(LoggedStoreService);
   isLogged$ = this.loggedStoreService.isLogged$;
   isMenuOpen$ = this.layoutService.isMenuOpen$;
-  menuItems = computed(() => {
+  readonly menuItems = computed(() => {
     if (this.isLogged$()) {
       return [
         {
-          label: 'Pulpit nawigacyjny',
+          label: $localize`Pulpit nawigacyjny`,
           icon: 'pi pi-fw pi-home',
           routerLink: './dashboard'
         },
         {
-          label: 'Kategorie gier',
+          label: $localize`Kategorie gier`,
           icon: 'pi pi-fw pi-tags',
           routerLink: './categories'
         },
         {
-          label: 'Gry',
+          label: $localize`Gry`,
           icon: 'pi pi-fw pi-video',
           routerLink: './games'
         }
