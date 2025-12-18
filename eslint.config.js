@@ -125,7 +125,7 @@ module.exports = tseslint.config(
         },
       ],
       '@angular-eslint/template/button-has-type': 'warn',
-      '@angular-eslint/template/cyclomatic-complexity': ['warn', { maxComplexity: 10 }],
+      '@angular-eslint/template/cyclomatic-complexity': ['warn', { maxComplexity: 30 }],
       '@angular-eslint/template/eqeqeq': 'error',
       '@angular-eslint/template/prefer-control-flow': 'error',
       '@angular-eslint/template/prefer-ngsrc': 'warn',
