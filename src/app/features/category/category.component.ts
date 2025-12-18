@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TableModule } from 'primeng/table';
-import { ButtonDirective, ButtonLabel } from 'primeng/button';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CategoryTableComponent } from './components/category-table/category-table.component';
-import { CategoryAddComponent } from './components/category-add/category-add.component';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {TableModule} from 'primeng/table';
+import {ButtonDirective, ButtonLabel} from 'primeng/button';
+import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {CategoryTableComponent} from './components/category-table/category-table.component';
+import {CategoryAddComponent} from './components/category-add/category-add.component';
 
 @Component({
   selector: 'app-category',
@@ -19,7 +19,7 @@ export class CategoryComponent {
 
   openAddCategoryDialog(): void {
     this.ref = this.dialogService.open(CategoryAddComponent, {
-      header: 'Dodaj nową kategorię',
+      header: $localize`Dodaj nową kategorię`,
       modal: true,
     });
     this.ref.onClose.subscribe((x: boolean) => {
