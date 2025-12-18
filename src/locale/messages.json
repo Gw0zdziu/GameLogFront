@@ -1,0 +1,10 @@
+{
+  "locale": "pl",
+  "translations": {
+    "2622782859314043460": "Zaloguj się",
+    "9127785699862224102": "Nazwa użytkownika",
+    "5739010222831955100": "Hasło",
+    "6327707404016234082": "Zaloguj",
+    "7346376706131468125": "Nie masz konta? {$START_LINK}Zarejestruj się{$CLOSE_LINK}"
+  }
+}
