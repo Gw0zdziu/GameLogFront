@@ -27,28 +27,28 @@ export class GameTableComponent implements OnInit{
     this.store.getGames();
     this.columns.set([
       {
-        header: 'Nazwa gry',
+        header: $localize`Nazwa gry`,
         field: 'gameName',
       },
       {
-        header: 'Kategoria',
+        header: $localize`Kategoria`,
         field: 'categoryName',
       },
       {
-        header: 'Data utworzenia',
+        header: $localize`Data utworzenia`,
         field: 'createdDate',
       },
       {
-        header: 'Data aktualizacji',
+        header: $localize`Data aktualizacji`,
         field: 'updatedDate',
       },
       {
         columnType: 'action',
-        header: 'Akcje',
+        header: $localize`Akcje`,
         actions: [
           {
             actionType: 'delete',
-            toolTip: 'Usuń',
+            toolTip: $localize`Usuń`,
             label: 'Usuń',
             icon: 'pi pi-trash',
             action: (item) : void=> {
@@ -57,7 +57,7 @@ export class GameTableComponent implements OnInit{
           },
           {
             actionType: 'edit',
-            toolTip: 'Edytuj',
+            toolTip: $localize`Edytuj`,
             label: 'Edytuj',
             icon: 'pi pi-pencil',
             action: (item): void => {
@@ -71,16 +71,16 @@ export class GameTableComponent implements OnInit{
 
   deleteGame(gameId: string): void {
     this.confirmationService.confirm({
-      message: 'Czy chcesz usunąć grę?',
-      header: 'Usuwanie gry',
+      message: $localize`Czy chcesz usunąć grę?`,
+      header: $localize`Usuwanie gry`,
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Anuluj',
+        label: $localize`Anuluj`,
         severity: 'secondary',
         outlined: true,
       },
       acceptButtonProps: {
-        label: 'Usuń',
+        label: $localize`Usuń`,
         severity: 'danger',
       },
       accept: () => {
@@ -93,7 +93,7 @@ export class GameTableComponent implements OnInit{
     this.ref = this.dialogService.open(GameUpdateComponent,{
       modal: true,
       data: gameId,
-      header: 'Zaktualizuj grę'
+      header: $localize`Zaktualizuj grę`
     })
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) {return;}
