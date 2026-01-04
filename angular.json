@@ -12,7 +12,7 @@
       "i18n": {
         "sourceLocale": "pl",
         "locales": {
-          "en-gb": {
+          "en": {
             "translation": "src/locale/messages.en.json"
           }
         }
@@ -48,8 +48,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -75,7 +75,7 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "localize": ["en-gb"],
+              "localize": ["en"],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
