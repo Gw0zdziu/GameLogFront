@@ -20,7 +20,7 @@ export class LangToggleComponent {
   currentLang = this.langStore.language$;
 
   toggleLang(): void {
-    this.langStore.setLanguage('gb')
+    this.langStore.toggleLanguage()
     document.location.href = `/${this.currentLang()}`;
   }
 }
