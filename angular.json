@@ -12,7 +12,7 @@
       "i18n": {
         "sourceLocale": "pl",
         "locales": {
-          "en": {
+          "gb": {
             "translation": "src/locale/messages.en.json"
           }
         }
@@ -75,7 +75,7 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "localize": ["en"],
+              "localize": ["gb"],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
