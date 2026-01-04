@@ -1,11 +1,11 @@
-import { Component, inject, OnInit, Renderer2 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AuthService } from './features/auth/services/auth.service';
-import { ThemeStoreService } from './core/store/theme-store/theme-store.service';
-import { DOCUMENT } from '@angular/common';
-import { Toast } from 'primeng/toast';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { TableModule } from 'primeng/table';
+import {Component, Inject, inject, LOCALE_ID, OnInit, Renderer2} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {AuthService} from './features/auth/services/auth.service';
+import {ThemeStoreService} from './core/store/theme-store/theme-store.service';
+import {DOCUMENT} from '@angular/common';
+import {Toast} from 'primeng/toast';
+import {ConfirmDialog} from 'primeng/confirmdialog';
+import {TableModule} from 'primeng/table';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +29,11 @@ export class AppComponent implements OnInit{
   themeState$ = this.themeStore.theme$();
   private document = inject(DOCUMENT);
   private renderer = inject(Renderer2);
+
+  constructor(
+    @Inject(LOCALE_ID) public activeLocale: string
+  ) {
+  }
 
   ngOnInit(): void {
     this.renderer.setAttribute(this.document.documentElement,'dark-theme', this.themeState$.theme);
