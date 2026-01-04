@@ -12,7 +12,7 @@ export class LangStoreService {
     });
   }
 
-  setLanguage(lang: string): void{
+  toggleLanguage(): void{
     this.language.set(this.language$() === 'pl' ? 'gb' : 'pl');
   }
 }
