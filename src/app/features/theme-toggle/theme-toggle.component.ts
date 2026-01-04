@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
-import { Button } from 'primeng/button';
-import { DOCUMENT } from '@angular/common';
-import { ThemeStoreService } from '../../core/store/theme-store/theme-store.service';
+import {ChangeDetectionStrategy, Component, inject, Renderer2} from '@angular/core';
+import {Button} from 'primeng/button';
+import {DOCUMENT} from '@angular/common';
+import {ThemeStoreService} from '../../core/store/theme-store/theme-store.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,selector: 'app-theme-toggle',
+  selector: 'app-theme-toggle',
   imports: [
     Button
   ],
@@ -12,7 +12,8 @@ import { ThemeStoreService } from '../../core/store/theme-store/theme-store.serv
     <p-button ariaLabel="Toggle Theme Button" class="theme-toggle" icon="pi pi-{{theme().icon}}"
               [rounded]="true" [text]="true" (click)="toggleTheme()"/>
   `,
-  styleUrl: './theme-toggle.component.css'
+  styleUrl: './theme-toggle.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeToggleComponent {
   private document = inject(DOCUMENT);
