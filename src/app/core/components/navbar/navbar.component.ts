@@ -5,19 +5,22 @@ import {AuthService} from '../../../features/auth/services/auth.service';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
 import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 import {ThemeToggleComponent} from '../../../features/theme-toggle/theme-toggle.component';
+import {LangToggleComponent} from '../../../features/lang-toggle/lang-toggle.component';
 
 @Component({
   selector: 'header[app-navbar]',
   imports: [
     Button,
     Menu,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    LangToggleComponent
   ],
   styleUrl: './navbar.component.css',
   template: `
     <p-button ariaLabel="Menu button" class="menu-button" icon="pi pi-bars"
               [rounded]="false" [text]="true" (click)="toggleMenu()"/>
     <span class="logo">GameLog</span>
+    <app-lang-toggle/>
     <app-theme-toggle />
     <p-button ariaLabel="User Button"
               class="user-button" icon="pi pi-user" [rounded]="true" [text]="true" (click)="menu.toggle($event)"/>
