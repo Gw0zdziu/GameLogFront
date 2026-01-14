@@ -12,8 +12,8 @@
       "i18n": {
         "sourceLocale": "pl",
         "locales": {
-          "gb": {
-            "translation": "src/locale/messages.en.json"
+          "en": {
+            "translation": "src/locale/messages.en.json",
           }
         }
       },
@@ -45,6 +45,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -57,7 +63,12 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "optimization": true,
+              "aot": true,
+              "namedChunks": true,
+              "localize": true,
+              "outputHashing": "all",
+              "sourceMap": false
             },
             "dev-pl": {
               "optimization": false,
@@ -75,7 +86,7 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "localize": ["gb"],
+              "localize": ["en"],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

@@ -1,26 +1,45 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, LOCALE_ID} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {LangStoreService} from '../../core/store/lang-store/lang-store.service';
+import {Button} from 'primeng/button';
+import {Menu} from 'primeng/menu';
+import {languages} from '../../shared/constants/languages';
+import {Ripple} from 'primeng/ripple';
 
 @Component({
   selector: 'app-lang-toggle',
   imports: [
-    FormsModule
+    FormsModule,
+    Button,
+    Menu,
+    Ripple
   ],
   template:`
-    <button class="lang-button"  type="button" (click)="toggleLang()">
-      <span class="fi fi-{{currentLang()}}"></span>
-    </button>
+    <p-button icon="pi pi-language" [rounded]="true" [text]="true" (click)="langMenu.toggle($event)" />
+    <p-menu #langMenu [model]="languages" [popup]="true">
+      <ng-template #item let-item>
+        <button class="lang-button" pRipple type="button" (click)="toggleLang(item.langCode)" >
+          <span>{{item.langName}}</span>
+        </button>
+      </ng-template>
+    </p-menu>
   `,
   styleUrl: './lang-toggle.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LangToggleComponent {
-  protected langStore = inject(LangStoreService);
-  currentLang = this.langStore.language$;
+  languages = languages;
 
-  toggleLang(): void {
-    this.langStore.toggleLanguage()
-    document.location.href = `/${this.currentLang()}`;
+
+  constructor(
+    @Inject(LOCALE_ID) public activeLocale: string
+  ) {}
+
+  toggleLang(langCode: string): void {
+    if (langCode !== this.activeLocale) {
+      const currentPath = location.pathname;
+      const pathWithoutLang = currentPath.replace(/^\/(en|pl)/, '');
+      location.href = `/${langCode}${pathWithoutLang}`;
+    }
   }
+
 }

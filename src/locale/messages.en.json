@@ -1,5 +1,5 @@
 {
-  "locale": "gb",
+  "locale": "en",
   "translations": {
     "7186278211605514552": "Dashboard",
     "5673278690387683968": "Game categories",
@@ -61,6 +61,8 @@
     "9085079297417347388": "Firstname",
     "8266834520881866004": "Invitation code",
     "1411420506839760727": "Surname",
-    "1107553920112222110": "Confirm password"
+    "1107553920112222110": "Confirm password",
+    "1064234756083312933": "Polish",
+    "4612088243994662427": "English"
   }
 }
