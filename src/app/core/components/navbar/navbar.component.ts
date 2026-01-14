@@ -58,11 +58,6 @@ export class NavbarComponent {
     }
   });
 
-  constructor() {
-  }
-
-
-
   toggleMenu(): void{
     this.layoutService.toggleMenu();
   }
