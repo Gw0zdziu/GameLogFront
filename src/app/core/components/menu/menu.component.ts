@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
 import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
 import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
@@ -30,7 +30,7 @@ import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.
   styleUrl: './menu.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuComponent implements OnInit{
+export class MenuComponent {
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
   isLogged$ = this.loggedStoreService.isLogged$;
@@ -58,7 +58,5 @@ export class MenuComponent implements OnInit{
       return []
     }
   })
-
-  ngOnInit(): void {
-  }
+  
 }
