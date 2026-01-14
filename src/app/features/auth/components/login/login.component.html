@@ -1,4 +1,7 @@
-<app-theme-toggle />
+<div style="display: flex; justify-content: flex-end; align-items: center;">
+  <app-lang-toggle/>
+  <app-theme-toggle />
+</div>
 <app-container>
   <h1 class="container-header" i18n>Zaloguj</h1>
   <form class="container-inputs" [formGroup]="loginForm" (ngSubmit)="loginUser()">
