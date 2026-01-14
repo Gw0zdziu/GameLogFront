@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { InputText } from 'primeng/inputtext';
-import { ButtonDirective, ButtonLabel } from 'primeng/button';
-import { AuthService } from '../../services/auth.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoginUserDto } from '../../models/login-user.dto';
-import { Router, RouterLink } from '@angular/router';
-import { ContainerComponent } from '../../../../shared/components/container/container.component';
-import { ThemeToggleComponent } from '../../../theme-toggle/theme-toggle.component';
-import { Password } from 'primeng/password';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {InputText} from 'primeng/inputtext';
+import {ButtonDirective, ButtonLabel} from 'primeng/button';
+import {AuthService} from '../../services/auth.service';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {LoginUserDto} from '../../models/login-user.dto';
+import {Router, RouterLink} from '@angular/router';
+import {ContainerComponent} from '../../../../shared/components/container/container.component';
+import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
+import {Password} from 'primeng/password';
+import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ import { Password } from 'primeng/password';
     RouterLink,
     ContainerComponent,
     ThemeToggleComponent,
-    Password
+    Password,
+    LangToggleComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
