@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {RecoveryUpdatePasswordDto} from '../../models/recovery-update-password.dto';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
@@ -23,14 +23,15 @@ import {Message} from 'primeng/message';
     Message
   ],
   templateUrl: './recovery-update-password.component.html',
-  styleUrl: './recovery-update-password.component.css'
+  styleUrl: './recovery-update-password.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecoveryUpdatePasswordComponent implements OnInit{
   private userService = inject(UserService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
-  isSubmit = signal(false);
+  readonly isSubmit = signal(false);
   recoveryUpdatePassword: Partial<RecoveryUpdatePasswordDto> | undefined;
 
   newPasswordForm = this.formBuilder.group({
@@ -54,7 +55,7 @@ export class RecoveryUpdatePasswordComponent implements OnInit{
     })
   }
 
-  postRecoveryUpdatePassword() {
+  postRecoveryUpdatePassword(): void{
     this.isSubmit.set(true);
     this.recoveryUpdatePassword = {
       ...this.recoveryUpdatePassword,
