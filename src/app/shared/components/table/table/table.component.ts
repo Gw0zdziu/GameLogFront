@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {Column} from '../../../models/column';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
@@ -14,10 +14,11 @@ import {ProgressSpinner} from 'primeng/progressspinner';
   ],
 
   templateUrl: './table.component.html',
-  styleUrl: './table.component.css'
+  styleUrl: './table.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent<T> {
-  public tableData = input.required<T[]>();
-  public columns = input.required<Column<T>[]>();
-  public loading = input.required();
+  readonly tableData = input.required<T[]>();
+  readonly columns = input.required<Column<T>[]>();
+  readonly loading = input.required();
 }
