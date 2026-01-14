@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Button, ButtonDirective, ButtonLabel} from 'primeng/button';
@@ -21,7 +21,8 @@ import {Message} from 'primeng/message';
     Message
   ],
   templateUrl: './recovery-password.component.html',
-  styleUrl: './recovery-password.component.css'
+  styleUrl: './recovery-password.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecoveryPasswordComponent {
     private userService = inject(UserService);
@@ -30,10 +31,10 @@ export class RecoveryPasswordComponent {
       validators: [Validators.required, Validators.email],
       updateOn: 'blur',
     });
-    isSubmit = signal(false);
+    readonly isSubmit = signal(false);
 
 
-    postRecoveryPassword(){
+    postRecoveryPassword(): void{
       this.isSubmit.set(true);
       const userEmail: string = this.userEmail.value as string;
       this.userService.recoveryPassword(userEmail).subscribe({
