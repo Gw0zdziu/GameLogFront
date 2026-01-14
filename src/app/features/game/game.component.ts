@@ -22,7 +22,7 @@ export class GameComponent {
 
    openAddGameDialog(): void {
      this.ref = this.dialogService.open(GameAddComponent, {
-       header: 'Dodaj nową kategorię',
+       header: $localize`Dodaj nową grę`,
        modal: true,
      })
      this.ref.onClose.subscribe((x: boolean) => {
