@@ -21,4 +21,5 @@ export class TableComponent<T> {
   readonly tableData = input.required<T[]>();
   readonly columns = input.required<Column<T>[]>();
   readonly loading = input.required();
+  readonly emptyMessage = input.required();
 }
