@@ -1,1 +1,1 @@
-<app-table [columns]="columns()" [tableData]="store.games$()" [loading]="store.isLoading()"></app-table>
+<app-table [columns]="columns()" [emptyMessage]="emptyMessage" [loading]="store.isLoading()" [tableData]="store.games$()"></app-table>
