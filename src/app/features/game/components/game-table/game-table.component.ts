@@ -22,6 +22,7 @@ export class GameTableComponent implements OnInit{
   store = inject(GameStore);
   ref: DynamicDialogRef | undefined;
   readonly columns = signal<Column<GameDto>[]>([]);
+  emptyMessage = $localize`Brak gier`;
 
   ngOnInit(): void {
     this.store.getGames();

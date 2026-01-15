@@ -24,6 +24,7 @@ export class CategoryTableComponent implements OnInit{
   private ref: DynamicDialogRef | undefined;
   store = inject(CategoryStore);
   readonly columns = signal<Column<CategoryDto>[]>([]);
+  emptyMessage = $localize`Brak kategorii`;
 
 
 
