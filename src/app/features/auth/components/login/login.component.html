@@ -1,34 +1,27 @@
-<app-theme-toggle></app-theme-toggle>
+<div class="container-toggles">
+  <app-lang-toggle/>
+  <app-theme-toggle />
+</div>
 <app-container>
-  <h1 class="container-header">Zaloguj się</h1>
-  <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="container-inputs">
+  <h1 class="container-header" i18n>Zaloguj</h1>
+  <form class="container-inputs" [formGroup]="loginForm" (ngSubmit)="loginUser()">
     <section class="input" >
-      <label for="username" >Nazwa użytkownika</label>
-      <input formControlName="userName" pSize="large" pInputText id="username" type="text">
-      @if (loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched) {
-        @if (loginForm.get('userName')?.errors?.required) {
-          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-        }
-      }
+      <label for="username" i18n >Nazwa użytkownika</label>
+      <input formControlName="userName" id="username" pInputText pSize="large" type="text">
     </section>
     <section class="input input-password" >
-      <label for="password" >Hasło</label>
-      <input formControlName="password" pSize="large" pInputText id="password" type="text">
-      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-        @if (loginForm.get('password')?.errors?.required) {
-          <p-message severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-        }
-      }
+      <label for="password" i18n >Hasło</label>
+      <p-password feedback="false" formControlName="password" id="password" size="large" type="password" [fluid]="true" [toggleMask]="true" />
     </section>
-    <a [routerLink]="['','recovery-password']" class="link-recovery-password">Zapomniałaś hasło</a>
+    <a class="link-recovery-password" [routerLink]="['','recovery-password']">Zapomniałaś hasło</a>
     <div class="container-buttons">
       <button class="button" pButton type="submit">
         @if (isLogin()){
           <i class="pi pi-spin pi-spinner"></i>
         }
-        <span pButtonLabel>Zaloguj</span>
+        <span i18n pButtonLabel>Zaloguj</span>
       </button>
     </div>
-    <span class="link-register">Nie masz konta?  <a [routerLink]="['','registration']">Zarejestruj się</a></span>
+    <span class="link-register" i18n>Nie masz konta?  <a [routerLink]="['','registration']">Zarejestruj się</a></span>
   </form>
 </app-container>

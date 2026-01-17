@@ -78,7 +78,7 @@ export const CategoryStore = signalStore(
                   categories: [...store.categories(), response]
                 });
                 value.onSuccess();
-                toastService.showSuccess('Pomyślnie utworzono nową̨ kategorię');
+                toastService.showSuccess($localize`Pomyślnie utworzono nową̨ kategorie`);
               },
               error: (error: HttpErrorResponse) => {
                 toastService.showError(error.error);
@@ -105,7 +105,7 @@ export const CategoryStore = signalStore(
                   isLoading: false,
                   categories: store.categories().filter(category => category.categoryId !== value)
                 });
-                toastService.showSuccess('Pomyślnie usunięto kategorię');
+                toastService.showSuccess($localize`Pomyślnie usunięto kategorię`);
               },
               error: (error: HttpErrorResponse) => {
                 toastService.showError(error.error);
@@ -136,7 +136,7 @@ export const CategoryStore = signalStore(
                   })
                 });
                 value.onSuccess();
-                toastService.showSuccess('Pomyślnie zaktualizowano kategorię');
+                toastService.showSuccess($localize`Pomyślnie zaktualizowano kategorię`);
               },
               error: (error: HttpErrorResponse) => {
                 toastService.showError(error.error);

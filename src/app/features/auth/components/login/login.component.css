@@ -18,3 +18,9 @@ app-theme-toggle{
 .link-recovery-password {
   align-self: end;
 }
+
+.container-toggles {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

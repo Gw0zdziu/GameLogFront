@@ -1,12 +1,11 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
-import {CategoryDto} from "../../models/category.dto";
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {CategoryDto} from '../../models/category.dto';
 import {TableModule} from 'primeng/table';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
 import {TableComponent} from '../../../../shared/components/table/table/table.component';
 import {Column} from '../../../../shared/models/column';
-import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
 import {CategoryStore} from '../../store/category-store';
 
 @Component({
@@ -17,14 +16,15 @@ import {CategoryStore} from '../../store/category-store';
   ],
   templateUrl: './category-table.component.html',
   styleUrl: './category-table.component.css',
-  providers: [FormatDateDistancePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryTableComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
-  public store = inject(CategoryStore);
-  columns = signal<Column<CategoryDto>[]>([]);
+  store = inject(CategoryStore);
+  readonly columns = signal<Column<CategoryDto>[]>([]);
+  emptyMessage = $localize`Brak kategorii`;
 
 
 
@@ -33,43 +33,43 @@ export class CategoryTableComponent implements OnInit{
     this.columns.set([
       {
         field: 'categoryName',
-        header: 'Nazwa kategorii',
+        header: $localize`Nazwa kategorii`,
       },
       {
         field: 'description',
-        header: 'Opis',
+        header: $localize`Opis`,
       },
       {
         field: 'gamesCount',
-        header: 'Liczba gier',
+        header: $localize`Liczba gier`,
       },
       {
         field: 'createdDate',
-        header: 'Data utworzenia',
+        header: $localize`Data utworzenia`,
       },
       {
         field: 'updatedDate',
-        header: 'Data aktualizacji',
+        header: $localize`Data aktualizacji`,
       },
       {
-        header: 'Akcje',
+        header: $localize`Akcje`,
         columnType: 'action',
         actions: [
           {
-            toolTip: 'Usuń',
+            toolTip: $localize`Usuń`,
             icon: 'pi pi-trash',
-            label: 'Usuń',
+            label: $localize`Usuń`,
             actionType: 'delete',
-            action: (item: CategoryDto) => {
+            action: (item: CategoryDto): void => {
               this.deleteCategory(item.categoryId)
             }
           },
           {
-            toolTip: 'Edytuj',
+            toolTip: $localize`Edytuj`,
             icon: 'pi pi-pencil',
-            label: 'Edytuj',
+            label: $localize`Edytuj`,
             actionType: 'update',
-            action: (item: CategoryDto) => {
+            action: (item: CategoryDto): void => {
               this.updateCategory(item.categoryId)
             }
           }
@@ -78,31 +78,31 @@ export class CategoryTableComponent implements OnInit{
     ])
   }
 
-  updateCategory(categoryId: string) {
+  updateCategory(categoryId: string): void {
     this.ref = this.dialogService.open(CategoryUpdateComponent, {
       modal: true,
-      header: 'Zaktualizuj kategorię',
+      header: $localize`Zaktualizuj kategorię`,
       data: categoryId,
     })
     this.ref.onClose.subscribe({
       next: (value: CategoryDto) => {
-        if (!value) return;
+        if (!value) {return;}
       }
     })
   }
 
-  deleteCategory(categoryId: string) {
+  deleteCategory(categoryId: string): void {
     this.confirmationService.confirm({
-      message: 'Czy chcesz usunąć kategorię?',
-      header: 'Usuwanie kategorii',
+      message: $localize`Czy chcesz usunąć kategorię?`,
+      header: $localize`Usuwanie kategorii`,
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Anuluj',
+        label: $localize`Anuluj`,
         severity: 'secondary',
         outlined: true,
       },
       acceptButtonProps: {
-        label: 'Usuń',
+        label: $localize`Usuń`,
         severity: 'danger',
       },
       accept: () => {

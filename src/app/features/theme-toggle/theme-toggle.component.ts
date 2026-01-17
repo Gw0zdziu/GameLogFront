@@ -1,4 +1,4 @@
-import {Component, inject, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Renderer2} from '@angular/core';
 import {Button} from 'primeng/button';
 import {DOCUMENT} from '@angular/common';
 import {ThemeStoreService} from '../../core/store/theme-store/theme-store.service';
@@ -9,9 +9,11 @@ import {ThemeStoreService} from '../../core/store/theme-store/theme-store.servic
     Button
   ],
   template:`
-    <p-button (click)="toggleTheme()" class="theme-toggle" icon="pi pi-{{theme().icon}}" [rounded]="true" [text]="true"/>
+    <p-button ariaLabel="Toggle Theme Button" class="theme-toggle" icon="pi pi-{{theme().icon}}"
+              [rounded]="true" [text]="true" (click)="toggleTheme()"/>
   `,
-  styleUrl: './theme-toggle.component.css'
+  styleUrl: './theme-toggle.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeToggleComponent {
   private document = inject(DOCUMENT);
@@ -20,7 +22,7 @@ export class ThemeToggleComponent {
   theme = this.themeStore.theme$;
 
 
-  toggleTheme() {
+  toggleTheme(): void {
     const currentTheme = !this.theme().isDark ? 'dark' : 'light';
     this.renderer.setAttribute(this.document.documentElement,'dark-theme', currentTheme);
     const element = this.document.querySelector('html') as HTMLHtmlElement;

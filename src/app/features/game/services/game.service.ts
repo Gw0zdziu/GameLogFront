@@ -13,7 +13,6 @@ import {GamePutDto} from '../models/game-put.dto';
 export class GameService {
   private apiUrl = `${environment.apiUrl}/games`
   private http = inject(HttpClient);
-  constructor() { }
 
 
   getUserGames(): Observable<GameDto[]>{

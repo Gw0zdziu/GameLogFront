@@ -1,6 +1,5 @@
-import {Component, inject, OnInit, Renderer2} from '@angular/core';
+import {Component, Inject, inject, LOCALE_ID, OnInit, Renderer2} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {AuthService} from './features/auth/services/auth.service';
 import {ThemeStoreService} from './core/store/theme-store/theme-store.service';
 import {DOCUMENT} from '@angular/common';
 import {Toast} from 'primeng/toast';
@@ -16,19 +15,23 @@ import {TableModule} from 'primeng/table';
     TableModule
   ],
   template: `
-  <router-outlet/>
-  <p-toast position="bottom-center"></p-toast>
-  <p-confirmdialog></p-confirmdialog>
+    <router-outlet />
+    <p-toast position="bottom-center" />
+    <p-confirmdialog ariaLabel="Confirm dialog" />
   `,
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit{
   title = 'GameLogFront';
-  private authService = inject(AuthService);
   private themeStore = inject(ThemeStoreService);
   themeState$ = this.themeStore.theme$();
   private document = inject(DOCUMENT);
   private renderer = inject(Renderer2);
+
+  constructor(
+    @Inject(LOCALE_ID) public activeLocale: string
+  ) {
+  }
 
   ngOnInit(): void {
     this.renderer.setAttribute(this.document.documentElement,'dark-theme', this.themeState$.theme);

@@ -1,13 +1,23 @@
-import {Component, effect, inject, input, OnInit, output, signal, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+  viewChild
+} from '@angular/core';
 import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
 import {FormsModule, NgModel, ReactiveFormsModule} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {CategoryStore} from '../../../category/store/category-store';
-import {GameBaseDto} from '../../models/game-base.dto';
 import {Message} from 'primeng/message';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {GameStore} from '../../store/game-store';
+import {GameBaseDto} from '../../models/game-base.dto';
 
 @Component({
   selector: 'app-game-form',
@@ -19,27 +29,27 @@ import {GameStore} from '../../store/game-store';
     InputText,
     ButtonDirective,
     ButtonLabel,
-
-
   ],
   templateUrl: './game-form.component.html',
   styleUrl: './game-form.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameFormComponent<T extends GameBaseDto> implements OnInit{
   private categoryStore = inject(CategoryStore);
   gameStore = inject(GameStore);
-  gameName = signal('');
-  selectedCategory = signal<CategoryDto | null>(null);
-  filteredCategories = signal<CategoryDto[]>([]);
-  isSelectCategory = signal(true);
-  onSubmit = output<T>();
-  updatedGame = input.required<T | null>();
-  @ViewChild('category') categoryInput!: NgModel;
+  readonly gameName = signal('');
+  readonly selectedCategory = signal<CategoryDto | null>(null);
+  readonly filteredCategories = signal<CategoryDto[]>([]);
+  readonly isNotSelectCategory = signal(true);
+  readonly submitEmitter = output<T>();
+  readonly updatedGame = input<T | null>();
+  readonly categoryInput = viewChild<NgModel>('category');
 
 
   constructor() {
     effect(() => {
-      this.selectedCategory.set(this.categoryStore.categories().find(x => x.categoryId === this.updatedGame()?.categoryId) as CategoryDto);
+      this.selectedCategory.set(this.categoryStore.categories()
+        .find(x => x.categoryId === this.updatedGame()?.categoryId) as CategoryDto);
       this.gameName.set(this.updatedGame()?.gameName as string)
     });
   }
@@ -52,26 +62,27 @@ export class GameFormComponent<T extends GameBaseDto> implements OnInit{
   }
 
 
-  filterCategory($event: AutoCompleteCompleteEvent) {
-    this.filteredCategories.set(this.categoryStore.categories().filter(category => category.categoryName.toLowerCase().includes( $event.query.toLowerCase())));
-    this.isSelectCategory.set(this.filteredCategories().length === 0);
+  filterCategory($event: AutoCompleteCompleteEvent): void {
+    this.filteredCategories.set(this.categoryStore.categories()
+      .filter(category => category.categoryName.toLowerCase().includes( $event.query.toLowerCase())));
+    this.isNotSelectCategory.set(this.filteredCategories().length === 0);
 
   }
 
-  formSubmit() {
+  formSubmit(): void {
     const newGame = {
       gameName: this.gameName(),
       categoryId: this.selectedCategory()?.categoryId as string,
     } as T;
-    this.onSubmit.emit(newGame);
+    this.submitEmitter.emit(newGame);
   }
 
-   selectCategory() {
-     this.isSelectCategory.set(true);
+   selectCategory() : void{
+     this.isNotSelectCategory.set(true);
   }
 
 
-  protected onChangeInput() {
-    this.isSelectCategory.set(typeof this.categoryInput.value === 'object');
+   onChangeInput(): void {
+    this.isNotSelectCategory.set(typeof this.categoryInput === 'object');
   }
 }

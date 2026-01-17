@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {AuthService} from '../../services/auth.service';
@@ -7,7 +7,8 @@ import {LoginUserDto} from '../../models/login-user.dto';
 import {Router, RouterLink} from '@angular/router';
 import {ContainerComponent} from '../../../../shared/components/container/container.component';
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
-import {Message} from 'primeng/message';
+import {Password} from 'primeng/password';
+import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 
 @Component({
   selector: 'app-login',
@@ -19,16 +20,18 @@ import {Message} from 'primeng/message';
     RouterLink,
     ContainerComponent,
     ThemeToggleComponent,
-    Message
+    Password,
+    LangToggleComponent
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
-  isLogin = signal(false);
+  readonly isLogin = signal(false);
   loginForm = this.formBuilder.group({
     userName: ['', {
       validators:[Validators.required],
@@ -47,7 +50,7 @@ export class LoginComponent {
       this.authService.loginUser(loginUser)
         .subscribe({
           next: () => {
-            this.router.navigate(['']).finally();
+            this.router.navigate(['home'], ).finally();
           },
           error: () => {
             this.isLogin.set(false);

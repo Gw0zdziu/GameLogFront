@@ -1,11 +1,11 @@
-import {inject, Injectable} from '@angular/core';
-import {environment} from '../../../../environments/environment';
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
-import {Observable} from 'rxjs';
-import {CategoryDto} from '../models/category.dto';
-import {CategoryPostDto} from '../models/category-post.dto';
-import {CategoryPutDto} from '../models/category-put.dto';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { IS_AUTH_REQUIRED } from '../../../core/tokens/tokens';
+import { Observable } from 'rxjs';
+import { CategoryDto } from '../models/category.dto';
+import { CategoryPostDto } from '../models/category-post.dto';
+import { CategoryPutDto } from '../models/category-put.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class CategoryService {
     })
   }
 
-  deleteCategory(categoryId: string){
+  deleteCategory(categoryId: string): Observable<void>{
     return this.http.delete<void>(`${this.apiUrl}/delete/${categoryId}`, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)

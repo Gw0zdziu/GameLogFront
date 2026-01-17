@@ -9,6 +9,14 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "pl",
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.json",
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -16,8 +24,12 @@
             "outputPath": "dist/game-log-front",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "localize": true,
+            "i18nDuplicateTranslation": "error",
+            "i18nMissingTranslation": "error",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -33,11 +45,17 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -45,12 +63,30 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "optimization": true,
+              "aot": true,
+              "namedChunks": true,
+              "localize": true,
+              "outputHashing": "all",
+              "sourceMap": false
             },
-            "development": {
+            "dev-pl": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
+              "localize": ["pl"],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "dev-en": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "localize": ["en"],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -67,11 +103,14 @@
             "production": {
               "buildTarget": "GameLogFront:build:production"
             },
-            "development": {
-              "buildTarget": "GameLogFront:build:development"
+            "dev-pl": {
+              "buildTarget": "GameLogFront:build:dev-pl"
+            },
+            "dev-en": {
+              "buildTarget": "GameLogFront:build:dev-en"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "dev-pl"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -81,8 +120,22 @@
           "options": {
             "tsConfig": "tsconfig.spec.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }

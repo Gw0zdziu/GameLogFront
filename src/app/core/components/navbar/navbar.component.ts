@@ -1,50 +1,56 @@
-import {Component, computed, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {Button} from 'primeng/button';
 import {Menu} from 'primeng/menu';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
 import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 import {ThemeToggleComponent} from '../../../features/theme-toggle/theme-toggle.component';
+import {LangToggleComponent} from '../../../features/lang-toggle/lang-toggle.component';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'header[app-navbar]',
   imports: [
     Button,
     Menu,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    LangToggleComponent
   ],
   styleUrl: './navbar.component.css',
   template: `
-    <p-button (click)="toggleMenu()" class="menu-button" icon="pi pi-bars" [rounded]="false" [text]="true"/>
+    <p-button ariaLabel="Menu button" class="menu-button" icon="pi pi-bars"
+              [rounded]="false" [text]="true" (click)="toggleMenu()"/>
     <span class="logo">GameLog</span>
-    <app-theme-toggle></app-theme-toggle>
-    <p-button (click)="menu.toggle($event)" class="user-button" icon="pi pi-user" [rounded]="true" [text]="true"/>
-    <p-menu class="user-menu" #menu [model]="items()" [popup]="true" />
+    <app-lang-toggle/>
+    <app-theme-toggle />
+    <p-button ariaLabel="User Button"
+              class="user-button" icon="pi pi-user" [rounded]="true" [text]="true" (click)="menu.toggle($event)"/>
+    <p-menu #menu class="user-menu" [model]="items()" [popup]="true" />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent {
   private authService = inject(AuthService);
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
   isLogged$ = this.loggedStoreService.isLogged$;
-  items = computed(() =>{
+  readonly items = computed(() =>{
     if (this.isLogged$()) {
       return [
         {
-          label: 'Wyloguj',
+          label: $localize`Wyloguj`,
           icon: 'pi pi-fw pi-sign-out',
-          command: () => this.logout()
+          command: (): void => this.logout()
         }
       ]
     } else {
       return [
         {
-          label: 'Zaloguj',
+          label: $localize`Zaloguj`,
           icon: 'pi pi-fw pi-sign-in',
           routerLink: ['/login'],
         },
         {
-          label: 'Zarejestruj',
+          label: $localize`Zarejestruj`,
           icon: 'pi pi-fw pi-user-plus',
           routerLink: ['/registration']
         },
@@ -52,18 +58,11 @@ export class NavbarComponent implements OnInit{
     }
   });
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  toggleMenu(){
+  toggleMenu(): void{
     this.layoutService.toggleMenu();
   }
 
-  logout(){
+  logout(): void{
     this.authService.logoutUser().subscribe()
   }
 }

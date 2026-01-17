@@ -8,4 +8,13 @@ module.exports = {
   transformIgnorePatterns: [
     '/node_modules/(?!flat)/', // Exclude modules except 'flat' from transformation
   ],
+  coverageDirectory: 'coverage',
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
+  }
 };

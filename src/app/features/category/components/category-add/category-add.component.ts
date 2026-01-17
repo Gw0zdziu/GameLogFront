@@ -1,9 +1,9 @@
-import {Component, inject, signal} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CategoryPostDto} from '../../models/category-post.dto';
-import {CategoryFormComponent} from '../category-form/category-form.component';
-import {DynamicDialogRef} from 'primeng/dynamicdialog';
-import {CategoryStore} from '../../store/category-store';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoryPostDto } from '../../models/category-post.dto';
+import { CategoryFormComponent } from '../category-form/category-form.component';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { CategoryStore } from '../../store/category-store';
 
 @Component({
   selector: 'app-category-add',
@@ -14,14 +14,15 @@ import {CategoryStore} from '../../store/category-store';
   ],
   templateUrl: './category-add.component.html',
   styleUrl: './category-add.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryAddComponent {
   private dynamicDialogRef = inject(DynamicDialogRef);
   private store = inject(CategoryStore);
-  newCategory = signal<CategoryPostDto | null>(null);
+  readonly newCategory = signal<CategoryPostDto | null>(null);
 
 
-  postNewCategory(){
+  postNewCategory(): void{
     const newCategory: CategoryPostDto = this.newCategory() as CategoryPostDto;
     this.store.addCategory({
       newCategory: newCategory,

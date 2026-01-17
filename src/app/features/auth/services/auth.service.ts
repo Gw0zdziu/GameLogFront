@@ -28,7 +28,7 @@ export class AuthService {
       tap(value => {
         this.userStoreService.updateUser({token: value});
         this.loggedStoreService.setLogged(true);
-        this.toastService.showSuccess('Pomyślnie zalogowano');
+        this.toastService.showSuccess($localize`Pomyślnie zalogowano`);
       }),
       catchError((err: HttpErrorResponse, caught) => {
         this.loggedStoreService.setLogged(false);
@@ -46,12 +46,12 @@ export class AuthService {
       tap(() => {
       this.userStoreService.cleanStore();
       this.loggedStoreService.setLogged(false);
-      this.toastService.showSuccess('Pomyślnie wylogowano');
+      this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
       }),
-      catchError((err, caught) => {
+      catchError((err) => {
         this.userStoreService.cleanStore();
         this.loggedStoreService.setLogged(false);
-        this.toastService.showSuccess('Pomyślnie wylogowano');
+        this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
         return of(err)
       }),);
   }
