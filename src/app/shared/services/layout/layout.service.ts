@@ -4,19 +4,19 @@ import {computed, Injectable, signal} from '@angular/core';
   providedIn: 'root'
 })
 export class LayoutService {
-  private isMenuOpen = signal(false);
-  isMenuOpen$ = computed(() => {
+  private readonly isMenuOpen = signal(false);
+  readonly isMenuOpen$ = computed(() => {
     return this.isMenuOpen();
   })
   constructor() {
   }
 
-  setStateMenu(value: boolean){
+  setStateMenu(value: boolean): void{
     this.isMenuOpen.set(value);
   }
 
 
-  toggleMenu(){
+  toggleMenu(): void{
     this.isMenuOpen.update(value =>{
       return !value;
     });

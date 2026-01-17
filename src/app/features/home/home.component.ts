@@ -1,22 +1,22 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { UserService } from '../user/services/user.service';
-import { LayoutService } from '../../shared/services/layout/layout.service';
-import { MenuComponent } from '../../core/components/menu/menu.component';
-import { RouterOutlet } from '@angular/router';
-import { LoggedStoreService } from '../../core/store/logged-store/logged-store.service';
-import { NavbarComponent } from '../../core/components/navbar/navbar.component';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {UserService} from '../user/services/user.service';
+import {LayoutService} from '../../shared/services/layout/layout.service';
+import MenuComponent from '../../core/components/menu/menu.component';
+import {RouterOutlet} from '@angular/router';
+import {LoggedStoreService} from '../../core/store/logged-store/logged-store.service';
+import {NavbarComponent} from '../../core/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
   imports: [
     MenuComponent,
     RouterOutlet,
-    NavbarComponent
+    NavbarComponent,
   ],
   template: `
     <header app-navbar></header>
     <section class="container">
-      <app-menu />
+      <app-menu  />
       <div class="content" [class.expanded]="isMenuOpen$()">
         <router-outlet />
       </div>

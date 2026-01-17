@@ -1,36 +1,41 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
-import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
 import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.component';
+import {Button} from 'primeng/button';
+import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
 
 @Component({
   selector: 'app-menu',
   imports: [
-    MenuItemComponent
+    MenuItemComponent,
+    Button
   ],
+  host: {
+    '[class.opened]': 'isMenuOpen$()'
+  },
+  template: `
+    <section  class="sidebar">
+      <div class="container-icon">
+        <p-button ariaLabel="Menu button" icon="pi pi-chevron-left"
+                  [rounded]="false" [text]="true" (click)="toggleMenu()"/>
+      </div>
+      <ul class="menu-sidebar">
+        @for (item of menuItems(); track item.label) {
+          <li app-menu-item  [item]="item"></li>
+        }
+      </ul>
+    </section>
+  `,
   hostDirectives:[
     {
       directive: CloseSidebarDirective
     }
   ],
-  host: {
-    '[class.closed]': 'isMenuOpen$()'
-  },
-  template: `
-    <section class="sidebar">
-      <ul class="menu-sidebar">
-        @for (item of menuItems(); track item.label) {
-          <li app-menu-item [item]="item"></li>
-        }
-      </ul>
-    </section>
-
-  `,
   styleUrl: './menu.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuComponent {
+class MenuComponent {
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
   isLogged$ = this.loggedStoreService.isLogged$;
@@ -58,5 +63,11 @@ export class MenuComponent {
       return []
     }
   })
-  
+
+  toggleMenu(): void{
+    this.layoutService.toggleMenu();
+  }
+
 }
+
+export default MenuComponent

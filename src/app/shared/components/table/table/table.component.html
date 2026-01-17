@@ -13,9 +13,9 @@
       <tr>
         @for (column of columns; track $index) {
           @if(column.field){
-            <td>{{ rowData[column.field] }}</td>
+            <td class="cell">{{ rowData[column.field] }}</td>
           } @else if (column.columnType === 'action'){
-            <td class="actions">
+            <td class="actions cell">
               @for (action of column.actions; track $index) {
                 <p-button [ariaLabel]="action.label" [icon]="action.icon" [size]="'small'" (click)="action.action(rowData)"/>
               }
