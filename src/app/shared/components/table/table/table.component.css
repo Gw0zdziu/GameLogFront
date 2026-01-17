@@ -1,8 +1,8 @@
 .actions {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 0.25rem;
-  flex-wrap: nowrap;
 }
 
 
@@ -13,5 +13,9 @@
 
 .table-empty-message{
   text-align: center;
+}
+
+.cell{
+  height: 75px;
 }
 
