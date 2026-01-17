@@ -50,7 +50,7 @@ export class LoginComponent {
       this.authService.loginUser(loginUser)
         .subscribe({
           next: () => {
-            this.router.navigate(['']).finally();
+            this.router.navigate(['home'], ).finally();
           },
           error: () => {
             this.isLogin.set(false);
