@@ -4,8 +4,8 @@ import {computed, effect, Injectable, signal} from '@angular/core';
   providedIn: 'root'
 })
 export class LoggedStoreService {
-  private isLogged = signal<boolean>(JSON.parse(localStorage.getItem('isLogged') as string)|| false);
-  isLogged$ = computed(() => {
+  private readonly isLogged = signal<boolean>(JSON.parse(localStorage.getItem('isLogged') as string)|| false);
+  readonly isLogged$ = computed(() => {
     return this.isLogged();
   })
 
