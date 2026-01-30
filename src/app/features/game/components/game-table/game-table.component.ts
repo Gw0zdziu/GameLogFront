@@ -36,11 +36,11 @@ export class GameTableComponent implements OnInit{
         field: 'categoryName',
       },
       {
-        header: $localize`Data utworzenia`,
+        header: $localize`Utworzono`,
         field: 'createdDate',
       },
       {
-        header: $localize`Data aktualizacji`,
+        header: $localize`Zaktualizowano`,
         field: 'updatedDate',
       },
       {
