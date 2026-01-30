@@ -45,11 +45,11 @@ export class CategoryTableComponent implements OnInit{
       },
       {
         field: 'createdDate',
-        header: $localize`Data utworzenia`,
+        header: $localize`Utworzono`,
       },
       {
         field: 'updatedDate',
-        header: $localize`Data aktualizacji`,
+        header: $localize`Zaktualizowano`,
       },
       {
         header: $localize`Akcje`,
