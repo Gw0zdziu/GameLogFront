@@ -4,7 +4,7 @@ import {CategoryService} from '../services/category.service';
 import {of, throwError} from 'rxjs';
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {CategoryDto} from '../models/category.dto';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
+import {FormatDateDistancePipe} from '../../../core/pipes/format-date.pipe';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
 
