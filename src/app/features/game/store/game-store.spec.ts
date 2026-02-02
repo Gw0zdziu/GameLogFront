@@ -1,7 +1,7 @@
 import {GameStore} from './game-store';
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {GameService} from '../services/game.service';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
+import {FormatDateDistancePipe} from '../../../core/pipes/format-date.pipe';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {GameDto} from '../models/game.dto';
 import {EMPTY, of, throwError} from 'rxjs';

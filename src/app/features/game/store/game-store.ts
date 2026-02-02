@@ -1,7 +1,6 @@
 import {GameDto} from '../models/game.dto';
-import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
-import {computed, inject} from '@angular/core';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
+import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {inject} from '@angular/core';
 import {GameService} from '../services/game.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
