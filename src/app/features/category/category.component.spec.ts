@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryComponent } from './category.component';
 import { ConfirmationService } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
-import { FormatDateDistancePipe } from '../../core/pipes/format-date-distance.pipe';
+import { FormatDateDistancePipe } from '../../core/pipes/format-date.pipe';
 import { signal } from '@angular/core';
 import { CategoryStore } from './store/category-store';
 import { DialogService } from 'primeng/dynamicdialog';
