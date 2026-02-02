@@ -7,7 +7,7 @@
       {{ item.description }}
     </ng-container>
     <ng-container ngProjectAs="data" >
-      {{ item.createdDate | formatDateDistance }}
+      {{ item.createdDate | formatDate }}
     </ng-container>
     <ng-container ngProjectAs="actions">
       <p-button icon="pi pi-pencil" severity="warn" (click)="updateCategory(item.categoryId)"/>

@@ -8,7 +8,7 @@ import {Column} from '../../../../shared/models/column';
 import {CategoryStore} from '../../store/category-store';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {Button} from 'primeng/button';
-import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
+import { FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 
 @Component({
   selector: 'app-category-list',
@@ -16,7 +16,7 @@ import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distanc
     TableModule,
     ListItemComponent,
     Button,
-    FormatDateDistancePipe,
+    FormatDatePipe,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
