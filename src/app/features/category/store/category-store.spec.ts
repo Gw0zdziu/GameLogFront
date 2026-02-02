@@ -4,9 +4,9 @@ import {CategoryService} from '../services/category.service';
 import {of, throwError} from 'rxjs';
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {CategoryDto} from '../models/category.dto';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date.pipe';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
+import {FormatDatePipe} from '../../../core/pipes/format-date.pipe';
 
 describe('CategoryStore', () => {
   const category: CategoryDto = {
@@ -32,7 +32,7 @@ describe('CategoryStore', () => {
   let store: InstanceType<typeof CategoryStore>;
   let mockCategoryService: jest.Mocked<Partial<CategoryService>>;
   let toastServiceMock: jest.Mocked<Partial<ToastService>>;
-  let formatDateDistancePipeMock: jest.Mocked<Partial<FormatDateDistancePipe>>;
+  let formatDateDistancePipeMock: jest.Mocked<Partial<FormatDatePipe>>;
   beforeEach(() => {
     mockCategoryService = {
       getCategory: jest.fn().mockReturnValue(category),
@@ -53,7 +53,7 @@ describe('CategoryStore', () => {
         CategoryStore,
         { provide: CategoryService, useValue: mockCategoryService },
         { provide: ToastService, useValue: toastServiceMock },
-        { provide: FormatDateDistancePipe, useValue: formatDateDistancePipeMock },
+        { provide: FormatDatePipe, useValue: formatDateDistancePipeMock },
       ]
     });
     store = TestBed.inject(CategoryStore);
