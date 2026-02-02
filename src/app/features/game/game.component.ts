@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {GameTableComponent} from './components/game-table/game-table.component';
+import {GameListComponent} from './components/game-list/game-list.component';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameAddComponent} from './components/game-add/game-add.component';
@@ -7,9 +7,9 @@ import {GameAddComponent} from './components/game-add/game-add.component';
 @Component({
   selector: 'app-game',
   imports: [
-    GameTableComponent,
     ButtonDirective,
-    ButtonLabel
+    ButtonLabel,
+    GameListComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
@@ -22,7 +22,7 @@ export class GameComponent {
 
    openAddGameDialog(): void {
      this.ref = this.dialogService.open(GameAddComponent, {
-       header: $localize`Dodaj nową grę`,
+          header: $localize`Dodaj nową grę`,
        modal: true,
      })
      this.ref.onClose.subscribe((x: boolean) => {
