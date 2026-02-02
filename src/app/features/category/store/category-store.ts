@@ -24,15 +24,7 @@ const initialState: CategoryState = {
 export const CategoryStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withComputed(({categories}, formatDateDistance = inject(FormatDateDistancePipe)) => ({
-    categories$ : computed(() => categories().map(x => {
-      return {
-        ...x,
-        createdDate: formatDateDistance.transform(x.createdDate as Date),
-        updatedDate: formatDateDistance.transform(x.updatedDate as Date)
-      }
-    }))
-  })),
+
   withMethods((store,
                categoryService = inject(CategoryService),
                toastService = inject(ToastService)) => ({

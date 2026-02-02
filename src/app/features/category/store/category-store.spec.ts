@@ -13,8 +13,8 @@ describe('CategoryStore', () => {
     categoryId: "1",
     categoryName: "Action & Adventure",
     description: "Fast-paced games with combat and exploration.",
-    createdDate: "2023-08-15T10:30:00.000Z",
-    updatedDate: "2024-11-28T14:45:22.000Z",
+    createdDate: new Date("2023-08-15T10:30:00.000Z"),
+    updatedDate: new Date("2024-11-28T14:45:22.000Z"),
     createdBy: "john.doe@example.com",
     updatedBy: "admin@example.com",
     gamesCount: 47
@@ -23,8 +23,8 @@ describe('CategoryStore', () => {
     categoryId: '1',
     categoryName: 'Action & Adventure1',
     description: 'Fast-paced games with combat and exploration.',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date("2023-08-15T10:30:00.000Z"),
+    updatedDate: new Date("2024-11-28T14:45:22.000Z"),
     createdBy: 'john.doe@example.com',
     updatedBy: 'admin@example.com',
     gamesCount: 47,
@@ -63,21 +63,7 @@ describe('CategoryStore', () => {
     expect(store.categories().length).toBe(0);
   });
 
-  describe("categories$", () => {
-    it('should update categories$ after add new category', fakeAsync(() => {
-      const categoryPostDto: CategoryPostDto = {
-        categoryName: 'Action & Adventure',
-        description: 'Fast-paced games with combat and exploration.',
-      };
-      store.addCategory({
-        newCategory: categoryPostDto,
-        onSuccess: jest.fn(),
-      });
-      tick(300);
-      expect(store.categories$()[0].updatedDate).toEqual('last year');
-      expect(store.categories$()[0].createdDate).toEqual('last year');
-    }));
-  })
+
 
   describe("getCategories", () => {
     it('should return array of categories', fakeAsync(() => {
