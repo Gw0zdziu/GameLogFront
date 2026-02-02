@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryTableComponent } from './category-table.component';
+import { CategoryListComponent } from './category-list.component';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { signal } from '@angular/core';
@@ -9,8 +9,8 @@ import { Observable, Subject } from 'rxjs';
 import { CategoryDto } from '../../models/category.dto';
 
 describe('CategoryTableComponent', () => {
-  let component: CategoryTableComponent;
-  let fixture: ComponentFixture<CategoryTableComponent>;
+  let component: CategoryListComponent;
+  let fixture: ComponentFixture<CategoryListComponent>;
   let confirmationServiceMock: ConfirmationService;
   let dialogServiceMock: DialogService;
   const refDialogMockSubject = new Subject<any>();
@@ -36,7 +36,7 @@ describe('CategoryTableComponent', () => {
 
 
     await TestBed.configureTestingModule({
-      imports: [CategoryTableComponent],
+      imports: [CategoryListComponent],
       providers: [
         { provide: ConfirmationService, useValue: confirmationServiceMock },
         { provide: DialogService, useValue: dialogServiceMock },
@@ -45,7 +45,7 @@ describe('CategoryTableComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(CategoryTableComponent);
+    fixture = TestBed.createComponent(CategoryListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,14 +1,13 @@
 import {inject, Inject, LOCALE_ID, Pipe, PipeTransform} from '@angular/core';
-import {formatDistance} from 'date-fns';
-import {pl} from 'date-fns/locale/pl';
+import {getYear} from 'date-fns';
 import {LangStoreService} from '../store/lang-store.service';
 
 
 @Pipe({
-  name: 'formatDateDistance',
+  name: 'formatDate',
 
 })
-export class FormatDateDistancePipe implements PipeTransform {
+export class FormatDatePipe implements PipeTransform {
   private langStore = inject(LangStoreService);
 
   constructor(
@@ -16,8 +15,7 @@ export class FormatDateDistancePipe implements PipeTransform {
   ) {}
 
   transform(value: Date): string {
-    const activeLang = this.langStore.activeLang
-    return formatDistance(value, new Date() , {addSuffix: true, locale: activeLang.locale});
+    return getYear(value).toString();
   }
 
 }

@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {CategoryTableComponent} from './components/category-table/category-table.component';
+import {CategoryListComponent} from './components/category-list/category-list.component';
 import {CategoryAddComponent} from './components/category-add/category-add.component';
 
 @Component({
   selector: 'app-category',
-  imports: [TableModule, ButtonDirective, ButtonLabel, CategoryTableComponent],
+  imports: [TableModule, ButtonDirective, ButtonLabel, CategoryListComponent],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css',
   providers: [DialogService],
