@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {GameComponent} from './game.component';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {ConfirmationService} from 'primeng/api';
-import {FormatDateDistancePipe} from '../../core/pipes/format-date-distance.pipe';
+import {FormatDateDistancePipe} from '../../core/pipes/format-date.pipe';
 import {GameService} from './services/game.service';
 import {ToastService} from '../../core/services/toast/toast.service';
 import {BehaviorSubject} from 'rxjs';
