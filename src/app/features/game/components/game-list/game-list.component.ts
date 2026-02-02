@@ -1,20 +1,18 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {GameStore} from '../../store/game-store';
-import {Column} from '../../../../shared/models/column';
-import {GameDto} from '../../models/game.dto';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameUpdateComponent} from '../game-update/game-update.component';
-import {FormatDateDistancePipe} from '../../../../core/pipes/format-date-distance.pipe';
 import {Button} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
+import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 
 @Component({
   selector: 'app-game-list',
   imports: [
     Button,
-    FormatDateDistancePipe,
-    ListItemComponent
+    ListItemComponent,
+    FormatDatePipe
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css',
