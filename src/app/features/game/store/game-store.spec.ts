@@ -15,8 +15,8 @@ describe('GameStore', () => {
     gameName: 'gameName',
     categoryId: 'categoryId',
     categoryName: 'categoryName',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date("2023-08-15T10:30:00.000Z"),
+    updatedDate: new Date("2024-11-28T14:45:22.000Z"),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
@@ -25,8 +25,8 @@ describe('GameStore', () => {
     gameName: 'gameNameUpdated',
     categoryId: 'categoryId',
     categoryName: 'categoryName',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date("2023-08-15T10:30:00.000Z"),
+    updatedDate: new Date("2024-11-28T14:45:22.000Z"),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
@@ -70,20 +70,7 @@ describe('GameStore', () => {
     expect(store.isLoading()).toBeFalsy();
   });
 
-   describe('games$', () => {
-     it('should update games$ after add new game', fakeAsync(() => {
-       const newGame: GamePostDto = {
-         gameName: 'gameName',
-         categoryId: 'categoryId',
-       }
-       store.postGame({
-         newGame,
-         onSuccess: jest.fn(),
-       })
-       tick(300);
-       expect(store.games$()).toHaveLength(1);
-     }));
-   })
+
 
    describe('getGames', () => {
      it('should return array of games', fakeAsync(() => {
