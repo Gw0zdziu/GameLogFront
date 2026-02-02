@@ -4,7 +4,7 @@ import {LangStoreService} from '../store/lang-store.service';
 
 
 @Pipe({
-  name: 'formatDateDistance',
+  name: 'formatDate',
 
 })
 export class FormatDatePipe implements PipeTransform {
