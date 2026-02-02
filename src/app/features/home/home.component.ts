@@ -12,6 +12,7 @@ import {NavbarComponent} from '../../core/components/navbar/navbar.component';
     MenuComponent,
     RouterOutlet,
     NavbarComponent,
+    MenuComponent,
   ],
   template: `
     <header app-navbar></header>
