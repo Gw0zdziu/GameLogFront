@@ -24,15 +24,6 @@ const initialState: GameState = {
 export const GameStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withComputed(({games}, formatDateDistance = inject(FormatDateDistancePipe)) => ({
-    games$: computed(() => games().map(x => {
-      return {
-        ...x,
-        createdDate: formatDateDistance.transform(x.createdDate as Date),
-        updatedDate: formatDateDistance.transform(x.updatedDate as Date)
-      }
-    }))
-  })),
   withMethods((store, gameService = inject(GameService), toastService = inject(ToastService)) => ({
     setGameState(state: GameState): void {
       patchState(store, state);
