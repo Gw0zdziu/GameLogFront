@@ -3,8 +3,8 @@ export interface GameDto {
   gameName: string;
   categoryId: string;
   categoryName: string;
-  createdDate: Date | string;
-  updatedDate: Date | string;
+  createdDate: Date;
+  updatedDate: Date;
   createdBy: string;
   updatedBy: string;
 }

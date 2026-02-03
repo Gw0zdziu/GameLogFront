@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryComponent } from './category.component';
 import { ConfirmationService } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
-import { FormatDateDistancePipe } from '../../core/pipes/format-date-distance.pipe';
 import { signal } from '@angular/core';
 import { CategoryStore } from './store/category-store';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CategoryAddComponent } from './components/category-add/category-add.component';
+import {FormatDatePipe} from '../../core/pipes/format-date.pipe';
 
 
 describe('CategoryComponent', () => {
@@ -14,7 +14,7 @@ describe('CategoryComponent', () => {
   let fixture: ComponentFixture<CategoryComponent>;
   let confirmationServiceMock: jest.Mocked<Partial<ConfirmationService>>;
   let dialogServiceMock: DialogService;
-  let formatDateDistancePipeMock: jest.Mocked<Partial<FormatDateDistancePipe>>;
+  let formatDateDistancePipeMock: jest.Mocked<Partial<FormatDatePipe>>;
   const refDialogMockSubject = new Subject<any>();
   let refDialogMock: { onClose: Observable<any> };
   const categoryStoreMock = {
@@ -35,7 +35,7 @@ describe('CategoryComponent', () => {
       imports: [CategoryComponent],
       providers: [
         { provide: ConfirmationService, useValue: confirmationServiceMock },
-        { provide: FormatDateDistancePipe, useValue: formatDateDistancePipeMock },
+        { provide: FormatDatePipe, useValue: formatDateDistancePipeMock },
         { provide: CategoryStore, useValue: categoryStoreMock },
       ],
     }).overrideComponent(CategoryComponent, {

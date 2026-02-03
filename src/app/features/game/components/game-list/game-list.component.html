@@ -1,0 +1,17 @@
+    @for (item of store.games(); track item.gameId) {
+      <app-list-item>
+        <ng-container ngProjectAs="header">
+          {{ item.gameName }}
+        </ng-container>
+        <ng-container ngProjectAs="body" >
+          {{ item.categoryName }}
+        </ng-container>
+        <ng-container ngProjectAs="data" >
+          {{ item.createdDate | formatDate }}
+        </ng-container>
+        <ng-container ngProjectAs="actions">
+          <p-button icon="pi pi-pencil" severity="warn" (click)="updateGame(item.gameId)"/>
+          <p-button icon="pi pi-trash" severity="danger" (click)="deleteGame(item.gameId)"/>
+        </ng-container>
+      </app-list-item>
+    }

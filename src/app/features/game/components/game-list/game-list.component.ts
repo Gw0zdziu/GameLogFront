@@ -1,73 +1,32 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {GameStore} from '../../store/game-store';
-import {Column} from '../../../../shared/models/column';
-import {GameDto} from '../../models/game.dto';
-import {TableComponent} from '../../../../shared/components/table/table/table.component';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameUpdateComponent} from '../game-update/game-update.component';
+import {Button} from 'primeng/button';
+import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
+import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 
 @Component({
-  selector: 'app-game-table',
+  selector: 'app-game-list',
   imports: [
-    TableComponent
+    Button,
+    ListItemComponent,
+    FormatDatePipe
   ],
-  templateUrl: './game-table.component.html',
-  styleUrl: './game-table.component.css',
+  templateUrl: './game-list.component.html',
+  styleUrl: './game-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameTableComponent implements OnInit{
+export class GameListComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
   store = inject(GameStore);
   ref: DynamicDialogRef | undefined;
-  readonly columns = signal<Column<GameDto>[]>([]);
   emptyMessage = $localize`Brak gier`;
 
   ngOnInit(): void {
     this.store.getGames();
-    this.columns.set([
-      {
-        header: $localize`Nazwa gry`,
-        field: 'gameName',
-      },
-      {
-        header: $localize`Kategoria`,
-        field: 'categoryName',
-      },
-      {
-        header: $localize`Data utworzenia`,
-        field: 'createdDate',
-      },
-      {
-        header: $localize`Data aktualizacji`,
-        field: 'updatedDate',
-      },
-      {
-        columnType: 'action',
-        header: $localize`Akcje`,
-        actions: [
-          {
-            actionType: 'delete',
-            toolTip: $localize`Usuń`,
-            label: 'Usuń',
-            icon: 'pi pi-trash',
-            action: (item) : void=> {
-              this.deleteGame(item.gameId);
-            }
-          },
-          {
-            actionType: 'edit',
-            toolTip: $localize`Edytuj`,
-            label: 'Edytuj',
-            icon: 'pi pi-pencil',
-            action: (item): void => {
-              this.updateGame(item.gameId);
-            }
-          }
-        ]
-      }
-    ])
   }
 
   deleteGame(gameId: string): void {

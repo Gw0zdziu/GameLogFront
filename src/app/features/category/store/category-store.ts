@@ -2,14 +2,13 @@ import {CategoryDto} from '../models/category.dto';
 import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
-import {computed, inject} from '@angular/core';
+import { inject} from '@angular/core';
 import {tapResponse} from '@ngrx/operators';
 import {CategoryService} from '../services/category.service';
 import {CategoryPostDto} from '../models/category-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
 
 type CategoryState = {
   categories: CategoryDto[];
@@ -24,15 +23,7 @@ const initialState: CategoryState = {
 export const CategoryStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withComputed(({categories}, formatDateDistance = inject(FormatDateDistancePipe)) => ({
-    categories$ : computed(() => categories().map(x => {
-      return {
-        ...x,
-        createdDate: formatDateDistance.transform(x.createdDate as Date),
-        updatedDate: formatDateDistance.transform(x.updatedDate as Date)
-      }
-    }))
-  })),
+
   withMethods((store,
                categoryService = inject(CategoryService),
                toastService = inject(ToastService)) => ({

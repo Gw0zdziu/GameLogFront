@@ -4,21 +4,25 @@ import {TableModule} from 'primeng/table';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
-import {TableComponent} from '../../../../shared/components/table/table/table.component';
 import {Column} from '../../../../shared/models/column';
 import {CategoryStore} from '../../store/category-store';
+import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
+import {Button} from 'primeng/button';
+import { FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 
 @Component({
-  selector: 'app-category-table',
+  selector: 'app-category-list',
   imports: [
     TableModule,
-    TableComponent,
+    ListItemComponent,
+    Button,
+    FormatDatePipe,
   ],
-  templateUrl: './category-table.component.html',
-  styleUrl: './category-table.component.css',
+  templateUrl: './category-list.component.html',
+  styleUrl: './category-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategoryTableComponent implements OnInit{
+  export class CategoryListComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
@@ -45,11 +49,11 @@ export class CategoryTableComponent implements OnInit{
       },
       {
         field: 'createdDate',
-        header: $localize`Data utworzenia`,
+        header: $localize`Utworzono`,
       },
       {
         field: 'updatedDate',
-        header: $localize`Data aktualizacji`,
+        header: $localize`Zaktualizowano`,
       },
       {
         header: $localize`Akcje`,

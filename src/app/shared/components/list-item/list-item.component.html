@@ -1,0 +1,16 @@
+<section class="container-item">
+  <section class="item-data">
+          <span class="item-name">
+          </span>
+          <ng-content select="header" />
+    <span class="item-category">
+          <ng-content select="body" />
+          </span>
+    <span class="item-year">
+          <ng-content select="data" />
+          </span>
+  </section>
+  <section class="item-buttons">
+    <ng-content select="actions"/>
+  </section>
+</section>

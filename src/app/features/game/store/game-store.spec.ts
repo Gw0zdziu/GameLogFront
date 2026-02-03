@@ -1,7 +1,7 @@
 import {GameStore} from './game-store';
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {GameService} from '../services/game.service';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
+import {FormatDateDistancePipe} from '../../../core/pipes/format-date.pipe';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {GameDto} from '../models/game.dto';
 import {EMPTY, of, throwError} from 'rxjs';
@@ -15,8 +15,8 @@ describe('GameStore', () => {
     gameName: 'gameName',
     categoryId: 'categoryId',
     categoryName: 'categoryName',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date("2023-08-15T10:30:00.000Z"),
+    updatedDate: new Date("2024-11-28T14:45:22.000Z"),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
@@ -25,8 +25,8 @@ describe('GameStore', () => {
     gameName: 'gameNameUpdated',
     categoryId: 'categoryId',
     categoryName: 'categoryName',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date("2023-08-15T10:30:00.000Z"),
+    updatedDate: new Date("2024-11-28T14:45:22.000Z"),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
@@ -70,20 +70,7 @@ describe('GameStore', () => {
     expect(store.isLoading()).toBeFalsy();
   });
 
-   describe('games$', () => {
-     it('should update games$ after add new game', fakeAsync(() => {
-       const newGame: GamePostDto = {
-         gameName: 'gameName',
-         categoryId: 'categoryId',
-       }
-       store.postGame({
-         newGame,
-         onSuccess: jest.fn(),
-       })
-       tick(300);
-       expect(store.games$()).toHaveLength(1);
-     }));
-   })
+
 
    describe('getGames', () => {
      it('should return array of games', fakeAsync(() => {

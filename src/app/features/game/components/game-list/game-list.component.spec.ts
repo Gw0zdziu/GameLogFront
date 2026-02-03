@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {GameTableComponent} from './game-table.component';
+import {GameListComponent} from './game-list.component';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {ConfirmationService} from 'primeng/api';
 import {GameStore} from '../../store/game-store';
@@ -9,9 +9,9 @@ import {Actions} from '../../../../shared/models/actions';
 import {GameDto} from '../../models/game.dto';
 import {Subject} from 'rxjs';
 
-describe('GameTableComponent', () => {
-  let component: GameTableComponent;
-  let fixture: ComponentFixture<GameTableComponent>;
+describe('GameListComponent', () => {
+  let component: GameListComponent;
+  let fixture: ComponentFixture<GameListComponent>;
   let dialogServiceMock: jest.Mocked<Partial<DialogService>>;
   let confirmServiceMock: jest.Mocked<Partial<ConfirmationService>>;
   let dynamicDialogRefMock: jest.Mocked<Partial<DynamicDialogRef>>;
@@ -27,8 +27,8 @@ describe('GameTableComponent', () => {
     gameName: 'gameName',
     categoryId: 'categoryId',
     categoryName: 'categoryName',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date('2023-08-15T10:30:00.000Z'),
+    updatedDate: new Date('2024-11-28T14:45:22.000Z'),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
@@ -45,7 +45,7 @@ describe('GameTableComponent', () => {
       onClose: dynamicDialogRefSubject.asObservable(),
     }
     await TestBed.configureTestingModule({
-      imports: [GameTableComponent],
+      imports: [GameListComponent],
       providers: [
         {
           provide: DialogService,
@@ -63,22 +63,18 @@ describe('GameTableComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GameTableComponent);
+    fixture = TestBed.createComponent(GameListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should action of delete called deleteGame', () => {
     jest.spyOn(component, 'deleteGame').mockReturnValue();
-    const actions = component.columns().find(column => column.columnType === 'action')?.actions as Actions<GameDto>[];
-    actions[0].action(game);
     expect(component.deleteGame).toHaveBeenCalled();
   });
 
   it('should action of edit called updateGame', () => {
     jest.spyOn(component, 'updateGame').mockReturnValue();
-    const actions = component.columns().find(column => column.columnType === 'action')?.actions as Actions<GameDto>[];
-    actions[1].action(game);
     expect(component.updateGame).toHaveBeenCalled();
   })
 

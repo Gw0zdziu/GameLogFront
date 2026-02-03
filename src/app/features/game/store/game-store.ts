@@ -1,7 +1,6 @@
 import {GameDto} from '../models/game.dto';
-import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
-import {computed, inject} from '@angular/core';
-import {FormatDateDistancePipe} from '../../../core/pipes/format-date-distance.pipe';
+import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {inject} from '@angular/core';
 import {GameService} from '../services/game.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
@@ -24,15 +23,6 @@ const initialState: GameState = {
 export const GameStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withComputed(({games}, formatDateDistance = inject(FormatDateDistancePipe)) => ({
-    games$: computed(() => games().map(x => {
-      return {
-        ...x,
-        createdDate: formatDateDistance.transform(x.createdDate as Date),
-        updatedDate: formatDateDistance.transform(x.updatedDate as Date)
-      }
-    }))
-  })),
   withMethods((store, gameService = inject(GameService), toastService = inject(ToastService)) => ({
     setGameState(state: GameState): void {
       patchState(store, state);

@@ -9,7 +9,7 @@ import {authInterceptor} from './core/interceptors/auth/auth.interceptor';
 import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh-token.interceptor';
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {FormatDateDistancePipe} from './core/pipes/format-date-distance.pipe';
+import {FormatDatePipe} from './core/pipes/format-date.pipe';
 
 const Preset = definePreset(Aura, {
   components: {
@@ -87,7 +87,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
     provideRouter(routes),
     provideAnimationsAsync(),
-    FormatDateDistancePipe,
+    FormatDatePipe,
     providePrimeNG({
       theme: {
         preset: Preset,
