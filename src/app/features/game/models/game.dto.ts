@@ -5,6 +5,7 @@ export interface GameDto {
   categoryName: string;
   createdDate: Date;
   updatedDate: Date;
+  yearPlayed: Date;
   createdBy: string;
   updatedBy: string;
 }

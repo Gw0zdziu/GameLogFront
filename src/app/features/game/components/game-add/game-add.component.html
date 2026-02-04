@@ -1,1 +1,31 @@
-<app-game-form (submitEmitter)="submitNewGame($event)" />
+<form [formGroup]="newGameForm"  (ngSubmit)="submitNewGame()">
+  <section class="input">
+    <label for="gameName" i18n>Nazwa</label>
+    <input form formControlName="gameName" id="gameName" name="gameName" pInputText pSize="large" type="text" >
+    @if (newGameForm.controls.gameName.errors?.invalid && newGameForm.controls.gameName.errors?.touched) {
+      @if (newGameForm.controls.gameName.errors?.required) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+      }
+    }
+  </section>
+  <section class="input">
+    <label for="category" i18n>Kategoria</label>
+    <p-auto-complete   appendTo="body" dropdown="true" formControlName="categoryId" id="category" name="category"  optionLabel="categoryName" [required]="true" [suggestions]="filteredCategories()"   (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
+    @if (newGameForm.controls.categoryId.errors?.invalid && newGameForm.controls.categoryId.errors?.touched) {
+      @if (newGameForm.controls.categoryId.errors?.required) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+      }
+    }
+  </section>
+  <section class="input">
+    <label for="yearPlayed" style="display: block">Rok ogrania</label>
+    <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" touchUI="true" view="year"  />
+  </section>
+  <button class="button" pButton type="submit" [disabled]="newGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
+    @if (gameStore.isLoading()){
+      <i class="pi pi-spin pi-spinner"></i>
+    }
+    <span i18n pButtonLabel>Dodaj</span>
+  </button>
+</form>
+

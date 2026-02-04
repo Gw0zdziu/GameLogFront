@@ -40,7 +40,7 @@ export const GameStore = signalStore(
                 patchState(store, {
                   isLoading: false,
                   games: value,
-                })
+                });
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});

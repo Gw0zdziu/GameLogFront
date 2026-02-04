@@ -87,7 +87,7 @@ describe('GameUpdateComponent', () => {
         gameName: 'Game',
         categoryId: 'cat-001',
       }
-      component.submitGame(updatedGame);
+      component.submitUpdateGame(updatedGame);
       expect(gameStoreMock.updateGame).toHaveBeenCalledWith({gameId: '1',updatedGame, onSuccess: expect.any(Function)});
     });
 
@@ -99,7 +99,7 @@ describe('GameUpdateComponent', () => {
       gameStoreMock.updateGame.mockImplementation((param) => {
         param.onSuccess();
       })
-      component.submitGame(newGame);
+      component.submitUpdateGame(newGame);
       expect(dynamicDialogRefMock.close).toHaveBeenCalledWith(true);
     });
   })
