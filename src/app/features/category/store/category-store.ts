@@ -1,5 +1,5 @@
 import {CategoryDto} from '../models/category.dto';
-import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
+import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
 import { inject} from '@angular/core';
@@ -23,7 +23,6 @@ const initialState: CategoryState = {
 export const CategoryStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-
   withMethods((store,
                categoryService = inject(CategoryService),
                toastService = inject(ToastService)) => ({
@@ -32,7 +31,6 @@ export const CategoryStore = signalStore(
         tap(() => patchState(store, {
           isLoading: true,
         })),
-        debounceTime(300),
         switchMap(() => {
           return categoryService.getUserCategories().pipe(
             tapResponse({
