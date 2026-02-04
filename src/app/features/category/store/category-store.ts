@@ -31,7 +31,6 @@ export const CategoryStore = signalStore(
         tap(() => patchState(store, {
           isLoading: true,
         })),
-        debounceTime(300),
         switchMap(() => {
           return categoryService.getUserCategories().pipe(
             tapResponse({
