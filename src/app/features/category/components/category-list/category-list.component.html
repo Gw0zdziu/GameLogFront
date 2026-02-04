@@ -6,9 +6,6 @@
     <ng-container ngProjectAs="body" >
       {{ item.description }}
     </ng-container>
-    <ng-container ngProjectAs="data" >
-      {{ item.createdDate | formatDate }}
-    </ng-container>
     <ng-container ngProjectAs="actions">
       <p-button icon="pi pi-pencil" severity="warn" (click)="updateCategory(item.categoryId)"/>
       <p-button icon="pi pi-trash" severity="danger" (click)="deleteCategory(item.categoryId)"/>
