@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, inject, input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameService} from '../../services/game.service';
 import {GameStore} from '../../store/game-store';
