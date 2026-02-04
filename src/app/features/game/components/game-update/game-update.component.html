@@ -1,1 +1,36 @@
-<app-game-form [updatedGame]="game()" (submitEmitter)="submitGame($event)" />
+<form [formGroup]="updateGameForm"  (ngSubmit)="submitUpdateGame()">
+  <section class="input">
+    <label for="gameName" i18n>Nazwa</label>
+    <input  formControlName="gameName" id="gameName" name="gameName" pInputText pSize="large" type="text" >
+    @if (updateGameForm.controls.gameName.errors?.invalid && updateGameForm.controls.gameName.errors?.touched) {
+      @if (updateGameForm.controls.gameName.errors?.required) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+      }
+    }
+  </section>
+  <section class="input">
+    <label for="category" i18n>Kategoria</label>
+    <p-auto-complete   appendTo="body" dropdown="true" formControlName="selectedCategory" id="category" name="category"  optionLabel="categoryName"  [suggestions]="filteredCategories()"  (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
+    @if (updateGameForm.controls.selectedCategory.errors?.invalid && updateGameForm.controls.selectedCategory.errors?.touched) {
+      @if (updateGameForm.controls.selectedCategory.errors?.required) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+      }
+    }
+  </section>
+  <section class="input">
+    <label for="yearPlayed" style="display: block">Rok zagrania</label>
+    <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" view="year" [showIcon]="true"  />
+    @if (updateGameForm.controls.yearPlayed.errors?.invalid && updateGameForm.controls.yearPlayed.errors?.touched) {
+      @if (updateGameForm.controls.yearPlayed.errors?.required) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+      }
+    }
+  </section>
+  <button class="button" pButton type="submit" [disabled]="updateGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
+    @if (gameStore.isLoading()){
+      <i class="pi pi-spin pi-spinner"></i>
+    }
+    <span i18n pButtonLabel>Dodaj</span>
+  </button>
+</form>
+
