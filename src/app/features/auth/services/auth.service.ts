@@ -7,6 +7,7 @@ import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStoreService} from '../../../core/store/user-store/user-store.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AuthService {
   private loggedStoreService = inject(LoggedStoreService);
   private userStoreService = inject(UserStoreService);
   private toastService = inject(ToastService);
+  private router = inject(Router);
 
 
   loginUser(loginUser: LoginUserDto): Observable<string> {
@@ -53,7 +55,7 @@ export class AuthService {
         this.loggedStoreService.setLogged(false);
         this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
         return of(err)
-      }),);
+      }));
   }
 
   verify(){
