@@ -1,13 +1,14 @@
 import {Routes} from '@angular/router';
 import {inject} from '@angular/core';
 import {LoggedStoreService} from './core/store/logged-store/logged-store.service';
+import {authGuard} from './core/guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: (): string =>  {
       const isLogged = inject(LoggedStoreService).isLogged$;
-      return isLogged() ? 'home' : 'login';
+      return 'home';
     },
     pathMatch: 'full'
   },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
     loadChildren: () => import('./features/home/routes/home.routes').then(m => m.homeRoutes),
+    canActivate: [authGuard],
   },
   {
     path: 'login',
