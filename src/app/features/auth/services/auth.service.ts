@@ -30,7 +30,7 @@ export class AuthService {
         this.loggedStoreService.setLogged(true);
         this.toastService.showSuccess($localize`Pomyślnie zalogowano`);
       }),
-      catchError((err: HttpErrorResponse, caught) => {
+      catchError((err: HttpErrorResponse) => {
         this.loggedStoreService.setLogged(false);
         this.toastService.showError(err.error);
         return throwError(() => err)
@@ -53,23 +53,7 @@ export class AuthService {
         this.loggedStoreService.setLogged(false);
         this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
         return of(err)
-      }),);
-  }
-
-  verify(){
-    return this.httpClient.get<boolean>(`${this.apiUrl}/verify`, {
-      withCredentials: true,
-      context: new HttpContext()
-        .set(IS_AUTH_REQUIRED, true)
-    }).pipe(
-      tap(() => {
-        this.loggedStoreService.setLogged(true);
-      }),
-      catchError((err, caught) => {
-        this.loggedStoreService.setLogged(false);
-        return of(err)
-      })
-    )
+      }));
   }
 
 
