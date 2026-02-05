@@ -15,8 +15,8 @@ import {TableModule} from 'primeng/table';
     TableModule
   ],
   template: `
-    <router-outlet />
-    <p-toast position="bottom-center" [life]="2000" />
+    <router-outlet/>
+    <p-toast position="bottom-center" [life]="2000"/>
     <p-confirmdialog ariaLabel="Confirm dialog" />
   `,
   styleUrl: './app.component.css',
