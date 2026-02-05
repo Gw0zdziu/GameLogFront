@@ -58,21 +58,5 @@ export class AuthService {
       }));
   }
 
-  verify(){
-    return this.httpClient.get<boolean>(`${this.apiUrl}/verify`, {
-      withCredentials: true,
-      context: new HttpContext()
-        .set(IS_AUTH_REQUIRED, true)
-    }).pipe(
-      tap(() => {
-        this.loggedStoreService.setLogged(true);
-      }),
-      catchError((err, caught) => {
-        this.loggedStoreService.setLogged(false);
-        return of(err)
-      })
-    )
-  }
-
 
 }
