@@ -1,4 +1,4 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {providePrimeNG} from 'primeng/config';
@@ -10,6 +10,8 @@ import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './core/pipes/format-date.pipe';
+import {UserService} from './features/user/services/user.service';
+
 
 const Preset = definePreset(Aura, {
   components: {
@@ -95,6 +97,10 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.dark',
         }
       }
+    }),
+    provideAppInitializer(() =>{
+      const userService = inject(UserService);
+      userService.getUser().subscribe();
     })
   ]
 };
