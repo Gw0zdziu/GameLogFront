@@ -20,11 +20,11 @@ export class UserStoreService {
     });
   }
 
-  cleanStore(){
+  cleanStore(): void{
     this.user.set(null);
   }
 
-  updateUser(user: Partial<GetUserDto> | null){
+  updateUser(user: Partial<GetUserDto> | null): void{
     this.user.set({...this.user(), ...user});
 
   }

@@ -5,6 +5,8 @@ import {DOCUMENT} from '@angular/common';
 import {Toast} from 'primeng/toast';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {TableModule} from 'primeng/table';
+import {AuthService} from './features/auth/services/auth.service';
+import {UserService} from './features/user/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,8 @@ export class AppComponent implements OnInit{
   themeState$ = this.themeStore.theme$();
   private document = inject(DOCUMENT);
   private renderer = inject(Renderer2);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
 
   constructor(
     @Inject(LOCALE_ID) public activeLocale: string

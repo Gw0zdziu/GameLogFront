@@ -5,5 +5,4 @@ export interface GetUserDto{
   lastName: string;
   userEmail: string;
   isActive: boolean;
-  token: string;
 }
