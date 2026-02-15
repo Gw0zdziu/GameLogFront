@@ -13,6 +13,7 @@ export const homeRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'categories',
