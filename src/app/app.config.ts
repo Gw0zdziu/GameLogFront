@@ -10,6 +10,8 @@ import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './core/pipes/format-date.pipe';
+import {AuthService} from './features/auth/services/auth.service';
+import {concatMap, filter} from 'rxjs';
 import {UserService} from './features/user/services/user.service';
 
 
@@ -99,8 +101,14 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideAppInitializer(() =>{
-      const userService = inject(UserService);
-      userService.getUser().subscribe();
+      const authService = inject(AuthService);
+      const userService = inject(UserService)
+      authService.verify().pipe(
+        filter(x => x),
+        concatMap(() => {
+          return userService.getUser()
+        })
+      ).subscribe();
     })
   ]
 };
