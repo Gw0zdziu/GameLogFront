@@ -1,0 +1,15 @@
+<button class="button-page" type="button" (click)="selectFirstPage()"><i class=" pi pi-angle-double-left"></i></button>
+<button class="button-page" type="button" (click)="selectPreviousPage()"><i class=" pi pi-angle-left"></i></button>
+@for (item of paginationConfig().amountPagesList; track item) {
+  <input style="display: none" type="radio" [checked]="item === paginationConfig().pageNumber" [id]="item.toString()" [name]="item" [value]="item" (change)="selectPage($event)">
+  <label class="button-page" [for]="item.toString()">
+    {{item}}
+  </label>
+}
+<button class="button-page" type="button" (click)="selectNextPage()"><i class="pi pi-angle-right"></i></button>
+<button class="button-page" type="button" (click)="selectLastPage()"><i class="pi pi-angle-double-right"></i></button>
+<select class="select-page-size" (change)="selectPageSize($event)">
+  @for (size of pageSizes(); track size) {
+    <option [value]="size" >{{size}}</option>
+  }
+</select>
