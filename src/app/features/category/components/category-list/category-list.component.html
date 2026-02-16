@@ -1,4 +1,4 @@
-@for (item of store.categories(); track item.categoryId) {
+@for (item of categories$(); track item.categoryId) {
   <app-list-item>
     <ng-container ngProjectAs="header">
       {{ item.categoryName }}
@@ -12,3 +12,4 @@
     </ng-container>
   </app-list-item>
 }
+<app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()" (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)"/>
