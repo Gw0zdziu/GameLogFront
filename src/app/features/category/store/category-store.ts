@@ -27,6 +27,26 @@ export const CategoryStore = signalStore(
   withMethods((store,
                categoryService = inject(CategoryService),
                toastService = inject(ToastService)) => ({
+    getCategoriesByUserId: rxMethod<string>(
+      pipe(
+        tap(() => patchState(store, {
+          isLoading: true,
+        })),
+        switchMap(x => {
+          return categoryService.getCategoriesByUserId(x).pipe(
+            tapResponse({
+              next: (value) => {
+                patchState(store, {isLoading: false, categories: value});
+              },
+              error: () => {
+                patchState(store, {isLoading: false});
+              },
+              complete: () => patchState(store, {isLoading: false}),
+            })
+          )
+        })
+      )
+    ),
     getCategories: rxMethod<PaginatedQuery>(
       pipe(
         tap(() => patchState(store, {

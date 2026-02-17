@@ -15,15 +15,20 @@
   color: #475569;
 }
 
-input[type=radio]:checked + label{
+.button-page:hover:not(:disabled){
   background-color: var(--p-violet-500);
-  color: #ffffff;
+  color: #fff;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.button-page:hover{
+.button-page:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input[type=radio]:checked + label{
   background-color: var(--p-violet-500);
-  color: #fff;
+  color: #ffffff;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 

@@ -9,6 +9,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {CategoryDto} from '../../../category/models/category.dto';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
+import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 
 @Component({
   selector: 'app-game-add',
@@ -29,6 +30,7 @@ import {ButtonDirective, ButtonLabel} from 'primeng/button';
 export class GameAddComponent implements  OnInit{
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
+    private userStoreService = inject(UserStoreService);
     gameStore = inject(GameStore);
     readonly isNotSelectCategory = signal(true);
   readonly filteredCategories = signal<CategoryDto[]>([]);
@@ -41,7 +43,8 @@ export class GameAddComponent implements  OnInit{
     )
 
   ngOnInit(): void {
-    this.categoryStore.getCategories();
+    const userId = this.userStoreService.user$()?.userId as string;
+    this.categoryStore.getCategoriesByUserId(userId);
   }
 
   filterCategory($event: AutoCompleteCompleteEvent): void {
