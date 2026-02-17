@@ -6,13 +6,19 @@ import {GameUpdateComponent} from '../game-update/game-update.component';
 import {Button} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
+import {IndexItemList} from '../../../../shared/models/index-item-list';
+import {PaginationConfig} from '../../../../shared/models/pagination-config';
+import {GameService} from '../../services/game.service';
+import {GameDto} from '../../models/game.dto';
+import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 
 @Component({
   selector: 'app-game-list',
   imports: [
     Button,
     ListItemComponent,
-    FormatDatePipe
+    FormatDatePipe,
+    PaginatorComponent
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css',
@@ -21,12 +27,53 @@ import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 export class GameListComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
+  private gamesService = inject(GameService);
   store = inject(GameStore);
   ref: DynamicDialogRef | undefined;
-  emptyMessage = $localize`Brak gier`;
+  readonly indexGames$ = signal<IndexItemList | null>(null)
+  readonly paginationState$ = signal<PaginationConfig>({
+    pageSize: 5,
+    pageNumber: 1,
+    amountPagesList: []
+  })
+  readonly games$ = signal<GameDto[]>([]);
 
   ngOnInit(): void {
-    this.store.getGames();
+    this.gamesService.getUserGames({
+      pageSize: this.paginationState$().pageSize,
+      pageNumber: this.paginationState$().pageNumber
+    }).subscribe(x => {
+      this.paginationState$.set({
+        pageSize: x.pageSize,
+        pageNumber: x.pageNumber,
+        amountPagesList: x.amountPagesList
+      })
+      this.games$.set(x.results);
+    })
+  }
+
+  updatePageNumber(pageNumber: number): void {
+    this.gamesService.getUserGames({pageSize: this.paginationState$().pageSize, pageNumber: pageNumber})
+      .subscribe(x => {
+        this.paginationState$.set({
+          pageSize: x.pageSize,
+          pageNumber: x.pageNumber,
+          amountPagesList: x.amountPagesList
+        })
+        this.games$.set(x.results);
+      })
+  }
+
+  updatePageSize(pageSize: number): void {
+    this.gamesService.getUserGames({pageSize: pageSize, pageNumber: this.paginationState$().pageNumber})
+      .subscribe(x => {
+        this.paginationState$.set({
+          pageSize: x.pageSize,
+          pageNumber: x.pageNumber,
+          amountPagesList: x.amountPagesList
+        })
+        this.games$.set(x.results);
+      })
   }
 
   deleteGame(gameId: string): void {
@@ -48,6 +95,8 @@ export class GameListComponent implements OnInit{
       }
     })
   }
+
+
 
   updateGame(gameId: string): void{
     this.ref = this.dialogService.open(GameUpdateComponent,{
