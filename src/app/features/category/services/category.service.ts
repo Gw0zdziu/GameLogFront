@@ -27,6 +27,13 @@ export class CategoryService {
     })
   }
 
+  getCategoriesByUserId(userId: string):Observable<CategoryDto[]>{
+    return this.http.get<CategoryDto[]>(`${this.apiUrl}/get-categories-by-userId/${userId}`, {
+      withCredentials: true,
+      context: new HttpContext().set(IS_AUTH_REQUIRED, true),
+    })
+  }
+
   getCategory(categoryId: string): Observable<CategoryDto>{
     return this.http.get<CategoryDto>(`${this.apiUrl}/get-category/${categoryId}`, {
       withCredentials: true,
