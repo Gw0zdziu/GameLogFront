@@ -9,6 +9,7 @@ import {tapResponse} from '@ngrx/operators';
 import {GamePostDto} from '../models/game-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
 import {GamePutDto} from '../models/game-put.dto';
+import {PaginatedQuery} from '../../../shared/models/paginated-query';
 
 type GameState = {
   games: GameDto[];
@@ -27,19 +28,19 @@ export const GameStore = signalStore(
     setGameState(state: GameState): void {
       patchState(store, state);
     },
-    getGames: rxMethod<void>(
+    getGames: rxMethod<PaginatedQuery>(
       pipe(
         tap(() => patchState(store, {
           isLoading: true,
           })),
         debounceTime(300),
-        switchMap(() => {
-          return gameService.getUserGames().pipe(
+        switchMap(x => {
+          return gameService.getUserGames(x).pipe(
             tapResponse({
               next: (value) =>{
                 patchState(store, {
                   isLoading: false,
-                  games: value,
+                  games: value.results,
                 });
               },
               error: (error: HttpErrorResponse) => {
