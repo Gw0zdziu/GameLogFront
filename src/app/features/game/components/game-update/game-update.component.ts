@@ -11,6 +11,7 @@ import {Message} from 'primeng/message';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {CategoryStore} from '../../../category/store/category-store';
+import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 
 @Component({
   selector: 'app-game-update',
@@ -32,6 +33,7 @@ export class GameUpdateComponent implements OnInit{
     private dialogService = inject(DialogService);
     private categoryStore = inject(CategoryStore);
     private gameService = inject(GameService);
+    private userStoreService = inject(UserStoreService);
     readonly filteredCategories = signal<CategoryDto[]>([]);
     readonly isNotSelectCategory = signal(true);
     readonly game = signal<GameDto | null>(null);
@@ -59,7 +61,8 @@ export class GameUpdateComponent implements OnInit{
     )
 
     constructor() {
-      this.categoryStore.getCategories();
+      const userId = this.userStoreService.user$()?.userId as string;
+      this.categoryStore.getCategoriesByUserId(userId);
       this.instance = this.dialogService.getInstance(this.dynamicDialogRef);
     }
 
