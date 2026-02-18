@@ -5,11 +5,10 @@ import {LoggedStoreService} from '../../store/logged-store/logged-store.service'
 export const authGuard: CanActivateFn = () => {
   const loggedUserStore = inject(LoggedStoreService);
   const router = inject(Router);
-  console.log(loggedUserStore.isLogged$());
   if (loggedUserStore.isLogged$()){
     return true;
   } else {
-    router.navigate(['./login']);
+    router.navigate(['login']);
     return false;
   }
 

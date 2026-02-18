@@ -8,6 +8,7 @@ import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.
 import {UserStoreService} from '../../../core/store/user-store/user-store.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class AuthService {
   private userStoreService = inject(UserStoreService);
   private toastService = inject(ToastService);
   private tokenStoreService = inject(TokenStoreService);
+  private router = inject(Router);
 
 
 
