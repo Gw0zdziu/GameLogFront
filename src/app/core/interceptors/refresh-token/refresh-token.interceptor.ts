@@ -28,7 +28,7 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
               }),
               catchError((error: HttpErrorResponse) => {
                 if(error.status === 400){
-                  router.navigate(['./login']);
+                  router.navigate(['login']);
                   authService.logoutUser().subscribe();
                 }
                 return EMPTY;
