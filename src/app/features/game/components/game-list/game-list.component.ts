@@ -31,49 +31,19 @@ export class GameListComponent implements OnInit{
   store = inject(GameStore);
   ref: DynamicDialogRef | undefined;
   readonly indexGames$ = signal<IndexItemList | null>(null)
-  readonly paginationState$ = signal<PaginationConfig>({
-    pageSize: 5,
-    pageNumber: 1,
-    amountPagesList: []
-  })
-  readonly games$ = signal<GameDto[]>([]);
+  readonly paginationState$ = this.store.paginationState;
+  readonly games$ = this.store.games;
 
   ngOnInit(): void {
-    this.gamesService.getUserGames({
-      pageSize: this.paginationState$().pageSize,
-      pageNumber: this.paginationState$().pageNumber
-    }).subscribe(x => {
-      this.paginationState$.set({
-        pageSize: x.pageSize,
-        pageNumber: x.pageNumber,
-        amountPagesList: x.amountPagesList
-      })
-      this.games$.set(x.results);
-    })
+    this.store.getGames({...this.paginationState$()})
   }
 
   updatePageNumber(pageNumber: number): void {
-    this.gamesService.getUserGames({pageSize: this.paginationState$().pageSize, pageNumber: pageNumber})
-      .subscribe(x => {
-        this.paginationState$.set({
-          pageSize: x.pageSize,
-          pageNumber: x.pageNumber,
-          amountPagesList: x.amountPagesList
-        })
-        this.games$.set(x.results);
-      })
+    this.store.getGames({pageSize: this.paginationState$().pageSize, pageNumber: pageNumber});
   }
 
   updatePageSize(pageSize: number): void {
-    this.gamesService.getUserGames({pageSize: pageSize, pageNumber: this.paginationState$().pageNumber})
-      .subscribe(x => {
-        this.paginationState$.set({
-          pageSize: x.pageSize,
-          pageNumber: x.pageNumber,
-          amountPagesList: x.amountPagesList
-        })
-        this.games$.set(x.results);
-      })
+    this.store.getGames({pageSize: pageSize, pageNumber: this.paginationState$().pageNumber})
   }
 
   deleteGame(gameId: string): void {
