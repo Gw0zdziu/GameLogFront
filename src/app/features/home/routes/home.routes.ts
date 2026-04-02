@@ -4,10 +4,11 @@ import {GameComponent} from '../../game/game.component';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {authGuard} from '../../../core/guards/auth/auth.guard';
 
+
 export const homeRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'categories',
     pathMatch: 'full'
   },
   {
