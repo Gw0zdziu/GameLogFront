@@ -1,0 +1,40 @@
+:host{
+  display: flex;
+  justify-content: center;
+  column-gap: 0.2rem;
+}
+.button-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  border: none;
+  background-color: var(--gray-light);
+  color: #475569;
+}
+
+.button-page:hover:not(:disabled){
+  background-color: var(--p-violet-500);
+  color: #fff;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.button-page:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input[type=radio]:checked + label{
+  background-color: var(--p-violet-500);
+  color: #ffffff;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.select-page-size {
+  border: #cbd5e1 1px solid;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 20px;
+}

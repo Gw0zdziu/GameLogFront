@@ -1,0 +1,18 @@
+@let pageNumber = paginationConfig().pageNumber;
+@let amountPagesList = paginationConfig().amountPagesList;
+<button class="button-page" type="button" [disabled]="pageNumber === 1" (click)="selectFirstPage()"><i class=" pi pi-angle-double-left"></i></button>
+<button class="button-page" type="button" [disabled]="pageNumber === 1" (click)="selectPreviousPage()"><i class=" pi pi-angle-left"></i></button>
+@for (item of amountPagesList; track item) {
+  <input style="display: none" type="radio" [checked]="item === pageNumber" [id]="item.toString()" [name]="item" [value]="item" (change)="selectPage($event)">
+  <label class="button-page" [for]="item.toString()">
+    {{item}}
+  </label>
+}
+<button class="button-page" type="button"  [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]" (click)="selectNextPage()"><i class="pi pi-angle-right"></i></button>
+<button class="button-page" type="button" [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]" (click)="selectLastPage()"><i class="pi pi-angle-double-right"></i></button>
+<select class="select-page-size" (change)="selectPageSize($event)">
+  @for (size of pageSizes(); track size) {
+    <option [value]="size" >{{size}}</option>
+  }
+</select>
+

@@ -6,6 +6,7 @@ import {LayoutService} from '../../../shared/services/layout/layout.service';
 import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 import {ThemeToggleComponent} from '../../../features/theme-toggle/theme-toggle.component';
 import {LangToggleComponent} from '../../../features/lang-toggle/lang-toggle.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'header[app-navbar]',
@@ -32,6 +33,7 @@ export class NavbarComponent {
   private authService = inject(AuthService);
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
+  private router = inject(Router);
   isLogged$ = this.loggedStoreService.isLogged$;
   readonly items = computed(() =>{
     if (this.isLogged$()) {
@@ -63,6 +65,12 @@ export class NavbarComponent {
   }
 
   logout(): void{
-    this.authService.logoutUser().subscribe()
+    this.authService.logoutUser().subscribe(
+      {
+        next: () => {
+          this.router.navigate(['./login']);
+        }
+      }
+    )
   }
 }

@@ -26,15 +26,6 @@
       }
     </section>
     <section class="input">
-      <label for="invitationCode" i18n>Kod zaproszenia</label>
-      <input formControlName="invitationCode" id="invitationCode" pInputText pSize="large" type="text">
-      @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
-        @if (registerForm.controls.invitationCode.errors?.required){
-          <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-        }
-      }
-    </section>
-    <section class="input">
       <label for="lastname" i18n>Nazwisko</label>
       <input formControlName="lastname"  id="lastname" pInputText pSize="large" type="text">
       @if (registerForm.controls.lastname.invalid && registerForm.controls.lastname.touched) {
@@ -84,6 +75,15 @@
         }
         @if (registerForm.controls.confirmPassword.errors?.mustMatch) {
           <p-message i18n severity="error" size="small" variant="simple">Hasła się nie zgadzają</p-message>
+        }
+      }
+    </section>
+    <section class="input">
+      <label for="invitationCode" i18n>Kod zaproszenia</label>
+      <input formControlName="invitationCode" id="invitationCode" pInputText pSize="large" type="text">
+      @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
+        @if (registerForm.controls.invitationCode.errors?.required){
+          <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
         }
       }
     </section>

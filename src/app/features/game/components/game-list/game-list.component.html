@@ -1,4 +1,4 @@
-    @for (item of store.games(); track item.gameId) {
+    @for (item of games$(); track item.gameId) {
       <app-list-item>
         <ng-container ngProjectAs="header">
           {{ item.gameName }}
@@ -15,3 +15,4 @@
         </ng-container>
       </app-list-item>
     }
+    <app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()"  (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)"></app-paginator>

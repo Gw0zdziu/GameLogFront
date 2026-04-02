@@ -43,11 +43,11 @@ class MenuComponent {
   readonly menuItems = computed(() => {
     if (this.isLogged$()) {
       return [
-        {
+        /*{
           label: $localize`Pulpit nawigacyjny`,
           icon: 'pi pi-fw pi-home',
           routerLink: './dashboard'
-        },
+        },*/
         {
           label: $localize`Kategorie gier`,
           icon: 'pi pi-fw pi-tags',

@@ -9,6 +9,8 @@ import {ContainerComponent} from '../../../../shared/components/container/contai
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 import {Password} from 'primeng/password';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
+import {concatMap} from 'rxjs';
+import {UserService} from '../../../user/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +32,7 @@ import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 export class LoginComponent {
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
+  private userService = inject(UserService);
   private router = inject(Router);
   readonly isLogin = signal(false);
   loginForm = this.formBuilder.group({
@@ -48,6 +51,11 @@ export class LoginComponent {
       this.isLogin.set(true);
       const loginUser: LoginUserDto = this.loginForm.value as LoginUserDto;
       this.authService.loginUser(loginUser)
+        .pipe(
+          concatMap(() => {
+            return this.userService.getUser()
+          }),
+        )
         .subscribe({
           next: () => {
             this.router.navigate(['home'], ).finally();

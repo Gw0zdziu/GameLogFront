@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {HttpClient, HttpContext} from '@angular/common/http';
+import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
 import {catchError, Observable, tap, throwError} from 'rxjs';
 import {GetUserDto} from '../../../shared/models/get-user.dto';
 import {RecoveryUpdatePasswordDto} from '../../auth/models/recovery-update-password.dto';
@@ -9,6 +9,7 @@ import {ConfirmCodeDto} from '../models/confirm-code.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {UserStoreService} from '../../../core/store/user-store/user-store.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
+import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class UserService {
   private apiUrl = `${environment.apiUrl}/user`
   private httpClient = inject(HttpClient);
   private userStoreService = inject(UserStoreService);
+  private loggedStoreService = inject(LoggedStoreService);
   private toastService = inject(ToastService);
 
 
@@ -25,7 +27,6 @@ export class UserService {
       responseType: 'text'
     }).pipe(
       tap((value) => {
-        this.userStoreService.updateUser({userId: value});
         this.toastService.showSuccess('Udało się założyć konto');
       }),
       catchError((err, caught) => {
@@ -68,6 +69,10 @@ export class UserService {
     }).pipe(
       tap(value => {
         this.userStoreService.updateUser(value);
+      }),
+      catchError(( err: HttpErrorResponse) => {
+        this.loggedStoreService.setLogged(false);
+        return throwError(() => err)
       })
     );
   }

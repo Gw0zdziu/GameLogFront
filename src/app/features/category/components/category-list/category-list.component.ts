@@ -4,10 +4,15 @@ import {TableModule} from 'primeng/table';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
-import {Column} from '../../../../shared/models/column';
 import {CategoryStore} from '../../store/category-store';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {Button} from 'primeng/button';
+import {CategoryService} from '../../services/category.service';
+import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
+import {PaginationConfig} from '../../../../shared/models/pagination-config';
+import {IndexItemList} from '../../../../shared/models/index-item-list';
+import {Subject} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-category-list',
@@ -15,6 +20,8 @@ import {Button} from 'primeng/button';
     TableModule,
     ListItemComponent,
     Button,
+    PaginatorComponent,
+
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
@@ -25,60 +32,37 @@ import {Button} from 'primeng/button';
   private dialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
   store = inject(CategoryStore);
-  readonly columns = signal<Column<CategoryDto>[]>([]);
-  emptyMessage = $localize`Brak kategorii`;
+  readonly paginationState$ = this.store.paginationState
 
 
 
   ngOnInit(): void {
-    this.store.getCategories();
-    this.columns.set([
-      {
-        field: 'categoryName',
-        header: $localize`Nazwa kategorii`,
-      },
-      {
-        field: 'description',
-        header: $localize`Opis`,
-      },
-      {
-        field: 'gamesCount',
-        header: $localize`Liczba gier`,
-      },
-      {
-        field: 'createdDate',
-        header: $localize`Utworzono`,
-      },
-      {
-        field: 'updatedDate',
-        header: $localize`Zaktualizowano`,
-      },
-      {
-        header: $localize`Akcje`,
-        columnType: 'action',
-        actions: [
-          {
-            toolTip: $localize`Usuń`,
-            icon: 'pi pi-trash',
-            label: $localize`Usuń`,
-            actionType: 'delete',
-            action: (item: CategoryDto): void => {
-              this.deleteCategory(item.categoryId)
-            }
-          },
-          {
-            toolTip: $localize`Edytuj`,
-            icon: 'pi pi-pencil',
-            label: $localize`Edytuj`,
-            actionType: 'update',
-            action: (item: CategoryDto): void => {
-              this.updateCategory(item.categoryId)
-            }
-          }
-        ]
-      }
-    ])
+    this.store.getCategories({...this.paginationState$()});
+    /*this.categoriesService.getUserCategories({pageSize: this.paginationState$().pageSize, pageNumber: this.paginationState$().pageNumber})
+      .subscribe(x => {
+        this.paginationState$.set({
+          pageSize: x.pageSize,
+          pageNumber: x.pageNumber,
+          amountPagesList: x.amountPagesList
+        })
+        this.categories$.set(x.results)
+      })*/
   }
+
+  updatePageNumber(pageNumber: number): void {
+    this.store.getCategories({
+      pageNumber: pageNumber,
+      pageSize: this.paginationState$().pageSize
+    });
+  }
+
+  updatePageSize(pageSize: number): void {
+    this.store.getCategories({
+      pageNumber: this.paginationState$().pageNumber,
+      pageSize: pageSize
+    });
+  }
+
 
   updateCategory(categoryId: string): void {
     this.ref = this.dialogService.open(CategoryUpdateComponent, {
@@ -112,6 +96,4 @@ import {Button} from 'primeng/button';
       }
     })
   }
-
-
 }

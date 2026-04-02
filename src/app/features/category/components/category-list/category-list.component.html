@@ -6,9 +6,13 @@
     <ng-container ngProjectAs="body" >
       {{ item.description }}
     </ng-container>
+    <ng-container ngProjectAs="data">
+      Ilość gier: {{ item.gamesCount }}
+    </ng-container>
     <ng-container ngProjectAs="actions">
       <p-button icon="pi pi-pencil" severity="warn" (click)="updateCategory(item.categoryId)"/>
       <p-button icon="pi pi-trash" severity="danger" (click)="deleteCategory(item.categoryId)"/>
     </ng-container>
   </app-list-item>
 }
+<app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()" (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)"/>

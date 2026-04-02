@@ -7,6 +7,8 @@ import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStoreService} from '../../../core/store/user-store/user-store.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
+import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,9 @@ export class AuthService {
   private loggedStoreService = inject(LoggedStoreService);
   private userStoreService = inject(UserStoreService);
   private toastService = inject(ToastService);
+  private tokenStoreService = inject(TokenStoreService);
+  private router = inject(Router);
+
 
 
   loginUser(loginUser: LoginUserDto): Observable<string> {
@@ -26,11 +31,12 @@ export class AuthService {
       responseType: 'text'
     }).pipe(
       tap(value => {
-        this.userStoreService.updateUser({token: value});
+        this.tokenStoreService.updateToken(value);
         this.loggedStoreService.setLogged(true);
         this.toastService.showSuccess($localize`Pomyślnie zalogowano`);
       }),
-      catchError((err: HttpErrorResponse, caught) => {
+      catchError((err: HttpErrorResponse) => {
+        this.tokenStoreService.updateToken(null)
         this.loggedStoreService.setLogged(false);
         this.toastService.showError(err.error);
         return throwError(() => err)
@@ -46,17 +52,19 @@ export class AuthService {
       tap(() => {
       this.userStoreService.cleanStore();
       this.loggedStoreService.setLogged(false);
+      this.tokenStoreService.updateToken(null);
       this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
       }),
       catchError((err) => {
         this.userStoreService.cleanStore();
         this.loggedStoreService.setLogged(false);
+        this.tokenStoreService.updateToken(null);
         this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
         return of(err)
       }),);
   }
 
-  verify(){
+  verify(): Observable<boolean>{
     return this.httpClient.get<boolean>(`${this.apiUrl}/verify`, {
       withCredentials: true,
       context: new HttpContext()
@@ -65,9 +73,9 @@ export class AuthService {
       tap(() => {
         this.loggedStoreService.setLogged(true);
       }),
-      catchError((err, caught) => {
+      catchError(() => {
         this.loggedStoreService.setLogged(false);
-        return of(err)
+        return of()
       })
     )
   }

@@ -1,23 +1,31 @@
 import {CategoryDto} from '../models/category.dto';
-import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {patchState, signalStore, withHooks, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
-import { inject} from '@angular/core';
+import {inject} from '@angular/core';
 import {tapResponse} from '@ngrx/operators';
 import {CategoryService} from '../services/category.service';
 import {CategoryPostDto} from '../models/category-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
+import {PaginatedQuery} from '../../../shared/models/paginated-query';
+import {PaginationConfig} from '../../../shared/models/pagination-config';
 
 type CategoryState = {
   categories: CategoryDto[];
   isLoading: boolean;
+  paginationState: PaginationConfig;
 }
 
 const initialState: CategoryState = {
   categories: [],
   isLoading: false,
+  paginationState: {
+    pageNumber: 1,
+    pageSize: 5,
+    amountPagesList: []
+  }
 }
 
 export const CategoryStore = signalStore(
@@ -26,16 +34,42 @@ export const CategoryStore = signalStore(
   withMethods((store,
                categoryService = inject(CategoryService),
                toastService = inject(ToastService)) => ({
-    getCategories: rxMethod<void>(
+    getCategoriesByUserId: rxMethod<string>(
       pipe(
         tap(() => patchState(store, {
           isLoading: true,
         })),
-        switchMap(() => {
-          return categoryService.getUserCategories().pipe(
+        switchMap(x => {
+          return categoryService.getCategoriesByUserId(x).pipe(
             tapResponse({
               next: (value) => {
                 patchState(store, {isLoading: false, categories: value});
+              },
+              error: () => {
+                patchState(store, {isLoading: false});
+              },
+              complete: () => patchState(store, {isLoading: false}),
+            })
+          )
+        })
+      )
+    ),
+    getCategories: rxMethod<PaginatedQuery>(
+      pipe(
+        tap(() => patchState(store, {
+          isLoading: true,
+        })),
+        switchMap(x => {
+          return categoryService.getUserCategories(x).pipe(
+            tapResponse({
+              next: (value) => {
+                console.log(value.results);
+                const paginationState: PaginationConfig = {
+                  pageNumber: value.pageNumber,
+                  pageSize: value.pageSize,
+                  amountPagesList: value.amountPagesList,
+                }
+                patchState(store, {isLoading: false, categories: value.results, paginationState: paginationState});
               },
               error: () => {
                 patchState(store, {isLoading: false});
@@ -62,6 +96,7 @@ export const CategoryStore = signalStore(
           return categoryService.createCategory(value.newCategory).pipe(
             tapResponse({
               next: (response) => {
+                console.log(response)
                 patchState(store, {
                   isLoading: false,
                   categories: [...store.categories(), response]
