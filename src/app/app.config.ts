@@ -11,7 +11,7 @@ import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './core/pipes/format-date.pipe';
 import {AuthService} from './features/auth/services/auth.service';
-import {concatMap, filter, tap} from 'rxjs';
+import {catchError, concatMap, filter, of, tap, throwError} from 'rxjs';
 import {UserService} from './features/user/services/user.service';
 
 
@@ -112,7 +112,12 @@ export const appConfig: ApplicationConfig = {
               router.navigate(['home']);
             })
           )
-        })
+        }),
+        catchError(err => {
+          router.navigate(['login']);
+          return of(err)
+          }
+        )
       ).subscribe();
     })
   ]
