@@ -72,11 +72,11 @@ export class RegistrationComponent{
 
 
 
-  postNewUser(){
+  postNewUser(): void {
     this.isSubmit.set(true);
     const newUser: RegisterNewUserRequestDto = this.registerForm.value as RegisterNewUserRequestDto;
     this.userService.registerNewUser(newUser).pipe(delay(500)).subscribe({
-      next: (value) => this.router.navigate(['/confirm-account', value]),
+      next: () => this.router.navigate(['login']),
       error: () => {
         this.isSubmit.set(false);
       },
