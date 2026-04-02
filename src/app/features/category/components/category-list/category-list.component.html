@@ -1,10 +1,13 @@
-@for (item of categories$(); track item.categoryId) {
+@for (item of store.categories(); track item.categoryId) {
   <app-list-item>
     <ng-container ngProjectAs="header">
       {{ item.categoryName }}
     </ng-container>
     <ng-container ngProjectAs="body" >
       {{ item.description }}
+    </ng-container>
+    <ng-container ngProjectAs="data">
+      Ilość gier: {{ item.gamesCount }}
     </ng-container>
     <ng-container ngProjectAs="actions">
       <p-button icon="pi pi-pencil" severity="warn" (click)="updateCategory(item.categoryId)"/>

@@ -11,6 +11,8 @@ import {CategoryService} from '../../services/category.service';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {PaginationConfig} from '../../../../shared/models/pagination-config';
 import {IndexItemList} from '../../../../shared/models/index-item-list';
+import {Subject} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-category-list',
@@ -29,52 +31,36 @@ import {IndexItemList} from '../../../../shared/models/index-item-list';
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
-  private categoriesService = inject(CategoryService);
   store = inject(CategoryStore);
-  readonly indexCategories$ = signal<IndexItemList | null>(null)
-  readonly paginationState$ = signal<PaginationConfig>({
-    pageSize: 5,
-    pageNumber: 1,
-    amountPagesList: []
-  })
-  readonly categories$ = signal<CategoryDto[]>([]);
+  readonly paginationState$ = this.store.paginationState
 
 
 
   ngOnInit(): void {
-    this.categoriesService.getUserCategories({pageSize: this.paginationState$().pageSize, pageNumber: this.paginationState$().pageNumber})
+    this.store.getCategories({...this.paginationState$()});
+    /*this.categoriesService.getUserCategories({pageSize: this.paginationState$().pageSize, pageNumber: this.paginationState$().pageNumber})
       .subscribe(x => {
         this.paginationState$.set({
           pageSize: x.pageSize,
           pageNumber: x.pageNumber,
           amountPagesList: x.amountPagesList
         })
-        this.categories$.set(x.results);
-      })
+        this.categories$.set(x.results)
+      })*/
   }
 
   updatePageNumber(pageNumber: number): void {
-    this.categoriesService.getUserCategories({pageSize: this.paginationState$().pageSize, pageNumber: pageNumber})
-      .subscribe(x => {
-        this.paginationState$.set({
-          pageSize: x.pageSize,
-          pageNumber: x.pageNumber,
-          amountPagesList: x.amountPagesList
-        })
-        this.categories$.set(x.results);
-      })
+    this.store.getCategories({
+      pageNumber: pageNumber,
+      pageSize: this.paginationState$().pageSize
+    });
   }
 
   updatePageSize(pageSize: number): void {
-    this.categoriesService.getUserCategories({pageSize: pageSize, pageNumber: this.paginationState$().pageNumber})
-      .subscribe(x => {
-        this.paginationState$.set({
-          pageSize: x.pageSize,
-          pageNumber: x.pageNumber,
-          amountPagesList: x.amountPagesList
-        })
-        this.categories$.set(x.results);
-      })
+    this.store.getCategories({
+      pageNumber: this.paginationState$().pageNumber,
+      pageSize: pageSize
+    });
   }
 
 
