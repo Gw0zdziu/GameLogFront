@@ -10,15 +10,22 @@ import {GamePostDto} from '../models/game-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
 import {GamePutDto} from '../models/game-put.dto';
 import {PaginatedQuery} from '../../../shared/models/paginated-query';
+import {PaginationConfig} from '../../../shared/models/pagination-config';
 
 type GameState = {
   games: GameDto[];
   isLoading: boolean;
+  paginationState: PaginationConfig
 }
 
 const initialState: GameState = {
   games: [],
-  isLoading: false
+  isLoading: false,
+  paginationState: {
+    pageNumber: 1,
+    pageSize: 5,
+    amountPagesList: []
+  }
 };
 
 export const GameStore = signalStore(
@@ -38,12 +45,19 @@ export const GameStore = signalStore(
           return gameService.getUserGames(x).pipe(
             tapResponse({
               next: (value) =>{
+                const paginationState: PaginationConfig = {
+                  pageNumber: value.pageNumber,
+                  pageSize: value.pageSize,
+                  amountPagesList: value.amountPagesList,
+                }
                 patchState(store, {
                   isLoading: false,
                   games: value.results,
+                  paginationState: paginationState
                 });
               },
               error: (error: HttpErrorResponse) => {
+                console.log(error)
                 patchState(store, {isLoading: false});
                 toastService.showError(error.error);
               },
