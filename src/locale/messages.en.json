@@ -28,7 +28,7 @@
     "7094677931415236628": "Successfully log in",
     "3102485671464834047": "Successfully log out",
     "6286620917447099837": "Add",
-    "6627095595166084817": "New category",
+    "925927201833097792": "New category",
     "3963233157117336517": "Name",
     "8773557808037326263": "Field must contain at least 10 characters",
     "6239544047924585730": "Description",
@@ -43,7 +43,7 @@
     "1613989387415287551": "Do you want to delete the category?",
     "1767039200055020305": "Deleting category",
     "4805563396267068239": "Cancel",
-    "7251300716934955410": "Successfully created new category",
+    "8820165292833043352": "Successfully created new category",
     "2599400103857039992": "Successfully deleted category",
     "2035063416708523499": "Successfully updated category",
     "5566447139854508385": "Category",
@@ -66,6 +66,6 @@
     "4612088243994662427": "English",
     "751516568894972725": "No categories",
     "1932729579387923459": "No games",
-    "1453058182143810266": "New game"
+    "4717996637707937095": "New game"
   }
 }
