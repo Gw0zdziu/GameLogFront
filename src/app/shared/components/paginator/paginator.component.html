@@ -12,7 +12,7 @@
 <button class="button-page" type="button" [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]" (click)="selectLastPage()"><i class="pi pi-angle-double-right"></i></button>
 <select class="select-page-size" (change)="selectPageSize($event)">
   @for (size of pageSizes(); track size) {
-    <option [value]="size" >{{size}}</option>
+    <option  [value]="size" >{{size}}</option>
   }
 </select>
 
