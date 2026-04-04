@@ -63,7 +63,6 @@ export const CategoryStore = signalStore(
           return categoryService.getUserCategories(x).pipe(
             tapResponse({
               next: (value) => {
-                console.log(value.results);
                 const paginationState: PaginationConfig = {
                   pageNumber: value.pageNumber,
                   pageSize: value.pageSize,
@@ -96,13 +95,15 @@ export const CategoryStore = signalStore(
           return categoryService.createCategory(value.newCategory).pipe(
             tapResponse({
               next: (response) => {
-                console.log(response)
-                patchState(store, {
-                  isLoading: false,
-                  categories: [...store.categories(), response]
-                });
+                if (store.categories().length < store.paginationState.pageSize()){
+                  patchState(store, {
+                    isLoading: false,
+                    categories: [...store.categories(), response]
+                  });
+                }
+
                 value.onSuccess();
-                toastService.showSuccess($localize`Pomyślnie utworzono nową̨ kategorie`);
+                toastService.showSuccess($localize`Pomyślnie utworzono nową kategorie`);
               },
               error: (error: HttpErrorResponse) => {
                 toastService.showError(error.error);
