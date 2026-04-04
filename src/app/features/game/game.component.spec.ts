@@ -71,7 +71,7 @@ describe('GameComponent', () => {
 
     it('should open method called with valid configuration', () => {
       const config: DynamicDialogConfig = {
-        header: 'Dodaj nową kategorię',
+        header: 'Nowa kategoria',
         modal: true,
       };
       expect(dialogServiceMock.open).toHaveBeenCalledWith(GameAddComponent, config);
