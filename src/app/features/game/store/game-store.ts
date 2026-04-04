@@ -57,7 +57,6 @@ export const GameStore = signalStore(
                 });
               },
               error: (error: HttpErrorResponse) => {
-                console.log(error)
                 patchState(store, {isLoading: false});
                 toastService.showError(error.error);
               },
@@ -80,10 +79,12 @@ export const GameStore = signalStore(
             .pipe(
               tapResponse({
                 next: (response) => {
-                  patchState(store, {
-                    isLoading: false,
-                    games: [...store.games(), response]
-                  })
+                  if (store.games().length < store.paginationState.pageSize()){
+                    patchState(store, {
+                      isLoading: false,
+                      games: [...store.games(), response]
+                    })
+                  }
                   value.onSuccess();
                   toastService.showSuccess($localize`Pomyślnie dodano grę`);
                 },
