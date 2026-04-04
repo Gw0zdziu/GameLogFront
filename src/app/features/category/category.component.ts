@@ -19,8 +19,11 @@ export class CategoryComponent {
 
   openAddCategoryDialog(): void {
     this.ref = this.dialogService.open(CategoryAddComponent, {
-      header: $localize`Dodaj nową kategorię`,
+      header: $localize`Nowa kategoria`,
       modal: true,
+      dismissableMask: true,
+      closable: true,
+      focusOnShow: false,
     });
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) {return;}

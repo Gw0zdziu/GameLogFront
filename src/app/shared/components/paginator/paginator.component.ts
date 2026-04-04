@@ -39,14 +39,12 @@ export class PaginatorComponent {
   }
 
   selectFirstPage(): void {
-    console.log('selectFirstPage');
     const firstIndexPage = this.paginationConfig().amountPagesList[0];
     this.paginationConfig().pageNumber = firstIndexPage
     this.pageNumberChange.emit(firstIndexPage);
   }
 
   selectPreviousPage(): void {
-    console.log('selectPreviousPage');
     if (this.paginationConfig().pageNumber > 1) {
       this.paginationConfig().pageNumber--;
       const numberPage = this.paginationConfig().pageNumber;

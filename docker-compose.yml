@@ -1,0 +1,41 @@
+version: "1"
+services:
+  frontend:
+    container_name: "gamelogfront"
+    build:
+      dockerfile: Dockerfile.dev
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+    depends_on:
+      - backend
+  backend:
+    container_name: "gamelogback"
+    build:
+      context: E:\Projects\C#\GameLogBack
+      dockerfile: E:\Projects\C#\GameLogBack\Dockerfile.dev
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - database
+  database:
+    image: "postgres"
+    container_name: "gamelogdb"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: gamelogdb
+      POSTGRES_DB: gamelogdb
+    networks:
+      - backend
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
