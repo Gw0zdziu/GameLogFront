@@ -60,7 +60,7 @@ describe('CategoryComponent', () => {
     it('should called open method 1 times', () => {
       //ARRANGE
       const config = {
-        header: 'Dodaj nową kategorię',
+        header: 'Nowa kategoria',
         modal: true,
       };
       //ACT
