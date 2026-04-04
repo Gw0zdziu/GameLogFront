@@ -22,8 +22,11 @@ export class GameComponent {
 
    openAddGameDialog(): void {
      this.ref = this.dialogService.open(GameAddComponent, {
-          header: $localize`Dodaj nową grę`,
+       header: $localize`Nowa gra`,
        modal: true,
+       dismissableMask: true,
+       closable: true,
+       focusOnShow: false,
      })
      this.ref.onClose.subscribe((x: boolean) => {
        if (!x) {return;}
