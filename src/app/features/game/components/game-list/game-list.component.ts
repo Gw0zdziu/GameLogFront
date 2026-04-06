@@ -27,10 +27,8 @@ import {PaginatorComponent} from '../../../../shared/components/paginator/pagina
 export class GameListComponent implements OnInit{
   private confirmationService = inject(ConfirmationService);
   private dialogService = inject(DialogService);
-  private gamesService = inject(GameService);
   store = inject(GameStore);
   ref: DynamicDialogRef | undefined;
-  readonly indexGames$ = signal<IndexItemList | null>(null)
   readonly paginationState$ = this.store.paginationState;
   readonly games$ = this.store.games;
 
