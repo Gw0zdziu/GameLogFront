@@ -15,18 +15,11 @@ import {LoggedStoreService} from './core/store/logged-store/logged-store.service
     Toast,
     ConfirmDialog,
     TableModule,
-    ProgressSpinner,
   ],
   template: `
-    @if (loading$()) {
-      <div class="spinner">
-        <p-progress-spinner ariaLabel="loading" />
-      </div>
-    } @else {
     <router-outlet/>
     <p-toast position="bottom-center" [life]="2000"/>
     <p-confirmdialog ariaLabel="Confirm dialog" />
-    }
   `,
   styleUrl: './app.component.css',
 })
@@ -41,14 +34,8 @@ export class AppComponent implements OnInit{
     @Inject(LOCALE_ID) public activeLocale: string
   ) {
   }
-  store = inject(LoggedStoreService)
-  isLogged$ = this.store.isLogged$;
-  readonly loading$ = signal<boolean>(true)
 
   ngOnInit(): void {
-    if (this.loading$ !== null){
-      this.loading$.set(false)
-    }
     this.renderer.setAttribute(this.document.documentElement,'dark-theme', this.themeState$.theme);
     const element = this.document.querySelector('html') as HTMLHtmlElement;
     if (this.themeState$.theme === 'dark') {
