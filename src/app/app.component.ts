@@ -46,9 +46,11 @@ export class AppComponent implements OnInit{
   readonly loading$ = signal<boolean>(true)
 
   ngOnInit(): void {
-    if (this.loading$ !== null){
-      this.loading$.set(false)
-    }
+    setTimeout(() => {
+      if (this.loading$ !== null){
+        this.loading$.set(false)
+      }
+    }, 500)
     this.renderer.setAttribute(this.document.documentElement,'dark-theme', this.themeState$.theme);
     const element = this.document.querySelector('html') as HTMLHtmlElement;
     if (this.themeState$.theme === 'dark') {
