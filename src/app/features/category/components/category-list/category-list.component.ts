@@ -32,7 +32,8 @@ import {AsyncPipe} from '@angular/common';
   private dialogService = inject(DialogService);
   private ref: DynamicDialogRef | undefined;
   store = inject(CategoryStore);
-  readonly paginationState$ = this.store.paginationState
+  readonly paginationState$ = this.store.paginationState;
+  readonly categories$ = this.store.categories;
 
 
 
