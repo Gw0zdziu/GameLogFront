@@ -1,4 +1,4 @@
-@for (item of store.categories(); track item.categoryId) {
+@for (item of categories$(); track item.categoryId) {
   <app-list-item>
     <ng-container ngProjectAs="header">
       {{ item.categoryName }}
