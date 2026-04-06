@@ -3,3 +3,10 @@
   height: 100vh;
   background: var(--background);
 }
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
