@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {CategoryDto} from '../../models/category.dto';
 import {TableModule} from 'primeng/table';
 import {ConfirmationService} from 'primeng/api';
@@ -6,22 +6,20 @@ import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
 import {CategoryStore} from '../../store/category-store';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
-import {Button} from 'primeng/button';
-import {CategoryService} from '../../services/category.service';
+import {Button, ButtonDirective} from 'primeng/button';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
-import {PaginationConfig} from '../../../../shared/models/pagination-config';
-import {IndexItemList} from '../../../../shared/models/index-item-list';
-import {Subject} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {faPencil, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
+
 
 @Component({
   selector: 'app-category-list',
   imports: [
     TableModule,
     ListItemComponent,
-    Button,
     PaginatorComponent,
-
+    ButtonDirective,
+    FaIconComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
@@ -34,8 +32,8 @@ import {AsyncPipe} from '@angular/common';
   store = inject(CategoryStore);
   readonly paginationState$ = this.store.paginationState;
   readonly categories$ = this.store.categories;
-
-
+  faPencil = faPencil;
+  faTrash = faTrash;
 
   ngOnInit(): void {
     this.store.getCategories({...this.paginationState$()});
@@ -97,4 +95,5 @@ import {AsyncPipe} from '@angular/common';
       }
     })
   }
+
 }
