@@ -1,15 +1,19 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, Signal} from '@angular/core';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
 import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
 import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.component';
 import {Button} from 'primeng/button';
 import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
+import {faGamepad, faLayerGroup} from '@fortawesome/free-solid-svg-icons';
+import {MenuItem} from '../../../features/game/models/menu-item';
+
+
 
 @Component({
   selector: 'app-menu',
   imports: [
     MenuItemComponent,
-    Button
+    Button,
   ],
   host: {
     '[class.opened]': 'isMenuOpen$()'
@@ -40,22 +44,17 @@ class MenuComponent {
   private loggedStoreService = inject(LoggedStoreService);
   isLogged$ = this.loggedStoreService.isLogged$;
   isMenuOpen$ = this.layoutService.isMenuOpen$;
-  readonly menuItems = computed(() => {
+  readonly menuItems: Signal<MenuItem[] > = computed(() => {
     if (this.isLogged$()) {
       return [
-        /*{
-          label: $localize`Pulpit nawigacyjny`,
-          icon: 'pi pi-fw pi-home',
-          routerLink: './dashboard'
-        },*/
         {
           label: $localize`Kategorie gier`,
-          icon: 'pi pi-fw pi-tags',
+          icon: faLayerGroup,
           routerLink: './categories'
         },
         {
           label: $localize`Gry`,
-          icon: 'pi pi-fw pi-video',
+          icon: faGamepad,
           routerLink: './games'
         }
       ]
