@@ -5,7 +5,7 @@ import {MenuItemComponent} from '../../../shared/components/menu-item/menu-item.
 import {Button} from 'primeng/button';
 import {CloseSidebarDirective} from '../../directives/close-sidebar.directive';
 import {faGamepad, faLayerGroup} from '@fortawesome/free-solid-svg-icons';
-import {MenuItem} from '../../../features/game/models/menu-item';
+import {MenuItem} from '../../models/menu-item';
 
 
 
