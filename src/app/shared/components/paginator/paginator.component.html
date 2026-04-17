@@ -1,18 +1,32 @@
 @let pageNumber = paginationConfig().pageNumber;
 @let amountPagesList = paginationConfig().amountPagesList;
-<button class="button-page" type="button" [disabled]="pageNumber === 1" (click)="selectFirstPage()"><i class=" pi pi-angle-double-left"></i></button>
-<button class="button-page" type="button" [disabled]="pageNumber === 1" (click)="selectPreviousPage()"><i class=" pi pi-angle-left"></i></button>
+<button class="button-page" pButton type="button"  [disabled]="pageNumber === 1"
+        [rounded]="true" [text]="true" (click)="selectFirstPage()">
+  <fa-icon [icon]="faAnglesLeft" />
+</button>
+<button class="button-page" pButton type="button"  [disabled]="pageNumber === 1"
+        [rounded]="true" [text]="true" (click)="selectPreviousPage()">
+  <fa-icon [icon]="faAngleLeft" />
+</button>
 @for (item of amountPagesList; track item) {
   <input style="display: none" type="radio" [checked]="item === pageNumber" [id]="item.toString()" [name]="item" [value]="item" (change)="selectPage($event)">
   <label class="button-page" [for]="item.toString()">
     {{item}}
   </label>
 }
-<button class="button-page" type="button"  [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]" (click)="selectNextPage()"><i class="pi pi-angle-right"></i></button>
-<button class="button-page" type="button" [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]" (click)="selectLastPage()"><i class="pi pi-angle-double-right"></i></button>
-<select class="select-page-size" (change)="selectPageSize($event)">
+<button class="button-page" pButton type="button"  [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]"
+        [rounded]="true" [text]="true" (click)="selectNextPage()">
+  <fa-icon [icon]="faAngleRight" />
+</button>
+<button class="button-page" pButton type="button"  [disabled]="pageNumber === amountPagesList[amountPagesList.length - 1]"
+        [rounded]="true" [text]="true" (click)="selectLastPage()">
+  <fa-icon [icon]="faAnglesRight" />
+</button>
+<p-select styleClass="select-page-size" [options]="pageSizes()"/>
+
+<!--<select  class="select-page-size" (change)="selectPageSize($event)">
   @for (size of pageSizes(); track size) {
     <option  [value]="size" >{{size}}</option>
   }
-</select>
+</select>-->
 

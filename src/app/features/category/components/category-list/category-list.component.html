@@ -10,9 +10,15 @@
       Ilość gier: {{ item.gamesCount }}
     </ng-container>
     <ng-container ngProjectAs="actions">
-      <p-button icon="pi pi-pencil" severity="warn" (click)="updateCategory(item.categoryId)"/>
-      <p-button icon="pi pi-trash" severity="danger" (click)="deleteCategory(item.categoryId)"/>
+      <button pButton severity="warn"  type="button"  (click)="updateCategory(item.categoryId)">
+        <fa-icon [icon]="faPencil" />
+      </button>
+      <button pButton severity="danger"  type="button" (click)="deleteCategory(item.categoryId)">
+        <fa-icon [icon]="faTrash" />
+      </button>
     </ng-container>
   </app-list-item>
+} @empty {
+  <section class="empty-list">Nie posiadasz kategorii</section>
 }
 <app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()" (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)"/>

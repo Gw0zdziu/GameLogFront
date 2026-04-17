@@ -1,16 +1,21 @@
 import {ChangeDetectionStrategy, Component, inject, Renderer2} from '@angular/core';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {DOCUMENT} from '@angular/common';
 import {ThemeStoreService} from '../../core/store/theme-store/theme-store.service';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faMoon, faPencil, faSun} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-theme-toggle',
   imports: [
-    Button
+    ButtonDirective,
+    FaIconComponent
   ],
   template:`
-    <p-button ariaLabel="Toggle Theme Button" class="theme-toggle" icon="pi pi-{{theme().icon}}"
-              [rounded]="true" [text]="true" (click)="toggleTheme()"/>
+    <button pButton  type="button"
+            [rounded]="true" [text]="true" (click)="toggleTheme()">
+      <fa-icon size="lg" [icon]="theme().isDark ? faMoon : faSun" />
+    </button>
   `,
   styleUrl: './theme-toggle.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +25,8 @@ export class ThemeToggleComponent {
   private renderer = inject(Renderer2);
   private themeStore = inject(ThemeStoreService);
   theme = this.themeStore.theme$;
+  faMoon = faMoon;
+  faSun = faSun
 
 
   toggleTheme(): void {
@@ -33,4 +40,5 @@ export class ThemeToggleComponent {
     }
     this.themeStore.setTheme();
   }
+
 }

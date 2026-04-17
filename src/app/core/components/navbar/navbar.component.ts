@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Menu} from 'primeng/menu';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
@@ -7,24 +7,34 @@ import {LoggedStoreService} from '../../store/logged-store/logged-store.service'
 import {ThemeToggleComponent} from '../../../features/theme-toggle/theme-toggle.component';
 import {LangToggleComponent} from '../../../features/lang-toggle/lang-toggle.component';
 import {Router} from '@angular/router';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faBars, faUser } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'header[app-navbar]',
   imports: [
-    Button,
     Menu,
     ThemeToggleComponent,
-    LangToggleComponent
+    LangToggleComponent,
+    ButtonDirective,
+    FaIconComponent
   ],
   styleUrl: './navbar.component.css',
   template: `
-    <p-button ariaLabel="Menu button" class="menu-button" icon="pi pi-bars"
-              [rounded]="false" [text]="true" (click)="toggleMenu()"/>
+    <button pButton  type="button"
+            [rounded]="true" [text]="true" (click)="toggleMenu()">
+      <fa-icon size="lg" [icon]="faBar" />
+    </button>
     <span class="logo">GameLog</span>
+
     <app-lang-toggle/>
     <app-theme-toggle />
-    <p-button ariaLabel="User Button"
-              class="user-button" icon="pi pi-user" [rounded]="true" [text]="true" (click)="menu.toggle($event)"/>
+    <!--<p-button ariaLabel="User Button"
+              class="user-button" icon="pi pi-user" [rounded]="true" [text]="true" (click)="menu.toggle($event)"/>-->
+    <button pButton  type="button"
+            [rounded]="true" [text]="true" (click)="menu.toggle($event)">
+      <fa-icon size="lg" [icon]="faUser" />
+    </button>
     <p-menu #menu class="user-menu" [model]="items()" [popup]="true" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +45,8 @@ export class NavbarComponent {
   private loggedStoreService = inject(LoggedStoreService);
   private router = inject(Router);
   isLogged$ = this.loggedStoreService.isLogged$;
+  faUser = faUser;
+  faBar = faBars
   readonly items = computed(() =>{
     if (this.isLogged$()) {
       return [
@@ -73,4 +85,5 @@ export class NavbarComponent {
       }
     )
   }
+
 }

@@ -14,5 +14,7 @@
           <p-button icon="pi pi-trash" severity="danger" (click)="deleteGame(item.gameId)"/>
         </ng-container>
       </app-list-item>
+    } @empty {
+      <section class="empty-list">Nie posiadasz gier</section>
     }
-    <app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()"  (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)"></app-paginator>
+    <app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()"  (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)" />

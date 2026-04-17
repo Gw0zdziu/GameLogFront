@@ -1,20 +1,26 @@
 import {ChangeDetectionStrategy, Component, Inject, LOCALE_ID} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {Menu} from 'primeng/menu';
 import {languages} from '../../shared/constants/languages';
 import {Ripple} from 'primeng/ripple';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faLanguage, faMoon, faSun} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lang-toggle',
   imports: [
     FormsModule,
-    Button,
     Menu,
-    Ripple
+    Ripple,
+    ButtonDirective,
+    FaIconComponent
   ],
   template:`
-    <p-button icon="pi pi-language" [rounded]="true" [text]="true" (click)="langMenu.toggle($event)" />
+    <button pButton  type="button"
+            [rounded]="true" [text]="true" (click)="langMenu.toggle($event)">
+      <fa-icon size="lg" [icon]="faLanguage" />
+    </button>
     <p-menu #langMenu [model]="languages" [popup]="true">
       <ng-template #item let-item>
         <button class="lang-button" pRipple type="button" (click)="toggleLang(item.langCode)" >
@@ -28,6 +34,7 @@ import {Ripple} from 'primeng/ripple';
 })
 export class LangToggleComponent {
   languages = languages;
+  faLanguage = faLanguage;
 
 
   constructor(
@@ -41,5 +48,4 @@ export class LangToggleComponent {
       location.href = `/${langCode}${pathWithoutLang}`;
     }
   }
-
 }
