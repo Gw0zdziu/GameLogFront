@@ -10,8 +10,12 @@
           Zagrano w: {{ item.yearPlayed | formatDate }}
         </ng-container>
         <ng-container ngProjectAs="actions">
-          <p-button icon="pi pi-pencil" severity="warn" (click)="updateGame(item.gameId)"/>
-          <p-button icon="pi pi-trash" severity="danger" (click)="deleteGame(item.gameId)"/>
+            <button pButton severity="warn"  type="button"  (click)="updateGame(item.gameId)">
+              <fa-icon [icon]="faPencil" />
+            </button>
+            <button pButton severity="danger"  type="button" (click)="deleteGame(item.gameId)">
+              <fa-icon [icon]="faTrash" />
+            </button>
         </ng-container>
       </app-list-item>
     } @empty {
