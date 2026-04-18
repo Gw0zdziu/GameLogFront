@@ -2,8 +2,8 @@
 
 :root {
   color-scheme: light dark;
-  --black-raw: light-dark(#0f1219, #ffffff);
-  --black: light-dark(#0f1219, #ffffff);
+  --black-raw: light-dark(#46464e, #ffffff);
+  --black: light-dark(#46464e, #ffffff);
   --gray-light: light-dark(#ffffff, #262a33);
   --background: light-dark(#fff, #1a1b26);
 
