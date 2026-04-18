@@ -3,7 +3,7 @@ import {GameStore} from '../../store/game-store';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameUpdateComponent} from '../game-update/game-update.component';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 import {IndexItemList} from '../../../../shared/models/index-item-list';
@@ -11,14 +11,17 @@ import {PaginationConfig} from '../../../../shared/models/pagination-config';
 import {GameService} from '../../services/game.service';
 import {GameDto} from '../../models/game.dto';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faPencil, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-game-list',
   imports: [
-    Button,
     ListItemComponent,
     FormatDatePipe,
-    PaginatorComponent
+    PaginatorComponent,
+    ButtonDirective,
+    FaIconComponent
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css',
@@ -76,4 +79,7 @@ export class GameListComponent implements OnInit{
       if (!x) {return;}
     });
   }
+
+  protected readonly faTrash = faTrash;
+  protected readonly faPencil = faPencil;
 }
