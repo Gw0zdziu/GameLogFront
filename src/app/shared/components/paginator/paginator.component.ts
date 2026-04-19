@@ -10,7 +10,6 @@ import {Select} from 'primeng/select';
   imports: [
     ButtonDirective,
     FaIconComponent,
-    Select
 
   ],
   templateUrl: './paginator.component.html',

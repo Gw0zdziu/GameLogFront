@@ -22,6 +22,9 @@
         [rounded]="true" [text]="true" (click)="selectLastPage()">
   <fa-icon [icon]="faAnglesRight" />
 </button>
-<p-select styleClass="select-page-size" [options]="pageSizes()"/>
-
+<select  class="select-page-size button-page" (change)="selectPageSize($event)">
+  @for (size of pageSizes(); track size) {
+    <option  [value]="size" >{{size}}</option>
+  }
+</select>
 
