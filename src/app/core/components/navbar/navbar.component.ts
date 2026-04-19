@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
-import {Button, ButtonDirective} from 'primeng/button';
+import {ButtonDirective} from 'primeng/button';
 import {Menu} from 'primeng/menu';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {LayoutService} from '../../../shared/services/layout/layout.service';
