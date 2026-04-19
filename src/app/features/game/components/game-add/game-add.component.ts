@@ -5,7 +5,7 @@ import {Message} from 'primeng/message';
 import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
 import {DatePicker} from 'primeng/datepicker';
 import {CategoryStore} from '../../../category/store/category-store';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
@@ -31,16 +31,23 @@ export class GameAddComponent implements  OnInit{
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
     private userStoreService = inject(UserStoreService);
+    private formBuilder = inject(FormBuilder);
     gameStore = inject(GameStore);
     readonly isNotSelectCategory = signal(true);
   readonly filteredCategories = signal<CategoryDto[]>([]);
-  newGameForm = new FormGroup(
-      {
-        gameName: new FormControl(''),
-        categoryId: new FormControl(''),
-        yearPlayed: new FormControl(new Date())
-      }
-    )
+  newGameForm = this.formBuilder.group({
+    gameName: ['', {
+      validators: [Validators.required, Validators.minLength(3)],
+      blur: true,
+    }],
+    categoryId: ['', {
+      validators: [Validators.required],
+      blur: true,
+    }],
+    yearPlayed: [new Date(), {
+      validators: [],
+    }]
+  })
 
   ngOnInit(): void {
     const userId = this.userStoreService.user$()?.userId as string;
