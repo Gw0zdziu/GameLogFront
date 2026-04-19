@@ -1,18 +1,14 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {GameStore} from '../../store/game-store';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameUpdateComponent} from '../game-update/game-update.component';
-import {Button, ButtonDirective} from 'primeng/button';
+import {ButtonDirective} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
-import {IndexItemList} from '../../../../shared/models/index-item-list';
-import {PaginationConfig} from '../../../../shared/models/pagination-config';
-import {GameService} from '../../services/game.service';
-import {GameDto} from '../../models/game.dto';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {faPencil, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-game-list',
@@ -34,6 +30,8 @@ export class GameListComponent implements OnInit{
   ref: DynamicDialogRef | undefined;
   readonly paginationState$ = this.store.paginationState;
   readonly games$ = this.store.games;
+  faTrash = faTrash;
+  faPencil = faPencil;
 
   ngOnInit(): void {
     this.store.getGames({...this.paginationState$()})
@@ -80,6 +78,4 @@ export class GameListComponent implements OnInit{
     });
   }
 
-  protected readonly faTrash = faTrash;
-  protected readonly faPencil = faPencil;
 }

@@ -26,9 +26,6 @@ export class PaginatorComponent {
   faAngleRight = faAngleLeft;
   faAnglesLeft = faAnglesLeft;
   faAnglesRight = faAnglesRight;
-  faUser = faUser;
-
-
   selectPage($event: Event): void {
     const value = ($event.target as HTMLInputElement).value;
     this.paginationConfig().pageNumber = Number(value);
