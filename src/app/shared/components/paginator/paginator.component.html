@@ -8,7 +8,7 @@
         [rounded]="true" [text]="true" (click)="selectPreviousPage()">
   <fa-icon [icon]="faAngleLeft" />
 </button>
-@for (item of amountPagesList; track item) {
+@for (item of pagination(); track item) {
   <input style="display: none" type="radio" [checked]="item === pageNumber" [id]="item.toString()" [name]="item" [value]="item" (change)="selectPage($event)">
   <label class="button-page" [for]="item.toString()">
     {{item}}
@@ -24,9 +24,4 @@
 </button>
 <p-select styleClass="select-page-size" [options]="pageSizes()"/>
 
-<!--<select  class="select-page-size" (change)="selectPageSize($event)">
-  @for (size of pageSizes(); track size) {
-    <option  [value]="size" >{{size}}</option>
-  }
-</select>-->
 
