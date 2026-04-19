@@ -1,1 +1,24 @@
-<app-category-form  (submitEmitter)="submitForm()" [(category)]="updatedCategory"></app-category-form>
+<form [formGroup]="updatedCategoryForm" (ngSubmit)="submitForm()">
+  <section class="input">
+    <label for="username" i18n>Nazwa</label>
+    <input formControlName="categoryName" id="username" pInputText pSize="large" type="text">
+    @if (updatedCategoryForm.controls.categoryName.invalid && updatedCategoryForm.controls.categoryName.touched) {
+      @if (updatedCategoryForm.controls.categoryName.errors?.required) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
+      }
+      @if (updatedCategoryForm.controls.categoryName.errors?.minlength) {
+        <p-message i18n severity="error" size="small" variant="simple">Pole musi zawierać co najmniej 3 znaków</p-message>
+      }
+    }
+  </section>
+  <section class="input">
+    <label for="username" i18n>Opis</label>
+    <textarea fluid formControlName="description" id="username" pTextarea></textarea>
+  </section>
+  <button class="button" pButton type="submit" [disabled]="updatedCategoryForm.invalid">
+    @if (store.isLoading()) {
+      <i class="pi pi-spin pi-spinner"></i>
+    }
+    <span i18n pButtonLabel>Dodaj</span>
+  </button>
+</form>
