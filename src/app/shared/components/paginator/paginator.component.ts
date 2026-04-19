@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, input, output} from '@angular/core';
 import {PaginationConfig} from '../../models/pagination-config';
-import { faAngleLeft, faAnglesLeft, faAnglesRight, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faUser } from "@fortawesome/free-solid-svg-icons";
 import {ButtonDirective} from 'primeng/button';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {Select} from 'primeng/select';
@@ -10,20 +10,40 @@ import {Select} from 'primeng/select';
   imports: [
     ButtonDirective,
     FaIconComponent,
-    Select
 
   ],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginatorComponent {
   readonly paginationConfig = input.required<PaginationConfig>()
   readonly pageSizes = input.required<number[]>();
   readonly pageNumberChange = output<number>()
   readonly pageSizeChange = output<number>()
+  readonly pagination = computed(() => {
+    let pages: number[];
+    let firstPage: number;
+    let lastPage: number;
+    const selectedPageIndex = this.paginationConfig().amountPagesList.indexOf(this.paginationConfig().pageNumber);
+    if (this.paginationConfig().amountPagesList.length === 1){
+      pages = [...this.paginationConfig().amountPagesList]
+      return pages;
+    } else {
+      if (this.paginationConfig().pageNumber ===1) {
+        pages = [...this.paginationConfig().amountPagesList.slice(0, 2)]
+      } else if (this.paginationConfig().pageNumber === this.paginationConfig().amountPagesList.length) {
+        pages = [...this.paginationConfig().amountPagesList.slice(-2)]
+      } else {
+        firstPage = this.paginationConfig().amountPagesList[selectedPageIndex - 1];
+        lastPage = this.paginationConfig().amountPagesList[selectedPageIndex + 1];
+        return pages = [firstPage, this.paginationConfig().pageNumber, lastPage]
+      }
+    }
+    return pages;
+  });
   faAngleLeft = faAngleLeft;
-  faAngleRight = faAngleLeft;
+  faAngleRight = faAngleRight;
   faAnglesLeft = faAnglesLeft;
   faAnglesRight = faAnglesRight;
   selectPage($event: Event): void {
@@ -34,7 +54,6 @@ export class PaginatorComponent {
 
   selectPageSize($event: Event): void {
     const value = Number(($event.target as HTMLInputElement).value);
-    this.paginationConfig().pageSize = value;
     this.paginationConfig().pageNumber = 1;
     this.pageSizeChange.emit(value);
   }
@@ -54,18 +73,14 @@ export class PaginatorComponent {
 
   selectPreviousPage(): void {
     if (this.paginationConfig().pageNumber > 1) {
-      this.paginationConfig().pageNumber--;
-      const numberPage = this.paginationConfig().pageNumber;
-      this.paginationConfig().pageNumber = numberPage
+      const numberPage = this.paginationConfig().pageNumber - 1;
       this.pageNumberChange.emit(numberPage);
     }
   }
 
   selectNextPage(): void {
     if (this.paginationConfig().pageNumber < this.paginationConfig().amountPagesList.length){
-      this.paginationConfig().pageNumber++
-      const numberPage = this.paginationConfig().pageNumber;
-      this.paginationConfig().pageNumber = numberPage
+      const numberPage = this.paginationConfig().pageNumber + 1;
       this.pageNumberChange.emit(numberPage);
     }
   }
