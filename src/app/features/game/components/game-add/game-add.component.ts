@@ -76,7 +76,7 @@ export class GameAddComponent implements  OnInit{
   }
 
   submitNewGame(): void{
-    /* this.gameStore.postGame({
+     this.gameStore.postGame({
        newGame: {
          gameName: this.newGameForm.get('gameName')?.value as string,
          categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
@@ -85,25 +85,14 @@ export class GameAddComponent implements  OnInit{
        onSuccess: () => {
          this.dynamicDialogRef.close(true);
        }
-     });*/
+     });
   }
 
 
   filterGames(event: AutoCompleteCompleteEvent): void {
-    const data: GameDetailsDto[] = [
-      {
-        image: 'https://img.gamebrain.co/games/792/battlefield_6_battlefield_2025_110.jpg',
-        name: 'Battlefield 6',
-      },
-      {
-        image: 'https://img.gamebrain.co/games/792/battlefield_6_battlefield_2025_110.jpg',
-        name: 'Battlefield 6',
-      }
-    ];
-    this.games.set(data);
-   /* this.gameBrainApiService.getGames(event.query).subscribe(data => {
+    this.gameBrainApiService.getGames(event.query).subscribe(data => {
           this.games.set(data);
-        })*/
+        })
   }
 
 }
