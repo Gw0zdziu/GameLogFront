@@ -1,3 +1,7 @@
+:host >>> .p-autocomplete-option{
+  padding: 0;
+}
+
 form{
   display: flex;
   flex-direction: column;
@@ -7,4 +11,25 @@ form{
   display: inherit;
   align-self: flex-end;
   margin-top: 1rem;
+}
+
+.game-item {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-image{
+  height: 75px;
+  width: 50px;
+  object-fit: contain;
+  aspect-ratio: 3/2;
+  border-radius: 10px;
+}
+
+.game-name {
+  font-weight: bold;
+  font-size: 1.25rem;
 }
