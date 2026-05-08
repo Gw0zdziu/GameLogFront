@@ -14,6 +14,6 @@ export class GamebrainapiService {
   getGames(gameName: string): Observable<GameDetailsDto[]>{
     const queryParams = new HttpParams()
       .set('query', gameName)
-    return this.http.get<GameDetailsDto[]>(`${this.apiUrl}/gameName`, {params: queryParams});
+    return this.http.get<GameDetailsDto[]>(`${this.apiUrl}/search-game-details`, {params: queryParams});
   }
 }
