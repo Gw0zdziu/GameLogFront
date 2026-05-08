@@ -1,19 +1,23 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal, ViewChild, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {GameStore} from '../../store/game-store';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Message} from 'primeng/message';
-import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
+import {AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent} from 'primeng/autocomplete';
 import {DatePicker} from 'primeng/datepicker';
 import {CategoryStore} from '../../../category/store/category-store';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
-import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
-import {debounceTime, distinctUntilChanged, filter, fromEvent, map} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
 import {GameDetailsDto} from '../../models/game-details.dto';
+import {ProgressSpinner} from 'primeng/progressspinner';
+
+export interface EventSelect<T> extends  AutoCompleteSelectEvent{
+  image: string;
+  value: T;
+}
+
 
 @Component({
   selector: 'app-game-add',
@@ -24,13 +28,15 @@ import {GameDetailsDto} from '../../models/game-details.dto';
     FormsModule,
     ReactiveFormsModule,
     ButtonDirective,
-    ButtonLabel
+    ButtonLabel,
+    ProgressSpinner
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameAddComponent implements  OnInit{
+    private defaultGameImage = './g'
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
     private userStoreService = inject(UserStoreService);
@@ -41,8 +47,9 @@ export class GameAddComponent implements  OnInit{
     readonly isNotSelectCategory = signal(true);
     readonly filteredCategories = signal<CategoryDto[]>([]);
     newGameForm = this.formBuilder.group({
-      gameName: [null, {
-        validators: [Validators.required, Validators.minLength(3)],
+      gameName: ['', {
+        validators: [Validators.required],
+        nullable: true,
         blur: true,
       }],
       categoryId: ['', {
@@ -51,6 +58,10 @@ export class GameAddComponent implements  OnInit{
       }],
       yearPlayed: [new Date(), {
         validators: [],
+      }],
+      gameImage: ['', {
+        blur: true,
+        nullable: true,
       }]
     })
     game: any | undefined;
@@ -71,14 +82,14 @@ export class GameAddComponent implements  OnInit{
 
 
 
-  selectCategory() : void{
+  selectCategory(event:  AutoCompleteSelectEvent) : void{
     this.isNotSelectCategory.set(true);
   }
 
   submitNewGame(): void{
      this.gameStore.postGame({
        newGame: {
-         gameName: this.newGameForm.get('gameName')?.value as string,
+         gameName: this.newGameForm.get('gameName')?.getRawValue()?.name as string,
          categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
          yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
        },
@@ -90,9 +101,44 @@ export class GameAddComponent implements  OnInit{
 
 
   filterGames(event: AutoCompleteCompleteEvent): void {
-    this.gameBrainApiService.getGames(event.query).subscribe(data => {
-          this.games.set(data);
-        })
+    const query = event.query.toLowerCase()
+    if (!query){
+    const gamesDetails: GameDetailsDto[] = [
+      {
+        name: 'Battlefield 1',
+        image: 'https://img.gamebrain.co/games/988/battlefield_1_dice_2020_21.jpg'
+      },
+      {
+        name: 'Clair Obscur: Expedition 33',
+        image: "https://img.gamebrain.co/games/539/clair_obscur_expedition_33_sandfall_2025_4.jpg"
+      },
+      {
+        name: 'Grand Theft Auto V',
+        image: 'https://img.gamebrain.co/games/968/grand_theft_auto_5_rockstarnorth_2015_575.jpg'
+      },
+      {
+        name: "Wrong Floor",
+        image: 'https://img.gamebrain.co/games/730/wrong_floor_n4ba_2020_1.png'
+      }
+    ];
+    this.games.set(gamesDetails);
+      } else {
+      this.newGameForm.controls.gameName.reset();
+      this.newGameForm.controls.gameImage.reset();
+    }
   }
+
+  selectGame(event: AutoCompleteSelectEvent): void {
+    this.newGameForm.patchValue({
+      gameName: event.value.name,
+      gameImage: event.value.image
+    })
+  }
+
+  removeSelectGame(): void {
+    this.newGameForm.controls.gameImage.reset();
+    this.newGameForm.controls.gameName.reset();
+  }
+
 
 }
