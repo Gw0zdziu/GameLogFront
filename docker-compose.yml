@@ -27,7 +27,7 @@ services:
     image: "postgres"
     container_name: "gamelogdb"
     ports:
-      - "5432:5432"
+      - "5435:5432"
     environment:
       POSTGRES_PASSWORD: gamelogdb
       POSTGRES_DB: gamelogdb
