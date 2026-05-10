@@ -89,7 +89,8 @@ export class GameAddComponent implements  OnInit{
   submitNewGame(): void{
      this.gameStore.postGame({
        newGame: {
-         gameName: this.newGameForm.get('gameName')?.getRawValue()?.name as string,
+         gameName: this.newGameForm.get('gameName')?.getRawValue() as string,
+         gameImageUrl: this.newGameForm.get('gameImage')?.getRawValue() as string,
          categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
          yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
        },
