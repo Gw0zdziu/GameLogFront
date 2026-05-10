@@ -2,13 +2,15 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {GameStore} from '../../store/game-store';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+/*
 import {GameUpdateComponent} from '../game-update/game-update.component';
+*/
 import {ButtonDirective} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {faPencil, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-game-list',
@@ -68,14 +70,14 @@ export class GameListComponent implements OnInit{
 
 
   updateGame(gameId: string): void{
-    this.ref = this.dialogService.open(GameUpdateComponent,{
+    /*this.ref = this.dialogService.open(GameUpdateComponent,{
       modal: true,
       data: gameId,
       header: $localize`Zaktualizuj grę`
     })
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) {return;}
-    });
+    });*/
   }
 
 }
