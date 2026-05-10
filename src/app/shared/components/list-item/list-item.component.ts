@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component,  input} from '@angular/core';
-import {GameDto} from '../../../features/game/models/game.dto';
-import {Button} from 'primeng/button';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'app-list-item',
