@@ -39,7 +39,7 @@ form{
   justify-content: center;
 }
 
-.game-image{
+.game-image {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -47,18 +47,15 @@ form{
   max-height: 100%;
   max-width: 100%;
   width: 300px;
-  height: 300px;
+  height: 200px;
   object-fit: cover;
   border-radius: 10px;
 }
-
 .game-image-header {
   width: 100%;
 }
 
-.image{
 
-}
 
 
 
