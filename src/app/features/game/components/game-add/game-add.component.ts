@@ -5,13 +5,13 @@ import {Message} from 'primeng/message';
 import {AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent} from 'primeng/autocomplete';
 import {DatePicker} from 'primeng/datepicker';
 import {CategoryStore} from '../../../category/store/category-store';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
 import {GameDetailsDto} from '../../models/game-details.dto';
-import {ProgressSpinner} from 'primeng/progressspinner';
+import {ImageGameComponent} from '../shared/image-game/image-game.component';
 
 export interface EventSelect<T> extends  AutoCompleteSelectEvent{
   image: string;
@@ -29,7 +29,7 @@ export interface EventSelect<T> extends  AutoCompleteSelectEvent{
     ReactiveFormsModule,
     ButtonDirective,
     ButtonLabel,
-    ProgressSpinner
+    ImageGameComponent
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
@@ -59,12 +59,8 @@ export class GameAddComponent implements  OnInit{
       yearPlayed: [new Date(), {
         validators: [],
       }],
-      gameImage: ['', {
-        blur: true,
-        nullable: true,
-      }]
+      gameImage: new FormControl<string | null>('')
     })
-    game: any | undefined;
 
 
 
