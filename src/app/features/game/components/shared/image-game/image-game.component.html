@@ -1,0 +1,6 @@
+@if (imageUrl()) {
+  <img alt="game's image" class="image" height="200px" width="300px" [ngSrc]="imageUrl()">
+
+} @else {
+  <p-progress-spinner ariaLabel="loading"/>
+}
