@@ -2,9 +2,6 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {GameStore} from '../../store/game-store';
 import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-/*
-import {GameUpdateComponent} from '../game-update/game-update.component';
-*/
 import {ButtonDirective} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
