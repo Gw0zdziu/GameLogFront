@@ -70,14 +70,17 @@ export class GameListComponent implements OnInit{
 
 
   updateGame(gameId: string): void{
-    /*this.ref = this.dialogService.open(GameUpdateComponent,{
+    this.ref = this.dialogService.open(GameUpdateComponent,{
       modal: true,
       data: gameId,
-      header: $localize`Zaktualizuj grę`
+      header: $localize`Zaktualizuj grę`,
+      dismissableMask: true,
+      closable: true,
+      focusOnShow: false,
     })
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) {return;}
-    });*/
+    });
   }
 
 }
