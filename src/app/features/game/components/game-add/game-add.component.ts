@@ -59,7 +59,9 @@ export class GameAddComponent implements  OnInit{
       yearPlayed: [new Date(), {
         validators: [],
       }],
-      gameImage: new FormControl<string | null>('')
+      gameImage: new FormControl<string>('', {
+        nonNullable: true
+      })
     })
 
 
