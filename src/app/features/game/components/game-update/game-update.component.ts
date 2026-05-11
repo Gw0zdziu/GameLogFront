@@ -50,7 +50,9 @@ export class GameUpdateComponent implements OnInit{
           nonNullable: true,
           validators: [Validators.required],
         }),
-          gameImage: new FormControl<string | null>(''),
+          gameImage: new FormControl<string>('', {
+              nonNullable: true
+          }),
         selectedCategory: new FormControl<{
           categoryId: string;
           categoryName: string;
