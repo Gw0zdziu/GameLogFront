@@ -11,6 +11,7 @@ import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faPencil, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {GameUpdateComponent} from '../game-update/game-update.component';
 
 @Component({
   selector: 'app-game-list',
