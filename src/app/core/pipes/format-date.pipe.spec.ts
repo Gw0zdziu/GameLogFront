@@ -1,8 +1,13 @@
 import {FormatDatePipe} from './format-date.pipe';
 
 describe('FormatDatePipe', () => {
-  it('create an instance', () => {
-    const pipe = new FormatDatePipe('pl');
-    expect(pipe).toBeTruthy();
+  let pipe: FormatDatePipe;
+  beforeEach(() => {
+    pipe = new FormatDatePipe();
+  })
+
+  it('should return only year', () => {
+    expect(pipe.transform(new Date())).toBe(new Date().getFullYear().toString());
   });
+
 });
