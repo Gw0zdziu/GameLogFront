@@ -9,7 +9,6 @@ import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} 
 import {CategoryDto} from '../../../category/models/category.dto';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
-import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
 import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
 
@@ -36,12 +35,10 @@ export interface EventSelect<T> extends  AutoCompleteSelectEvent{
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameAddComponent implements  OnInit{
-    private defaultGameImage = './g'
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
     private userStoreService = inject(UserStoreService);
     private formBuilder = inject(FormBuilder);
-    private gameBrainApiService = inject(GamebrainapiService);
     gameStore = inject(GameStore);
     readonly games = signal<GameDetailsDto[]>([]);
     readonly isNotSelectCategory = signal(true);
