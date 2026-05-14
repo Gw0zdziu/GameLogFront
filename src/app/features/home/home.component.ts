@@ -1,13 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {LayoutService} from '../../shared/services/layout/layout.service';
-import MenuComponent from '../../core/components/menu/menu.component';
 import {RouterOutlet} from '@angular/router';
 import {NavbarComponent} from '../../core/components/navbar/navbar.component';
+import {MenuComponent} from '../../core/components/menu/menu.component';
 
 @Component({
   selector: 'app-home',
   imports: [
-    MenuComponent,
     RouterOutlet,
     NavbarComponent,
     MenuComponent,
@@ -15,7 +14,7 @@ import {NavbarComponent} from '../../core/components/navbar/navbar.component';
   template: `
     <header app-navbar></header>
     <section class="container">
-      <app-menu  />
+      <app-menu />
       <div class="content" [class.expanded]="layoutService.isMenuOpen$()">
         <router-outlet />
       </div>
