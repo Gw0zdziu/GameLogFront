@@ -14,7 +14,7 @@
 .content {
   border-radius: 10px;
   transition: margin-left 200ms ease-in-out;
-  margin: 1rem 1rem 1rem 22rem;
+  margin: 1rem 0.5rem 1rem 22rem;
   width: 100%;
 }
 
