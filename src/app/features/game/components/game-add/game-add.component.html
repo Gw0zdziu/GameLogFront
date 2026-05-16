@@ -2,7 +2,7 @@
   <span i18n>Obraz gry</span>
     <app-image-game [imageUrl]="newGameForm.controls.gameImage.value" />
 </section>
-<form class="game-form" [formGroup]="newGameForm"  (ngSubmit)="submitNewGame()">
+<form class="dialog-form" [formGroup]="newGameForm"  (ngSubmit)="submitNewGame()">
   <section class="input" id="gameName">
     <label for="gameName" i18n>Nazwa gry</label>
     <p-auto-complete appendTo="body" dropdown="true" fluid="true" formControlName="gameName" optionLabel="name" [suggestions]="games()" (completeMethod)="filterGames($event)" (onClear)="removeSelectGame()" (onSelect)="selectGame($event)">
@@ -18,7 +18,7 @@
   </section>
   <section class="input">
     <label for="category" i18n>Kategoria</label>
-    <p-auto-complete   appendTo="body" dropdown="true" formControlName="categoryId" id="category" name="category"  optionLabel="categoryName" [required]="true" [suggestions]="filteredCategories()"   (completeMethod)="filterCategory($event)" (onSelect)="selectCategory($event)" />
+    <p-auto-complete   appendTo="body" dropdown="true" formControlName="categoryId" id="category" name="category"  optionLabel="categoryName" [required]="true" [suggestions]="filteredCategories()"   (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
     @if (newGameForm.controls.categoryId.invalid && newGameForm.controls.categoryId.touched) {
       @if (newGameForm.controls.categoryId.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
