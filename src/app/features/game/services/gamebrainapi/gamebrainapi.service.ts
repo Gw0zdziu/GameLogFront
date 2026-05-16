@@ -1,4 +1,4 @@
-import {inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {GameDetailsDto} from '../../models/game-details.dto';
@@ -13,7 +13,7 @@ export class GamebrainapiService {
 
   getGames(gameName: string): Observable<GameDetailsDto[]>{
     const queryParams = new HttpParams()
-      .set('query', gameName)
+      .set('gameName', gameName)
     return this.http.get<GameDetailsDto[]>(`${this.apiUrl}/search-game-details`, {params: queryParams});
   }
 }
