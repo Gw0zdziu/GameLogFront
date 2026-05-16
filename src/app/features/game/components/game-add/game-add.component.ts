@@ -11,6 +11,8 @@ import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
+import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
+import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from "rxjs";
 
 export interface EventSelect<T> extends  AutoCompleteSelectEvent{
   image: string;
@@ -32,17 +34,20 @@ export interface EventSelect<T> extends  AutoCompleteSelectEvent{
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddComponent implements  OnInit{
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
+    private gameStory = inject(GameStore);
     private userStoreService = inject(UserStoreService);
     private formBuilder = inject(FormBuilder);
+    private gameBrainService = inject(GamebrainapiService);
     gameStore = inject(GameStore);
     readonly games = signal<GameDetailsDto[]>([]);
     readonly isNotSelectCategory = signal(true);
     readonly filteredCategories = signal<CategoryDto[]>([]);
+    private gameNameSearch$ = new Subject<string>();
     newGameForm = this.formBuilder.group({
       gameName: ['', {
         validators: [Validators.required],
@@ -63,9 +68,21 @@ export class GameAddComponent implements  OnInit{
 
 
 
+
   ngOnInit(): void {
     const userId = this.userStoreService.user$()?.userId as string;
     this.categoryStore.getCategoriesByUserId(userId);
+    this.gameNameSearch$.pipe(
+        filter(query => query !== ''),
+        debounceTime(1000),
+        switchMap(query => this.gameBrainService.getGames(query)),
+        distinctUntilChanged(),
+    ).subscribe(query => {
+      this.games.set(query);
+      if (query.length === 0) {
+        this.newGameForm.controls.gameImage.setValue('')
+      }
+    })
   }
 
   filterCategory($event: AutoCompleteCompleteEvent): void {
@@ -77,7 +94,7 @@ export class GameAddComponent implements  OnInit{
 
 
 
-  selectCategory(event:  AutoCompleteSelectEvent) : void{
+  selectCategory() : void{
     this.isNotSelectCategory.set(true);
   }
 
@@ -98,30 +115,7 @@ export class GameAddComponent implements  OnInit{
 
   filterGames(event: AutoCompleteCompleteEvent): void {
     const query = event.query.toLowerCase()
-    if (!query){
-    const gamesDetails: GameDetailsDto[] = [
-      {
-        name: 'Battlefield 1',
-        image: 'https://img.gamebrain.co/games/988/battlefield_1_dice_2020_21.jpg'
-      },
-      {
-        name: 'Clair Obscur: Expedition 33',
-        image: "https://img.gamebrain.co/games/539/clair_obscur_expedition_33_sandfall_2025_4.jpg"
-      },
-      {
-        name: 'Grand Theft Auto V',
-        image: 'https://img.gamebrain.co/games/968/grand_theft_auto_5_rockstarnorth_2015_575.jpg'
-      },
-      {
-        name: "Wrong Floor",
-        image: 'https://img.gamebrain.co/games/730/wrong_floor_n4ba_2020_1.png'
-      }
-    ];
-    this.games.set(gamesDetails);
-      } else {
-      this.newGameForm.controls.gameName.reset();
-      this.newGameForm.controls.gameImage.reset();
-    }
+      this.gameNameSearch$.next(query);
   }
 
   selectGame(event: AutoCompleteSelectEvent): void {
