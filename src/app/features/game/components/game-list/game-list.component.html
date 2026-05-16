@@ -1,7 +1,9 @@
     @for (item of games$(); track item.gameId) {
       <app-list-item>
         <ng-container ngProjectAs="image">
-          <img alt="game-image" class="game-image" height="180px" width="250px" [src]="item.gameUrl" />
+          @if (item.gameUrl) {
+            <img alt="game-image" class="game-image" height="180px" width="250px" [src]="item.gameUrl" />
+          }
         </ng-container>
         <ng-container ngProjectAs="header">
           {{ item.gameName }}

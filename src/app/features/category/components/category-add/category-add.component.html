@@ -1,4 +1,4 @@
-<form [formGroup]="newCategoryForm" (ngSubmit)="submitForm()">
+<form class="dialog-form" [formGroup]="newCategoryForm" (ngSubmit)="submitForm()">
   <section class="input">
     <label for="username" i18n>Nazwa</label>
     <input formControlName="categoryName" id="username" pInputText pSize="large" type="text">
@@ -15,7 +15,7 @@
     <label for="username" i18n>Opis</label>
     <textarea fluid formControlName="description" id="username" pTextarea></textarea>
   </section>
-  <button class="button" pButton type="submit" [disabled]="newCategoryForm.invalid">
+  <button class="button-submit" pButton type="submit" [disabled]="newCategoryForm.invalid">
     @if (store.isLoading()) {
       <i class="pi pi-spin pi-spinner"></i>
     }
