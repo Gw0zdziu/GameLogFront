@@ -107,6 +107,7 @@ export class GameAddComponent implements  OnInit{
          yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
        },
        onSuccess: () => {
+         this.gameStory.getGames(null);
          this.dynamicDialogRef.close(true);
        }
      });
