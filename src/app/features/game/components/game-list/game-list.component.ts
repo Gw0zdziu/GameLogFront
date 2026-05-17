@@ -60,7 +60,12 @@ export class GameListComponent implements OnInit{
         severity: 'danger',
       },
       accept: () => {
-        this.store.deleteGame(gameId);
+        this.store.deleteGame({
+          gameId: gameId,
+          onSuccess: () => {
+            this.store.getGames({...this.paginationState$()})
+          }
+        });
       }
     })
   }

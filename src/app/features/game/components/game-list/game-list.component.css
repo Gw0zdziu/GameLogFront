@@ -10,3 +10,10 @@
   object-fit: cover;
   border-radius: 10px 0 0 10px;
 }
+
+@media (max-width: 446px) {
+  .game-image{
+    width: 200px;
+    height: 150px;
+  }
+}

@@ -2,7 +2,7 @@
       <app-list-item>
         <ng-container ngProjectAs="image">
           @if (item.gameUrl) {
-            <img alt="game-image" class="game-image" height="180px" width="250px" [src]="item.gameUrl" />
+            <img alt="game-image" class="game-image"  [src]="item.gameUrl" />
           }
         </ng-container>
         <ng-container ngProjectAs="header">
@@ -15,10 +15,10 @@
           Zagrano w: {{ item.yearPlayed | formatDate }}
         </ng-container>
         <ng-container ngProjectAs="actions">
-            <button pButton severity="warn" size="large"  type="button"  (click)="updateGame(item.gameId)">
+            <button pButton severity="warn" size="small"  type="button"  (click)="updateGame(item.gameId)">
               <fa-icon [icon]="faPencil" />
             </button>
-            <button pButton severity="danger" size="large" type="button" (click)="deleteGame(item.gameId)">
+            <button pButton severity="danger" size="small" type="button" (click)="deleteGame(item.gameId)">
               <fa-icon [icon]="faTrash" />
             </button>
         </ng-container>
