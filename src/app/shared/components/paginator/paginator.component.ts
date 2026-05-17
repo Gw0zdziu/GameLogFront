@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, computed, input, output} from '@angular/core';
 import {PaginationConfig} from '../../models/pagination-config';
-import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faUser } from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight} from "@fortawesome/free-solid-svg-icons";
 import {ButtonDirective} from 'primeng/button';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {Select} from 'primeng/select';
 
 @Component({
   selector: 'app-paginator',
@@ -46,6 +45,8 @@ export class PaginatorComponent {
   faAngleRight = faAngleRight;
   faAnglesLeft = faAnglesLeft;
   faAnglesRight = faAnglesRight;
+
+
   selectPage($event: Event): void {
     const value = ($event.target as HTMLInputElement).value;
     this.paginationConfig().pageNumber = Number(value);
