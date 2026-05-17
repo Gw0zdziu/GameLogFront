@@ -4,7 +4,7 @@ import {inject} from '@angular/core';
 import {GameService} from '../services/game.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
-import {debounceTime, pipe, switchMap, tap} from 'rxjs';
+import {debounceTime, map, pipe, switchMap, tap} from 'rxjs';
 import {tapResponse} from '@ngrx/operators';
 import {GamePostDto} from '../models/game-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -35,8 +35,9 @@ export const GameStore = signalStore(
     setGameState(state: GameState): void {
       patchState(store, state);
     },
-    getGames: rxMethod<PaginatedQuery>(
+    getGames: rxMethod<PaginatedQuery | null>(
       pipe(
+        map(x => x ? x : store.paginationState()),
         tap(() => patchState(store, {
           isLoading: true,
           })),
@@ -98,20 +99,24 @@ export const GameStore = signalStore(
         })
       )
     ),
-    deleteGame: rxMethod<string>(
+    deleteGame: rxMethod<{
+      gameId: string,
+      onSuccess: () => void,
+    }>(
       pipe(
         tap(() => patchState(store, {
           isLoading: true,
         })),
         debounceTime(300),
         switchMap(x => {
-          return gameService.deleteGame(x).pipe(
+          return gameService.deleteGame(x.gameId).pipe(
             tapResponse({
               next: () => {
                 patchState(store, {
                   isLoading: false,
-                  games: store.games().filter(game => game.gameId !== x)
+                  games: store.games().filter(game => game.gameId !== x.gameId),
                 });
+                x.onSuccess();
                 toastService.showSuccess($localize`Pomyślnie usunięto grę`);
               },
               error: (error: HttpErrorResponse) => {
