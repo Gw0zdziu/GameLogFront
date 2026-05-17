@@ -13,7 +13,7 @@ import {MenuComponent} from '../../core/components/menu/menu.component';
   ],
   template: `
     <header app-navbar></header>
-    <section class="container">
+    <section >
       <app-menu />
       <div class="content" [class.expanded]="layoutService.isMenuOpen$()">
         <router-outlet />
