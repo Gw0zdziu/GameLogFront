@@ -14,7 +14,6 @@
   grid-template-columns: 3fr auto;
   flex-direction: row;
   grid-column-gap: 1rem;
-  min-height: 8rem;
   padding: 1rem;
   width: inherit;
 }
@@ -58,6 +57,9 @@
 }
 
 @media (max-width: 446px) {
+  :host{
+    min-height: 150px;
+  }
   .item-name{
     font-size: 1rem;
   }
