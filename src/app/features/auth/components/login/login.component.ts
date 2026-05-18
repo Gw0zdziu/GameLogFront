@@ -23,7 +23,7 @@ import {UserService} from '../../../user/services/user.service';
     ContainerComponent,
     ThemeToggleComponent,
     Password,
-    LangToggleComponent
+    LangToggleComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -74,4 +74,5 @@ export class LoginComponent {
       }
     }
   }
+
 }

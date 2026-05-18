@@ -6,10 +6,10 @@ import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryUpdateComponent} from '../category-update/category-update.component';
 import {CategoryStore} from '../../store/category-store';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
-import {Button, ButtonDirective} from 'primeng/button';
+import {ButtonDirective} from 'primeng/button';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {faPencil, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 
 @Component({
@@ -37,15 +37,6 @@ import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
   ngOnInit(): void {
     this.store.getCategories({...this.paginationState$()});
-    /*this.categoriesService.getUserCategories({pageSize: this.paginationState$().pageSize, pageNumber: this.paginationState$().pageNumber})
-      .subscribe(x => {
-        this.paginationState$.set({
-          pageSize: x.pageSize,
-          pageNumber: x.pageNumber,
-          amountPagesList: x.amountPagesList
-        })
-        this.categories$.set(x.results)
-      })*/
   }
 
   updatePageNumber(pageNumber: number): void {

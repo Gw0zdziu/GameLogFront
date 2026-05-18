@@ -1,8 +1,15 @@
-<form [formGroup]="updateGameForm"  (ngSubmit)="submitUpdateGame()">
+<section class="game-image-container">
+  <span class="game-image-header" i18n>Obraz gry</span>
+    <app-image-game [imageUrl]="updateGameForm.controls.gameImage.value" />
+</section>
+<form class="game-form" [formGroup]="updateGameForm"  (ngSubmit)="submitUpdateGame()">
   <section class="input">
     <label for="gameName" i18n>Nazwa</label>
-    <input  formControlName="gameName" id="gameName" name="gameName" pInputText pSize="large" type="text" >
-    @if (updateGameForm.controls.gameName.errors?.invalid && updateGameForm.controls.gameName.errors?.touched) {
+    <p-auto-complete appendTo="body" dropdown="true" fluid="true" formControlName="gameName" optionLabel="name" [suggestions]="games()" (completeMethod)="filterGames($event)" (onClear)="removeSelectGame()" (onSelect)="selectGame($event)">
+      <ng-template #item let-game>
+          <span class="game-name">{{game.name}}</span>
+      </ng-template>
+    </p-auto-complete>    @if (updateGameForm.controls.gameName.errors?.invalid && updateGameForm.controls.gameName.errors?.touched) {
       @if (updateGameForm.controls.gameName.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
@@ -26,7 +33,7 @@
       }
     }
   </section>
-  <button class="button" pButton type="submit" [disabled]="updateGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
+  <button class="button-submit" pButton type="submit" [disabled]="updateGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
     @if (gameStore.isLoading()){
       <i class="pi pi-spin pi-spinner"></i>
     }

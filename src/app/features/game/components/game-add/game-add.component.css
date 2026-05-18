@@ -1,10 +1,31 @@
-form{
+:host{
+  display: flex;
+}
+
+.game-form{
   display: flex;
   flex-direction: column;
 }
 
-.button{
-  display: inherit;
-  align-self: flex-end;
-  margin-top: 1rem;
+.game-image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 300px;
+
 }
+
+
+@media (max-width: 500px){
+  :host{
+    flex-direction: column;
+  }
+}
+
+
+
+
+
+

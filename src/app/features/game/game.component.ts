@@ -16,10 +16,9 @@ import {GameAddComponent} from './components/game-add/game-add.component';
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameComponent {
+export class GameComponent{
   private dialogService = inject(DialogService);
   ref: DynamicDialogRef | undefined;
-
    openAddGameDialog(): void {
      this.ref = this.dialogService.open(GameAddComponent, {
        header: $localize`Nowa gra`,

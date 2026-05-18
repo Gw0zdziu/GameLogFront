@@ -2,14 +2,23 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angul
 import {GameStore} from '../../store/game-store';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Message} from 'primeng/message';
-import {AutoComplete, AutoCompleteCompleteEvent} from 'primeng/autocomplete';
+import {AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent} from 'primeng/autocomplete';
 import {DatePicker} from 'primeng/datepicker';
 import {CategoryStore} from '../../../category/store/category-store';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
-import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
+import {GameDetailsDto} from '../../models/game-details.dto';
+import {ImageGameComponent} from '../shared/image-game/image-game.component';
+import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
+import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from "rxjs";
+
+export interface EventSelect<T> extends  AutoCompleteSelectEvent{
+  image: string;
+  value: T;
+}
+
 
 @Component({
   selector: 'app-game-add',
@@ -19,32 +28,61 @@ import {UserStoreService} from '../../../../core/store/user-store/user-store.ser
     DatePicker,
     FormsModule,
     ReactiveFormsModule,
-    InputText,
     ButtonDirective,
-    ButtonLabel
+    ButtonLabel,
+    ImageGameComponent
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddComponent implements  OnInit{
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
+    private gameStory = inject(GameStore);
     private userStoreService = inject(UserStoreService);
+    private formBuilder = inject(FormBuilder);
+    private gameBrainService = inject(GamebrainapiService);
     gameStore = inject(GameStore);
+    readonly games = signal<GameDetailsDto[]>([]);
     readonly isNotSelectCategory = signal(true);
-  readonly filteredCategories = signal<CategoryDto[]>([]);
-  newGameForm = new FormGroup(
-      {
-        gameName: new FormControl(''),
-        categoryId: new FormControl(''),
-        yearPlayed: new FormControl(new Date())
-      }
-    )
+    readonly filteredCategories = signal<CategoryDto[]>([]);
+    private gameNameSearch$ = new Subject<string>();
+    newGameForm = this.formBuilder.group({
+      gameName: ['', {
+        validators: [Validators.required],
+        nullable: true,
+        blur: true,
+      }],
+      categoryId: ['', {
+        validators: [Validators.required],
+        blur: true,
+      }],
+      yearPlayed: [new Date(), {
+        validators: [],
+      }],
+      gameImage: new FormControl<string>('', {
+        nonNullable: true
+      })
+    })
+
+
+
 
   ngOnInit(): void {
     const userId = this.userStoreService.user$()?.userId as string;
     this.categoryStore.getCategoriesByUserId(userId);
+    this.gameNameSearch$.pipe(
+        filter(query => query !== ''),
+        debounceTime(1000),
+        switchMap(query => this.gameBrainService.getGames(query)),
+        distinctUntilChanged(),
+    ).subscribe(query => {
+      this.games.set(query);
+      if (query.length === 0) {
+        this.newGameForm.controls.gameImage.setValue('')
+      }
+    })
   }
 
   filterCategory($event: AutoCompleteCompleteEvent): void {
@@ -60,19 +98,38 @@ export class GameAddComponent implements  OnInit{
     this.isNotSelectCategory.set(true);
   }
 
+  submitNewGame(): void{
+     this.gameStore.postGame({
+       newGame: {
+         gameName: this.newGameForm.get('gameName')?.getRawValue() as string,
+         gameImageUrl: this.newGameForm.get('gameImage')?.getRawValue() as string,
+         categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
+         yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
+       },
+       onSuccess: () => {
+         this.gameStory.getGames(null);
+         this.dynamicDialogRef.close(true);
+       }
+     });
+  }
 
 
-    submitNewGame(): void{
-      this.gameStore.postGame({
-        newGame: {
-          gameName: this.newGameForm.get('gameName')?.value as string,
-          categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
-          yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
-        },
-        onSuccess: () => {
-          this.dynamicDialogRef.close(true);
-        }
-      });
-    }
+  filterGames(event: AutoCompleteCompleteEvent): void {
+    const query = event.query.toLowerCase()
+      this.gameNameSearch$.next(query);
+  }
+
+  selectGame(event: AutoCompleteSelectEvent): void {
+    this.newGameForm.patchValue({
+      gameName: event.value.name,
+      gameImage: event.value.image
+    })
+  }
+
+  removeSelectGame(): void {
+    this.newGameForm.controls.gameImage.reset();
+    this.newGameForm.controls.gameName.reset();
+  }
+
 
 }

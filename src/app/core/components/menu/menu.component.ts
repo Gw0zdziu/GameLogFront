@@ -8,7 +8,6 @@ import {faGamepad, faLayerGroup} from '@fortawesome/free-solid-svg-icons';
 import {MenuItem} from '../../models/menu-item';
 
 
-
 @Component({
   selector: 'app-menu',
   imports: [
@@ -39,7 +38,7 @@ import {MenuItem} from '../../models/menu-item';
   styleUrl: './menu.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-class MenuComponent {
+export class MenuComponent {
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
   isLogged$ = this.loggedStoreService.isLogged$;
@@ -69,4 +68,3 @@ class MenuComponent {
 
 }
 
-export default MenuComponent

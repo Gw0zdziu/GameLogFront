@@ -4,19 +4,20 @@
   width: 100%;
 }
 
+/*
 .container{
   position: relative;
   display: flex;
   flex-direction: row;
-}
+}*/
 
 
 .content {
   border-radius: 10px;
   transition: margin-left 200ms ease-in-out;
-  margin: 1rem 1rem 1rem 22rem;
-  width: 100%;
+  margin: 1rem 0.5rem 1rem 22rem;
 }
+
 
 .expanded{
   margin-left: 0.5rem;
@@ -25,7 +26,11 @@
 }
 
 @media (max-width: 991px){
+  .expanded{
+   margin: auto;
+
+  }
   .content{
-    margin-left: 0.5rem;
+    margin: 1rem;
   }
 }

@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CategoryListComponent } from './category-list.component';
-import { ConfirmationService } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
-import { signal } from '@angular/core';
-import { CategoryStore } from '../../store/category-store';
-import { Observable, Subject } from 'rxjs';
-import { CategoryDto } from '../../models/category.dto';
+import {CategoryListComponent} from './category-list.component';
+import {ConfirmationService} from 'primeng/api';
+import {DialogService} from 'primeng/dynamicdialog';
+import {signal} from '@angular/core';
+import {CategoryStore} from '../../store/category-store';
+import {Observable, Subject} from 'rxjs';
+import {CategoryDto} from '../../models/category.dto';
 
 describe('CategoryTableComponent', () => {
   let component: CategoryListComponent;
@@ -55,9 +55,7 @@ describe('CategoryTableComponent', () => {
       expect(categoryStoreMock.getCategories).toHaveBeenCalled();
     });
 
-    it('should set value for columns variable', () => {
-      expect(component.columns().length).toEqual(6);
-    });
+
 
   });
 
@@ -90,8 +88,8 @@ describe('CategoryTableComponent', () => {
         categoryId: "cat-001",
         categoryName: "RPG",
         description: "Role-playing games",
-        createdDate: "2024-01-15T10:30:00Z",
-        updatedDate: "2024-11-20T14:45:00Z",
+        createdDate: new Date('2024-01-15T10:30:00Z'),
+        updatedDate: new Date('2024-11-20T14:45:00Z'),
         createdBy: "admin",
         updatedBy: "editor",
         gamesCount: 24

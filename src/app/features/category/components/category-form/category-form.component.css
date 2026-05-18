@@ -1,9 +1,0 @@
-form{
-  display: flex;
-  flex-direction: column;
-}
-
-.button{
-  display: inherit;
-  align-self: flex-end;
-}

@@ -37,7 +37,7 @@ describe('CategoryAddComponent', () => {
   });
 
   it('should initialize newCategory signal with null', () => {
-    expect(component.newCategory()).toBeNull();
+    expect(component.newCategoryForm.value).toBeNull();
   });
 
   describe('postNewCategory()', () => {
@@ -48,12 +48,12 @@ describe('CategoryAddComponent', () => {
         categoryName: "RPG",
         description: "Role-playing games",
       }
-      component.newCategory.set(newCategory);
-      component.postNewCategory();
+      component.newCategoryForm.setValue(newCategory);
+      component.submitForm();
       expect(categoryStoreMock.addCategory).toHaveBeenCalled();
     })
 
-    
+
 
 
   })

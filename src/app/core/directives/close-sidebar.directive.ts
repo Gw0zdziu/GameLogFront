@@ -8,7 +8,7 @@ import {LayoutService} from '../../shared/services/layout/layout.service';
 export class CloseSidebarDirective {
   private layoutService = inject(LayoutService);
 
-  @HostListener('click') onClick() {
+  @HostListener('click') onClick(): void {
     this.layoutService.setStateMenu(false);
   }
 

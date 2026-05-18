@@ -1,9 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {GameUpdateComponent} from './game-update.component';
-import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
-import {GamePostDto} from '../../models/game-post.dto';
-import {GameFormComponent} from '../game-form/game-form.component';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameStore} from '../../store/game-store';
 import {GameService} from '../../services/game.service';
@@ -11,16 +7,6 @@ import {Subject} from 'rxjs';
 import {GamePutDto} from '../../models/game-put.dto';
 import {GameDto} from '../../models/game.dto';
 
-@Component({
-  selector: 'app-game-form',
-  template: '',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-class MockGameFormComponent {
-  readonly submitEmitter = output<GamePostDto>();
-  readonly updatedGame = input<GamePutDto | null>();
-}
 
 describe('GameUpdateComponent', () => {
   let component: GameUpdateComponent;
@@ -35,10 +21,12 @@ describe('GameUpdateComponent', () => {
   const game: GameDto = {
     gameId: 'gameId',
     gameName: 'gameName',
+    gameUrl: "gameUrl",
     categoryId: 'categoryId',
     categoryName: 'categoryName',
-    createdDate: '2023-08-15T10:30:00.000Z',
-    updatedDate: '2024-11-28T14:45:22.000Z',
+    createdDate: new Date(),
+    updatedDate: new Date(),
+    yearPlayed: new Date(),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
@@ -63,10 +51,7 @@ describe('GameUpdateComponent', () => {
         {provide: DialogService, useValue: dialogServiceMock},
       ]
     })
-      .overrideComponent(GameUpdateComponent, {
-        remove: {imports: [GameFormComponent]},
-        add: {imports: [MockGameFormComponent]}
-      })
+
     .compileComponents();
 
     fixture = TestBed.createComponent(GameUpdateComponent);
@@ -86,20 +71,18 @@ describe('GameUpdateComponent', () => {
       const updatedGame: GamePutDto = {
         gameName: 'Game',
         categoryId: 'cat-001',
+        gameImageUrl: 'gameImageUrl',
+        yearPlayed: new Date(),
       }
-      component.submitUpdateGame(updatedGame);
+      component.submitUpdateGame();
       expect(gameStoreMock.updateGame).toHaveBeenCalledWith({gameId: '1',updatedGame, onSuccess: expect.any(Function)});
     });
 
     it('should called close method', () => {
-      const newGame: GamePostDto = {
-        gameName: 'RPG',
-        categoryId: 'cat-001',
-      }
       gameStoreMock.updateGame.mockImplementation((param) => {
         param.onSuccess();
       })
-      component.submitUpdateGame(newGame);
+      component.submitUpdateGame();
       expect(dynamicDialogRefMock.close).toHaveBeenCalledWith(true);
     });
   })
