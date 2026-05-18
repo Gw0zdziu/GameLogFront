@@ -29,6 +29,9 @@ import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.serv
   ],
   templateUrl: './game-update.component.html',
   styleUrl: './game-update.component.css',
+  host:{
+    class: 'game-dialog'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameUpdateComponent implements OnInit{
