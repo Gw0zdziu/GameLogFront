@@ -13,6 +13,8 @@ import {CategoryStore} from '../../../category/store/category-store';
 import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
 import {ImageGameComponent} from "../shared/image-game/image-game.component";
 import {GameDetailsDto} from "../../models/game-details.dto";
+import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from 'rxjs';
+import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
 
 @Component({
   selector: 'app-game-update',
@@ -36,6 +38,8 @@ export class GameUpdateComponent implements OnInit{
     private gameService = inject(GameService);
     private cdr = inject(ChangeDetectorRef);
     private userStoreService = inject(UserStoreService);
+    private gameBrainService = inject(GamebrainapiService)
+    private gameNameSearch$ = new Subject<string>();
     readonly filteredCategories = signal<CategoryDto[]>([]);
     readonly isNotSelectCategory = signal(true);
     readonly game = signal<GameDto | null>(null);
@@ -44,7 +48,8 @@ export class GameUpdateComponent implements OnInit{
     gameStore = inject(GameStore);
     instance: DynamicDialogComponent | undefined;
     gameId: string;
-    updateGameForm = new FormGroup(
+
+  updateGameForm = new FormGroup(
       {
         gameName: new FormControl<string>('', {
           nonNullable: true,
@@ -90,6 +95,17 @@ export class GameUpdateComponent implements OnInit{
           })
         }
       });
+      this.gameNameSearch$.pipe(
+        filter(query => query !== ''),
+        debounceTime(1000),
+        switchMap(query => this.gameBrainService.getGames(query)),
+        distinctUntilChanged(),
+      ).subscribe(query => {
+        this.games.set(query);
+        if (query.length === 0) {
+          this.updateGameForm.controls.gameImage.setValue('')
+        }
+      })
     }
 
   filterCategory($event: AutoCompleteCompleteEvent): void {
@@ -99,31 +115,8 @@ export class GameUpdateComponent implements OnInit{
   }
 
     filterGames(event: AutoCompleteCompleteEvent): void {
-        const query = event.query.toLowerCase()
-        if (!query){
-            const gamesDetails: GameDetailsDto[] = [
-                {
-                    name: 'Battlefield 1',
-                    image: 'https://img.gamebrain.co/games/988/battlefield_1_dice_2020_21.jpg'
-                },
-                {
-                    name: 'Clair Obscur: Expedition 33',
-                    image: "https://img.gamebrain.co/games/539/clair_obscur_expedition_33_sandfall_2025_4.jpg"
-                },
-                {
-                    name: 'Grand Theft Auto V',
-                    image: 'https://img.gamebrain.co/games/968/grand_theft_auto_5_rockstarnorth_2015_575.jpg'
-                },
-                {
-                    name: "Wrong Floor",
-                    image: 'https://img.gamebrain.co/games/730/wrong_floor_n4ba_2020_1.png'
-                }
-            ];
-            this.games.set(gamesDetails);
-        } else {
-            this.updateGameForm.controls.gameName.reset();
-            this.updateGameForm.controls.gameImage.reset();
-        }
+      const query = event.query.toLowerCase()
+      this.gameNameSearch$.next(query);
     }
   selectCategory() : void{
     this.isNotSelectCategory.set(true);
