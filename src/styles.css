@@ -131,4 +131,29 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1rem;
 }
 
+.game-dialog{
+  display: flex;
+  row-gap: 1rem;
+}
+
+.game-form{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.game-image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+
+@media (max-width: 500px){
+  .game-dialog{
+    flex-direction: column;
+  }
+}
 

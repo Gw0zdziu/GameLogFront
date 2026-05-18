@@ -34,6 +34,9 @@ export interface EventSelect<T> extends  AutoCompleteSelectEvent{
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
+  host:{
+    class: 'game-dialog'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddComponent implements  OnInit{
