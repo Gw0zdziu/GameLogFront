@@ -2,6 +2,9 @@ app-theme-toggle{
   display: flex;
 }
 
+app-container{
+  --align-items: center;
+}
 
 .button {
   width: 100%;

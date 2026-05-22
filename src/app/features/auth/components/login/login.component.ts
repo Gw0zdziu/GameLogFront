@@ -11,6 +11,8 @@ import {Password} from 'primeng/password';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 import {concatMap} from 'rxjs';
 import {UserService} from '../../../user/services/user.service';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +26,7 @@ import {UserService} from '../../../user/services/user.service';
     ThemeToggleComponent,
     Password,
     LangToggleComponent,
+    FaIconComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -45,6 +48,7 @@ export class LoginComponent {
       updateOn: 'blur',
     }],
   });
+  faSpinner = faSpinner;
 
   loginUser(): void{
     if (this.loginForm.valid) {
@@ -53,25 +57,18 @@ export class LoginComponent {
       this.authService.loginUser(loginUser)
         .pipe(
           concatMap(() => {
-            return this.userService.getUser()
+            return this.userService.getUser();
           }),
         )
         .subscribe({
           next: () => {
-            this.router.navigate(['home'], ).finally();
+            this.router.navigate(['home'], ).then(() =>
+              this.isLogin.set(false));
           },
           error: () => {
             this.isLogin.set(false);
-          },
-          complete: () => this.isLogin.set(false)
+          }
         })
-    } else {
-      if (this.loginForm.controls.userName.value === '') {
-        this.loginForm.controls.userName.markAsTouched();
-      }
-      if (this.loginForm.controls.password.value === '') {
-        this.loginForm.controls.password.markAsTouched();
-      }
     }
   }
 
