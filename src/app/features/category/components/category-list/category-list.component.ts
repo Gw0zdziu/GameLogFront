@@ -8,8 +8,9 @@ import {CategoryStore} from '../../store/category-store';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
 import {ButtonDirective} from 'primeng/button';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
-import {faPencil, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faPencil, faSpinner, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 
 @Component({
@@ -20,6 +21,7 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
     PaginatorComponent,
     ButtonDirective,
     FaIconComponent,
+    ContainerComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
@@ -34,6 +36,8 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
   readonly categories$ = this.store.categories;
   faPencil = faPencil;
   faTrash = faTrash;
+  faSpinner = faSpinner;
+
 
   ngOnInit(): void {
     this.store.getCategories({...this.paginationState$()});
