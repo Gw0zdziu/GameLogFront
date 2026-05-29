@@ -11,7 +11,7 @@
   position: fixed;
 }
 
-.menu-sidebar {
+.container__list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -29,11 +29,8 @@
   transition: transform 200ms ease-in-out, margin-left 200ms ease-in-out;
 }
 
-.menu-button{
-  align-self: end;
-}
 
-.container-icon{
+.container__button{
   display: none;
 }
 
@@ -53,7 +50,7 @@
     transition: transform 100ms ease-in-out, margin-left 100ms ease-in-out;
   }
 
-  .container-icon {
+  .container__button {
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
@@ -61,7 +58,7 @@
     padding: 0.5rem;
   }
 
-  .sidebar{
+  .container{
     height: inherit;
     width: 20rem;
     background-color: var(--gray-light);
