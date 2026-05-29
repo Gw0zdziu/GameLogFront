@@ -18,7 +18,7 @@
   </section>
   <section class="form__field">
     <label for="category" i18n>Kategoria</label>
-    <p-auto-complete   appendTo="body" dropdown="true" formControlName="categoryId" id="category" name="category"  optionLabel="categoryName" [required]="true" [suggestions]="filteredCategories()"   (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
+    <p-auto-complete   appendTo="body" dropdown="true" fluid="true" formControlName="categoryId" id="category" name="category" optionLabel="categoryName"  [suggestions]="filteredCategories()"  (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
     @if (newGameForm.controls.categoryId.invalid && newGameForm.controls.categoryId.touched) {
       @if (newGameForm.controls.categoryId.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
