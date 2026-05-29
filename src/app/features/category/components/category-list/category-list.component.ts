@@ -10,7 +10,6 @@ import {ButtonDirective} from 'primeng/button';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {faPencil, faSpinner, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 
 @Component({
@@ -21,7 +20,6 @@ import {ContainerComponent} from '../../../../shared/components/container/contai
     PaginatorComponent,
     ButtonDirective,
     FaIconComponent,
-    ContainerComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
