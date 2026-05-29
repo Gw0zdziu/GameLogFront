@@ -1,5 +1,5 @@
 import {ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
-import {provideRouter} from '@angular/router';
+import {provideRouter, Router} from '@angular/router';
 import {routes} from './app.routes';
 import {providePrimeNG} from 'primeng/config';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
@@ -10,6 +10,8 @@ import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './core/pipes/format-date.pipe';
+import {AuthService} from './features/auth/services/auth.service';
+import {concatMap, filter, tap} from 'rxjs';
 import {UserService} from './features/user/services/user.service';
 
 
@@ -98,9 +100,20 @@ export const appConfig: ApplicationConfig = {
         }
       }
     }),
-      provideAppInitializer(() =>{
-        const userService = inject(UserService);
-        userService.getUser().subscribe();
-      })
+    provideAppInitializer(() =>{
+      const authService = inject(AuthService);
+      const userService = inject(UserService);
+      const router = inject(Router);
+      authService.verify().pipe(
+        filter(x => x),
+        concatMap( x => {
+          return userService.getUser().pipe(
+            tap(x => {
+              router.navigate(['home']);
+            })
+          )
+        })
+      ).subscribe();
+    })
   ]
 };
