@@ -15,6 +15,8 @@ import {ImageGameComponent} from "../shared/image-game/image-game.component";
 import {GameDetailsDto} from "../../models/game-details.dto";
 import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from 'rxjs';
 import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-game-update',
@@ -26,6 +28,7 @@ import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.serv
     Message,
     ReactiveFormsModule,
       ImageGameComponent,
+    FaIconComponent,
   ],
   templateUrl: './game-update.component.html',
   styleUrl: './game-update.component.css',
@@ -51,8 +54,8 @@ export class GameUpdateComponent implements OnInit{
     gameStore = inject(GameStore);
     instance: DynamicDialogComponent | undefined;
     gameId: string;
-
-  updateGameForm = new FormGroup(
+    faSpinner = faSpinner;
+    updateGameForm = new FormGroup(
       {
         gameName: new FormControl<string>('', {
           nonNullable: true,
@@ -152,4 +155,5 @@ export class GameUpdateComponent implements OnInit{
       }
     })
   }
+
 }
