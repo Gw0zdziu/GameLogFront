@@ -1,3 +1,13 @@
+.loader{
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0 0 0.25em, rgba(90, 125, 188, 0.05) 0 0.25em 1em;
+  background: var(--gray-light);
+  margin-block: 1rem;
+}
+
 .game-image{
   display: flex;
   flex-direction: column;
@@ -9,6 +19,16 @@
   height: 200px;
   object-fit: cover;
   border-radius: 10px 0 0 10px;
+}
+
+.empty-list{
+  text-align: center;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2rem;
+  background-color: var(--gray-light);
+  margin-bottom: 1rem;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
 
 @media (max-width: 446px) {

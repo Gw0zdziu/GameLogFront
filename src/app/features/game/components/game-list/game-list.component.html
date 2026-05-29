@@ -1,5 +1,5 @@
 @if (store.isLoading()){
-  <app-container><fa-icon animation="spin" size="3x" [icon]="faSpinner" /></app-container>
+  <section class="loader"><fa-icon animation="spin" size="3x" [icon]="faSpinner" /></section>
 } @else {
     @for (item of games$(); track item.gameId) {
       <app-list-item>

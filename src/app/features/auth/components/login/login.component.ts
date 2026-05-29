@@ -5,7 +5,6 @@ import {AuthService} from '../../services/auth.service';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginUserDto} from '../../models/login-user.dto';
 import {Router, RouterLink} from '@angular/router';
-import {ContainerComponent} from '../../../../shared/components/container/container.component';
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 import {Password} from 'primeng/password';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
@@ -22,7 +21,6 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
     ButtonLabel,
     ButtonDirective,
     RouterLink,
-    ContainerComponent,
     ThemeToggleComponent,
     Password,
     LangToggleComponent,

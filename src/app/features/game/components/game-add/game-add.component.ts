@@ -13,13 +13,8 @@ import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
 import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
 import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from "rxjs";
-
-export interface EventSelect<T> extends  AutoCompleteSelectEvent{
-  image: string;
-  value: T;
-}
-
-
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-game-add',
   imports: [
@@ -30,7 +25,8 @@ export interface EventSelect<T> extends  AutoCompleteSelectEvent{
     ReactiveFormsModule,
     ButtonDirective,
     ButtonLabel,
-    ImageGameComponent
+    ImageGameComponent,
+    FaIconComponent
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
@@ -51,6 +47,7 @@ export class GameAddComponent implements  OnInit{
     readonly isNotSelectCategory = signal(true);
     readonly filteredCategories = signal<CategoryDto[]>([]);
     private gameNameSearch$ = new Subject<string>();
+    faSpinner = faSpinner;
     newGameForm = this.formBuilder.group({
       gameName: ['', {
         validators: [Validators.required],

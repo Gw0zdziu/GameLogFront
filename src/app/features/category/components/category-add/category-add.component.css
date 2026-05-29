@@ -2,7 +2,18 @@
   display: flex;
 }
 
-.button{
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__button{
   place-items: end;
 }
 

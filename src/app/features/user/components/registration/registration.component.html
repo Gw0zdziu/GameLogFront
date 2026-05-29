@@ -1,7 +1,11 @@
-<app-container>
-  <h1 class="container-header" i18n>Rejestracja</h1>
-  <form class="container-inputs" [formGroup]="registerForm" (ngSubmit)="postNewUser()">
-    <section class="input" >
+<div class="toggles">
+  <app-lang-toggle/>
+  <app-theme-toggle />
+</div>
+<section class="container">
+  <h1 class="container__header" i18n>Rejestracja</h1>
+  <form class="container__form" [formGroup]="registerForm" (ngSubmit)="postNewUser()">
+    <section class="form__field" >
       <label for="username" i18n>Nazwa użytkownika</label>
       <input formControlName="userName" id="username" i18n pInputText pSize="large" type="text" [ngClass]="{'ng-invalid ng-dirty': registerForm.controls.userName.invalid}">
       @if (registerForm.controls.userName.invalid && registerForm.controls.userName.touched) {
@@ -13,7 +17,7 @@
         }
       }
     </section>
-    <section class="input">
+    <section class="form__field">
       <label for="firstname" i18n>Imię</label>
       <input formControlName="firstname" id="firstname" pInputText pSize="large" type="text">
       @if (registerForm.controls.firstname.invalid && registerForm.controls.firstname.touched) {
@@ -25,7 +29,7 @@
         }
       }
     </section>
-    <section class="input">
+    <section class="form__field">
       <label for="lastname" i18n>Nazwisko</label>
       <input formControlName="lastname"  id="lastname" pInputText pSize="large" type="text">
       @if (registerForm.controls.lastname.invalid && registerForm.controls.lastname.touched) {
@@ -51,7 +55,7 @@
         }
       }
     </section>
-    <section class="input">
+    <section class="form__field">
       <label for="password" i18n >Hasło</label>
       <input formControlName="password" id="password" pInputText pSize="large" type="text">
       @if (registerForm.controls.password.invalid && registerForm.controls.password.touched) {
@@ -63,7 +67,7 @@
         }
       }
     </section>
-    <section class="input">
+    <section class="form__field">
       <label for="confirm-password" i18n >Potwierdź hasło</label>
       <input formControlName="confirmPassword" id="confirm-password" pInputText pSize="large" type="text">
       @if (registerForm.controls.confirmPassword.invalid && registerForm.controls.confirmPassword.touched) {
@@ -78,7 +82,7 @@
         }
       }
     </section>
-    <section class="input">
+    <section class="form__field">
       <label for="invitationCode" i18n>Kod zaproszenia</label>
       <input formControlName="invitationCode" id="invitationCode" pInputText pSize="large" type="text">
       @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
@@ -87,14 +91,11 @@
         }
       }
     </section>
-    <section class="container-buttons">
-      <button pButton severity="contrast"  type="submit" [disabled]="registerForm.invalid">
+      <button class="form__button" pButton severity="contrast"  type="submit" [disabled]="registerForm.invalid">
         @if (isSubmit()) {
           <i class="pi pi-spin pi-spinner"></i>
         }
         <span i18n pButtonLabel>Zarejestruj</span>
       </button>
-    </section>
   </form>
-  <div class="container-blur"></div>
-</app-container>
+</section>

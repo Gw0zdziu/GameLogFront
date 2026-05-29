@@ -9,7 +9,6 @@ import {PaginatorComponent} from '../../../../shared/components/paginator/pagina
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faPencil, faSpinner, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {GameUpdateComponent} from '../game-update/game-update.component';
-import {ContainerComponent} from '../../../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-game-list',
@@ -19,7 +18,6 @@ import {ContainerComponent} from '../../../../shared/components/container/contai
     PaginatorComponent,
     ButtonDirective,
     FaIconComponent,
-    ContainerComponent
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css',
