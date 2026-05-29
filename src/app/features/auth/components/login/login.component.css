@@ -1,29 +1,46 @@
-app-theme-toggle{
+:host{
   display: flex;
+  flex-direction: column;
 }
 
-app-container{
-  --align-items: center;
+.toggles {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.button {
-  width: 100%;
+.container{
+  display: block;
+  margin: 24px auto;
+  box-shadow: 0 0 30px 10px rgba(10, 3, 56, 0.05);
+  padding: 24px;
+  border-radius: 10px;
 }
 
-.input-password{
-  margin-bottom: 4px;
+.container__header{
+  place-self: flex-start;
 }
 
-.link-register {
+.container__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-top: 12px;
 }
 
-.link-recovery-password {
-  align-self: end;
+.form__field {
+  display: flex;
+  flex-direction: column;
 }
 
-.container-toggles {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.form__button {
+  width: 100%;
 }
+
+.container__register {
+  display: block;
+  margin-top: 12px;
+}
+
+
+
