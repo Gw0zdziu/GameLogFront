@@ -1,5 +1,5 @@
 :host{
-  display: flex;
+  display: block;
 }
 .image {
   display: flex;
@@ -22,12 +22,6 @@
 
 .form__button{
   place-items: end;
-}
-
-@media (max-width: 500px){
-  :host{
-    flex-direction: column;
-  }
 }
 
 
