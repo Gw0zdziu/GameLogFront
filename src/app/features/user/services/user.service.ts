@@ -68,6 +68,7 @@ export class UserService {
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     }).pipe(
       tap(value => {
+        this.loggedStoreService.setLogged(true);
         this.userStoreService.updateUser(value);
       }),
       catchError(( err: HttpErrorResponse) => {
