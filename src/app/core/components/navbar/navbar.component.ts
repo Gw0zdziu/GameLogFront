@@ -8,7 +8,7 @@ import {ThemeToggleComponent} from '../../../features/theme-toggle/theme-toggle.
 import {LangToggleComponent} from '../../../features/lang-toggle/lang-toggle.component';
 import {Router} from '@angular/router';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {faBars, faUser } from "@fortawesome/free-solid-svg-icons";
+import {faBars, faUser} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'header[app-navbar]',
@@ -26,16 +26,13 @@ import {faBars, faUser } from "@fortawesome/free-solid-svg-icons";
       <fa-icon size="lg" [icon]="faBar" />
     </button>
     <span class="logo">GameLog</span>
-
     <app-lang-toggle/>
-    <app-theme-toggle />
-    <!--<p-button ariaLabel="User Button"
-              class="user-button" icon="pi pi-user" [rounded]="true" [text]="true" (click)="menu.toggle($event)"/>-->
+    <app-theme-toggle/>
     <button pButton  type="button"
             [rounded]="true" [text]="true" (click)="menu.toggle($event)">
       <fa-icon size="lg" [icon]="faUser" />
     </button>
-    <p-menu #menu class="user-menu" [model]="items()" [popup]="true" />
+    <p-menu #menu [model]="items()" [popup]="true" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
