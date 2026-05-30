@@ -5,7 +5,7 @@ import {catchError, Observable, of, tap, throwError} from 'rxjs';
 import {LoginUserDto} from '../models/login-user.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
-import {UserStoreService} from '../../../core/store/user-store/user-store.service';
+import {UserStore} from '../../../core/store/user-store/user-store';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
 import {Router} from '@angular/router';
@@ -17,7 +17,7 @@ export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`
   private httpClient = inject(HttpClient);
   private loggedStoreService = inject(LoggedStoreService);
-  private userStoreService = inject(UserStoreService);
+  private userStore = inject(UserStore);
   private toastService = inject(ToastService);
   private tokenStoreService = inject(TokenStoreService);
   private router = inject(Router);
@@ -50,13 +50,13 @@ export class AuthService {
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     }).pipe(
       tap(() => {
-      this.userStoreService.cleanStore();
+      this.userStore.cleanStore();
       this.loggedStoreService.setLogged(false);
       this.tokenStoreService.updateToken(null);
       this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
       }),
       catchError((err) => {
-        this.userStoreService.cleanStore();
+        this.userStore.cleanStore();
         this.loggedStoreService.setLogged(false);
         this.tokenStoreService.updateToken(null);
         this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
