@@ -10,7 +10,7 @@ import {Message} from 'primeng/message';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {CategoryStore} from '../../../category/store/category-store';
-import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
+import {UserStore} from '../../../../core/store/user-store/user-store';
 import {ImageGameComponent} from "../shared/image-game/image-game.component";
 import {GameDetailsDto} from "../../models/game-details.dto";
 import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from 'rxjs';
@@ -43,7 +43,7 @@ export class GameUpdateComponent implements OnInit{
     private categoryStore = inject(CategoryStore);
     private gameService = inject(GameService);
     private cdr = inject(ChangeDetectorRef);
-    private userStoreService = inject(UserStoreService);
+    private userStore = inject(UserStore);
     private gameBrainService = inject(GamebrainapiService)
     private gameNameSearch$ = new Subject<string>();
     readonly filteredCategories = signal<CategoryDto[]>([]);
@@ -78,7 +78,7 @@ export class GameUpdateComponent implements OnInit{
     )
 
     constructor() {
-      const userId = this.userStoreService.user$()?.userId as string;
+      const userId = this.userStore.userId() as string;
       this.categoryStore.getCategoriesByUserId(userId);
       this.instance = this.dialogService.getInstance(this.dynamicDialogRef);
     }
