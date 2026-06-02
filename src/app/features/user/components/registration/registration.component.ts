@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
-import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RegisterNewUserRequestDto} from '../../models/register-new-user-request.dto';
 import {Router} from '@angular/router';
@@ -17,8 +16,6 @@ import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component
   imports: [
     InputText,
     ReactiveFormsModule,
-    ButtonDirective,
-    ButtonLabel,
     Message,
     NgClass,
     LangToggleComponent,
@@ -64,8 +61,8 @@ export class RegistrationComponent{
         validators:[Validators.required, Validators.minLength(8)],
         updateOn: 'blur',
       }],
-    invitationCode: ['', {
-      validators: [Validators.required],
+    invitationCode: [null, {
+      /*validators: [Validators.required],*/
       updateOn: 'blur',
     }]
   },{
