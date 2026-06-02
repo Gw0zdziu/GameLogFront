@@ -10,6 +10,7 @@ import {NgClass} from '@angular/common';
 import {matchValueValidator} from '../../../../core/validators/match-value.validator';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
+import {ButtonDirective, ButtonLabel} from 'primeng/button';
 
 @Component({
   selector: 'app-registration',
@@ -20,6 +21,8 @@ import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component
     NgClass,
     LangToggleComponent,
     ThemeToggleComponent,
+    ButtonDirective,
+    ButtonLabel,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',
