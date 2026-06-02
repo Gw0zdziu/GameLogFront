@@ -7,7 +7,7 @@ import {ListItemComponent} from '../../../../shared/components/list-item/list-it
 import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {faPencil, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faPencil, faSpinner, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {GameUpdateComponent} from '../game-update/game-update.component';
 
 @Component({
@@ -17,7 +17,7 @@ import {GameUpdateComponent} from '../game-update/game-update.component';
     FormatDatePipe,
     PaginatorComponent,
     ButtonDirective,
-    FaIconComponent
+    FaIconComponent,
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css',
@@ -32,6 +32,7 @@ export class GameListComponent implements OnInit{
   readonly games$ = this.store.games;
   faTrash = faTrash;
   faPencil = faPencil;
+  faSpinner = faSpinner;
 
   ngOnInit(): void {
     this.store.getGames({...this.paginationState$()})

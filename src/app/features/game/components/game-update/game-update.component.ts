@@ -10,11 +10,13 @@ import {Message} from 'primeng/message';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {CategoryStore} from '../../../category/store/category-store';
-import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
+import {UserStore} from '../../../../core/store/user-store/user-store';
 import {ImageGameComponent} from "../shared/image-game/image-game.component";
 import {GameDetailsDto} from "../../models/game-details.dto";
 import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from 'rxjs';
 import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-game-update',
@@ -26,9 +28,13 @@ import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.serv
     Message,
     ReactiveFormsModule,
       ImageGameComponent,
+    FaIconComponent,
   ],
   templateUrl: './game-update.component.html',
   styleUrl: './game-update.component.css',
+  host:{
+    class: 'game-dialog'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameUpdateComponent implements OnInit{
@@ -37,7 +43,7 @@ export class GameUpdateComponent implements OnInit{
     private categoryStore = inject(CategoryStore);
     private gameService = inject(GameService);
     private cdr = inject(ChangeDetectorRef);
-    private userStoreService = inject(UserStoreService);
+    private userStore = inject(UserStore);
     private gameBrainService = inject(GamebrainapiService)
     private gameNameSearch$ = new Subject<string>();
     readonly filteredCategories = signal<CategoryDto[]>([]);
@@ -48,8 +54,8 @@ export class GameUpdateComponent implements OnInit{
     gameStore = inject(GameStore);
     instance: DynamicDialogComponent | undefined;
     gameId: string;
-
-  updateGameForm = new FormGroup(
+    faSpinner = faSpinner;
+    updateGameForm = new FormGroup(
       {
         gameName: new FormControl<string>('', {
           nonNullable: true,
@@ -72,7 +78,7 @@ export class GameUpdateComponent implements OnInit{
     )
 
     constructor() {
-      const userId = this.userStoreService.user$()?.userId as string;
+      const userId = this.userStore.userId() as string;
       this.categoryStore.getCategoriesByUserId(userId);
       this.instance = this.dialogService.getInstance(this.dynamicDialogRef);
     }
@@ -149,4 +155,5 @@ export class GameUpdateComponent implements OnInit{
       }
     })
   }
+
 }

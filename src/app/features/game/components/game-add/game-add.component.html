@@ -1,13 +1,13 @@
-<section class="game-image-container">
+<section class="image">
   <span i18n>Obraz gry</span>
-    <app-image-game [imageUrl]="newGameForm.controls.gameImage.value" />
+  <app-image-game [imageUrl]="newGameForm.controls.gameImage.value" />
 </section>
-<form class="dialog-form" [formGroup]="newGameForm"  (ngSubmit)="submitNewGame()">
-  <section class="input" id="gameName">
+<form class="form" [formGroup]="newGameForm"  (ngSubmit)="submitNewGame()">
+  <section class="form__field" id="gameName">
     <label for="gameName" i18n>Nazwa gry</label>
     <p-auto-complete appendTo="body" dropdown="true" fluid="true" formControlName="gameName" optionLabel="name" [suggestions]="games()" (completeMethod)="filterGames($event)" (onClear)="removeSelectGame()" (onSelect)="selectGame($event)">
       <ng-template #item let-game>
-          <span class="game-name">{{game.name}}</span>
+        <span class="game-name">{{game.name}}</span>
       </ng-template>
     </p-auto-complete>
     @if (newGameForm.controls.gameName.invalid && newGameForm.controls.gameName.touched) {
@@ -16,22 +16,22 @@
       }
     }
   </section>
-  <section class="input">
+  <section class="form__field">
     <label for="category" i18n>Kategoria</label>
-    <p-auto-complete   appendTo="body" dropdown="true" formControlName="categoryId" id="category" name="category"  optionLabel="categoryName" [required]="true" [suggestions]="filteredCategories()"   (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
+    <p-auto-complete   appendTo="body" dropdown="true" fluid="true" formControlName="categoryId" id="category" name="category" optionLabel="categoryName"  [suggestions]="filteredCategories()"  (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
     @if (newGameForm.controls.categoryId.invalid && newGameForm.controls.categoryId.touched) {
       @if (newGameForm.controls.categoryId.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
     }
   </section>
-  <section class="input">
+  <section class="form__field">
     <label for="yearPlayed" style="display: block">Rok ogrania</label>
-    <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed"  view="year"  />
+    <p-date-picker appendTo="body" class="form__field" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed"  view="year"  />
   </section>
-  <button class="button-submit" pButton type="submit" [disabled]="newGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
+  <button class="form__button" pButton type="submit" [disabled]="newGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
     @if (gameStore.isLoading()){
-      <i class="pi pi-spin pi-spinner"></i>
+      <fa-icon animation="spin" [icon]="faSpinner" />
     }
     <span i18n pButtonLabel>Dodaj</span>
   </button>

@@ -1,3 +1,6 @@
+@if (store.isLoading()){
+  <section class="loader"><fa-icon animation="spin" size="3x" [icon]="faSpinner" /></section>
+} @else {
 @for (item of categories$(); track item.categoryId) {
   <app-list-item>
     <ng-container ngProjectAs="header">
@@ -22,3 +25,4 @@
   <section class="empty-list">Nie posiadasz kategorii</section>
 }
 <app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()" (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)"/>
+}

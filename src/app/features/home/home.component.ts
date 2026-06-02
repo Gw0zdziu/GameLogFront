@@ -25,4 +25,5 @@ import {MenuComponent} from '../../core/components/menu/menu.component';
 })
 export class HomeComponent {
   protected layoutService = inject(LayoutService);
+
 }

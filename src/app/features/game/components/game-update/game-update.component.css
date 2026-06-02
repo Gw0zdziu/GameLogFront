@@ -1,25 +1,31 @@
 :host{
-  display: flex;
+  display: block;
 }
-
-.game-form{
-  display: flex;
-  flex-direction: column;
-}
-
-.game-image-container {
+.image {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 300px;
+}
 
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__button{
+  place-items: end;
 }
 
 
-@media (max-width: 500px){
-  :host{
-    flex-direction: column;
-  }
-}
+
+
+
+

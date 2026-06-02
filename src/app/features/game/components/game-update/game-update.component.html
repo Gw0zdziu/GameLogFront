@@ -1,9 +1,9 @@
-<section class="game-image-container">
-  <span class="game-image-header" i18n>Obraz gry</span>
-    <app-image-game [imageUrl]="updateGameForm.controls.gameImage.value" />
+<section class="image">
+  <span i18n>Obraz gry</span>
+  <app-image-game [imageUrl]="updateGameForm.controls.gameImage.value" />
 </section>
-<form class="game-form" [formGroup]="updateGameForm"  (ngSubmit)="submitUpdateGame()">
-  <section class="input">
+<form class="form" [formGroup]="updateGameForm"  (ngSubmit)="submitUpdateGame()">
+  <section class="form__field">
     <label for="gameName" i18n>Nazwa</label>
     <p-auto-complete appendTo="body" dropdown="true" fluid="true" formControlName="gameName" optionLabel="name" [suggestions]="games()" (completeMethod)="filterGames($event)" (onClear)="removeSelectGame()" (onSelect)="selectGame($event)">
       <ng-template #item let-game>
@@ -15,16 +15,16 @@
       }
     }
   </section>
-  <section class="input">
+  <section class="form__field">
     <label for="category" i18n>Kategoria</label>
-    <p-auto-complete   appendTo="body" dropdown="true" formControlName="selectedCategory" id="category" name="category"  optionLabel="categoryName"  [suggestions]="filteredCategories()"  (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
+    <p-auto-complete   appendTo="body" dropdown="true" fluid="true" formControlName="selectedCategory" id="category" name="category" optionLabel="categoryName"  [suggestions]="filteredCategories()"  (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
     @if (updateGameForm.controls.selectedCategory.errors?.invalid && updateGameForm.controls.selectedCategory.errors?.touched) {
       @if (updateGameForm.controls.selectedCategory.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
     }
   </section>
-  <section class="input">
+  <section class="form__field">
     <label for="yearPlayed" style="display: block">Rok zagrania</label>
     <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" view="year" [showIcon]="true"  />
     @if (updateGameForm.controls.yearPlayed.errors?.invalid && updateGameForm.controls.yearPlayed.errors?.touched) {
@@ -33,9 +33,9 @@
       }
     }
   </section>
-  <button class="button-submit" pButton type="submit" [disabled]="updateGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
+  <button class="form__button" pButton type="submit" [disabled]="updateGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
     @if (gameStore.isLoading()){
-      <i class="pi pi-spin pi-spinner"></i>
+      <fa-icon animation="spin" [icon]="faSpinner" />
     }
     <span i18n pButtonLabel>Dodaj</span>
   </button>

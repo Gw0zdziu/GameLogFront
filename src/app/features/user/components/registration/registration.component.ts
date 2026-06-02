@@ -6,10 +6,11 @@ import {RegisterNewUserRequestDto} from '../../models/register-new-user-request.
 import {Router} from '@angular/router';
 import {delay} from 'rxjs';
 import {UserService} from '../../services/user.service';
-import {ContainerComponent} from '../../../../shared/components/container/container.component';
 import {Message} from 'primeng/message';
 import {NgClass} from '@angular/common';
 import {matchValueValidator} from '../../../../core/validators/match-value.validator';
+import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
+import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-registration',
@@ -18,9 +19,10 @@ import {matchValueValidator} from '../../../../core/validators/match-value.valid
     ReactiveFormsModule,
     ButtonDirective,
     ButtonLabel,
-    ContainerComponent,
     Message,
     NgClass,
+    LangToggleComponent,
+    ThemeToggleComponent,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',

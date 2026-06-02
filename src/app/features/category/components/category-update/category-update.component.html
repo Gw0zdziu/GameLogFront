@@ -1,5 +1,5 @@
-<form [formGroup]="updatedCategoryForm" (ngSubmit)="submitForm()">
-  <section class="input">
+<form  class="form" [formGroup]="updatedCategoryForm" (ngSubmit)="submitForm()">
+  <section class="form__field">
     <label for="username" i18n>Nazwa</label>
     <input formControlName="categoryName" id="username" pInputText pSize="large" type="text">
     @if (updatedCategoryForm.controls.categoryName.invalid && updatedCategoryForm.controls.categoryName.touched) {
@@ -11,7 +11,7 @@
       }
     }
   </section>
-  <section class="input">
+  <section class="form__field">
     <label for="username" i18n>Opis</label>
     <textarea fluid formControlName="description" id="username" pTextarea></textarea>
   </section>

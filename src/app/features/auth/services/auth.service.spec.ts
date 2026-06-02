@@ -1,13 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
+import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideRouter} from '@angular/router';
 
-import { AuthService } from './auth.service';
-import { LoggedStoreService } from '../../../core/store/logged-store/logged-store.service';
-import { UserStoreService } from '../../../core/store/user-store/user-store.service';
-import { TokenStoreService } from '../../../core/store/token-store/token-store.service';
-import { ToastService } from '../../../core/services/toast/toast.service';
+import {AuthService} from './auth.service';
+import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
+import {UserStore} from '../../../core/store/user-store/user-store';
+import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
+import {ToastService} from '../../../core/services/toast/toast.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -28,7 +28,7 @@ describe('AuthService', () => {
         provideHttpClientTesting(),
         provideRouter([]),
         { provide: LoggedStoreService, useValue: mockLoggedStore },
-        { provide: UserStoreService, useValue: mockUserStore },
+        { provide: UserStore, useValue: mockUserStore },
         { provide: TokenStoreService, useValue: mockTokenStore },
         { provide: ToastService, useValue: mockToastService },
       ],

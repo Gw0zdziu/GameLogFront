@@ -8,17 +8,13 @@ import {CategoryStore} from '../../../category/store/category-store';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {UserStoreService} from '../../../../core/store/user-store/user-store.service';
+import {UserStore} from '../../../../core/store/user-store/user-store';
 import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
 import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
 import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from "rxjs";
-
-export interface EventSelect<T> extends  AutoCompleteSelectEvent{
-  image: string;
-  value: T;
-}
-
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-game-add',
@@ -30,17 +26,21 @@ export interface EventSelect<T> extends  AutoCompleteSelectEvent{
     ReactiveFormsModule,
     ButtonDirective,
     ButtonLabel,
-    ImageGameComponent
+    ImageGameComponent,
+    FaIconComponent
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
+  host:{
+    class: 'game-dialog'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddComponent implements  OnInit{
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
     private gameStory = inject(GameStore);
-    private userStoreService = inject(UserStoreService);
+    private userStore = inject(UserStore);
     private formBuilder = inject(FormBuilder);
     private gameBrainService = inject(GamebrainapiService);
     gameStore = inject(GameStore);
@@ -48,6 +48,7 @@ export class GameAddComponent implements  OnInit{
     readonly isNotSelectCategory = signal(true);
     readonly filteredCategories = signal<CategoryDto[]>([]);
     private gameNameSearch$ = new Subject<string>();
+    faSpinner = faSpinner;
     newGameForm = this.formBuilder.group({
       gameName: ['', {
         validators: [Validators.required],
@@ -70,7 +71,7 @@ export class GameAddComponent implements  OnInit{
 
 
   ngOnInit(): void {
-    const userId = this.userStoreService.user$()?.userId as string;
+    const userId = this.userStore.userId() as string;
     this.categoryStore.getCategoriesByUserId(userId);
     this.gameNameSearch$.pipe(
         filter(query => query !== ''),

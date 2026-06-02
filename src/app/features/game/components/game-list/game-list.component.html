@@ -1,3 +1,6 @@
+@if (store.isLoading()){
+  <section class="loader"><fa-icon animation="spin" size="3x" [icon]="faSpinner" /></section>
+} @else {
     @for (item of games$(); track item.gameId) {
       <app-list-item>
         <ng-container ngProjectAs="image">
@@ -27,3 +30,4 @@
       <section class="empty-list">Nie posiadasz gier</section>
     }
     <app-paginator [pageSizes]="[5,10,20]" [paginationConfig]="paginationState$()"  (pageNumberChange)="updatePageNumber($event)" (pageSizeChange)="updatePageSize($event)" />
+}

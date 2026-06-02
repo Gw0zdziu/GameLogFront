@@ -1,59 +1,117 @@
 # GameLogFront
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+Frontend aplikacji GameLog — dziennika gier wideo. Umożliwia użytkownikom rejestrację, logowanie oraz zarządzanie swoją biblioteką gier i kategoriami.
 
-## Development server
+## Stos technologiczny
 
-To start a local development server, run:
+| Warstwa | Technologia |
+|---|---|
+| Framework | Angular 19 |
+| UI | PrimeNG 19, FontAwesome |
+| State management | NgRx SignalStore |
+| i18n | Angular Localize (PL / EN) |
+| Testy | Jest + @testing-library/angular |
+| Serwer | nginx (Alpine) |
+| Konteneryzacja | Docker / Docker Compose |
 
-```bash
-ng serve
-```
+## Wymagania
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js 22 (zarządzane przez [Volta](https://volta.sh))
+- Docker + Docker Compose
+- Backend: [GameLogBack](https://github.com/) uruchomiony lokalnie lub dostępny pod skonfigurowanym adresem
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Uruchomienie lokalne (bez Dockera)
 
 ```bash
-ng build
+npm install
+
+# Wersja polska
+npm run dev-pl
+
+# Wersja angielska
+npm run dev-en
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Aplikacja działa na `http://localhost:4300`.
 
-## Running unit tests
+## Uruchomienie przez Docker Compose
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Docker Compose uruchamia trzy usługi: frontend (nginx), backend (.NET) i bazę danych (PostgreSQL).
 
 ```bash
-ng test
+docker compose up --build
 ```
 
-## Running end-to-end tests
+| Usługa | Port lokalny |
+|---|---|
+| Frontend | `http://localhost` |
+| Backend API | `http://localhost:8080` |
+| PostgreSQL | `localhost:5435` |
 
-For end-to-end (e2e) testing, run:
+## Zmienne środowiskowe bazy danych
+
+```
+POSTGRES_PASSWORD=gamelogdb
+POSTGRES_DB=gamelogdb
+```
+
+## Budowanie produkcyjne
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Artefakty trafiają do `dist/game-log-front/browser/` z podkatalogami `/en/` i `/pl/`.
 
-## Additional Resources
+## Testy
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm test
+```
+
+Uruchamia Jest z raportem pokrycia kodu.
+
+## Struktura projektu
+
+```
+src/app/
+├── core/
+│   ├── components/        # Navbar, Menu
+│   ├── directives/        # CloseSidebar
+│   ├── guards/            # authGuard
+│   ├── interceptors/      # auth, refresh-token
+│   ├── pipes/             # FormatDate
+│   ├── services/          # RefreshToken, Toast
+│   └── store/             # lang, theme, token, user, logged
+├── features/
+│   ├── auth/              # Login
+│   ├── category/          # CRUD kategorii
+│   ├── game/              # CRUD gier, GameBrainAPI
+│   ├── home/              # Widok główny
+│   ├── lang-toggle/       # Przełącznik języka
+│   ├── theme-toggle/      # Przełącznik motywu
+│   └── user/              # Rejestracja
+└── shared/
+    ├── components/        # ListItem, MenuItem, Paginator
+    ├── constants/         # Definicje języków
+    ├── models/            # DTO, modele współdzielone
+    └── services/          # Layout
+```
+
+## Internacjonalizacja (i18n)
+
+Aplikacja jest budowana osobno dla każdego języka. nginx kieruje ruch na podstawie prefiksu URL:
+
+- `http://localhost/pl/` — wersja polska
+- `http://localhost/en/` — wersja angielska
+
+Przekierowanie na domyślną wersję językową odbywa się na podstawie nagłówka `Accept-Language` przeglądarki. Nginx przekazuje do backendu nagłówek `Accept-Language` zgodny z aktywnym językiem aplikacji (wykrywanym z nagłówka `Referer`).
+
+## Deployment (produkcja)
+
+Aplikacja jest wdrożona na platformie [Railway](https://railway.app):
+
+- Frontend: `https://gamelogfront.up.railway.app`
+- Backend: `https://gamelogback.up.railway.app`
+
+Produkcyjny obraz Dockera budowany jest z `Dockerfile`, deweloperski z `Dockerfile.dev`.

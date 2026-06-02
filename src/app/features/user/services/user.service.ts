@@ -7,7 +7,6 @@ import {RecoveryUpdatePasswordDto} from '../../auth/models/recovery-update-passw
 import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
 import {ConfirmCodeDto} from '../models/confirm-code.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
-import {UserStoreService} from '../../../core/store/user-store/user-store.service';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 
@@ -17,7 +16,6 @@ import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.
 export class UserService {
   private apiUrl = `${environment.apiUrl}/user`
   private httpClient = inject(HttpClient);
-  private userStoreService = inject(UserStoreService);
   private loggedStoreService = inject(LoggedStoreService);
   private toastService = inject(ToastService);
 
@@ -68,7 +66,7 @@ export class UserService {
       context: new HttpContext().set(IS_AUTH_REQUIRED, true)
     }).pipe(
       tap(value => {
-        this.userStoreService.updateUser(value);
+        this.loggedStoreService.setLogged(true);
       }),
       catchError(( err: HttpErrorResponse) => {
         this.loggedStoreService.setLogged(false);
