@@ -67,6 +67,8 @@
     "4612088243994662427": "English",
     "751516568894972725": "No categories",
     "1932729579387923459": "No games",
-    "4717996637707937095": "New game"
+    "4717996637707937095": "New game",
+    "3958062872495354702": "Played in: {$INTERPOLATION}",
+    "9014910630385288727": "Number of games: {$INTERPOLATION}"
   }
 }
