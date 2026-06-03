@@ -11,6 +11,7 @@ import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './core/pipes/format-date.pipe';
 import {UserStore} from './core/store/user-store/user-store';
+import {AuthService} from './features/auth/services/auth.service';
 
 
 const Preset = definePreset(Aura, {
@@ -99,10 +100,18 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideAppInitializer(() =>{
+      const authService = inject(AuthService);
       const router = inject(Router);
       const userStore = inject(UserStore);
-      userStore.getUser();
-      router.navigate(['']);
+      authService.verify().subscribe({
+        next:(value) =>{
+          if (value) {
+            userStore.getUser();
+            router.navigate(['/']);
+          }
+        }
+      });
+
     })
   ]
 };
