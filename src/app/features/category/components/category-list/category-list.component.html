@@ -10,7 +10,7 @@
       {{ item.description }}
     </ng-container>
     <ng-container ngProjectAs="data">
-      Ilość gier: {{ item.gamesCount }}
+      <span i18n>Ilość gier: {{ item.gamesCount }}</span>
     </ng-container>
     <ng-container ngProjectAs="actions">
       <button pButton severity="warn"  type="button"  (click)="updateCategory(item.categoryId)">
