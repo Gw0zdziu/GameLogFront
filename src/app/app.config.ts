@@ -101,13 +101,11 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAppInitializer(() =>{
       const authService = inject(AuthService);
-      const router = inject(Router);
       const userStore = inject(UserStore);
       authService.verify().subscribe({
         next:(value) =>{
           if (value) {
             userStore.getUser();
-            router.navigate(['/']);
           }
         }
       });
