@@ -15,7 +15,7 @@
           {{ item.categoryName }}
         </ng-container>
         <ng-container ngProjectAs="data" >
-          Zagrano w: {{ item.yearPlayed | formatDate }}
+          <span i18n>Zagrano w: {{ item.yearPlayed | formatDate }}</span>
         </ng-container>
         <ng-container ngProjectAs="actions">
             <button pButton severity="warn" size="small"  type="button"  (click)="updateGame(item.gameId)">

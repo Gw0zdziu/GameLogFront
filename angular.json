@@ -11,6 +11,7 @@
       "prefix": "app",
       "i18n": {
         "sourceLocale": "pl",
+        "format": "",
         "locales": {
           "en": {
             "translation": "src/locale/messages.en.json",
@@ -113,7 +114,11 @@
           "defaultConfiguration": "dev-pl"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "format": "json",
+            "outputPath": "src/locale/"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:jest",
