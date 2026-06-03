@@ -107,7 +107,6 @@ export const appConfig: ApplicationConfig = {
         next:(value) =>{
           if (value) {
             userStore.getUser();
-            router.navigate(['/']);
           }
         }
       });
