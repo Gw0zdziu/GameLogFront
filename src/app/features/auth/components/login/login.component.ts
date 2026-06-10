@@ -1,17 +1,17 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {AuthService} from '../../services/auth.service';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginUserDto} from '../../models/login-user.dto';
+import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 import {Password} from 'primeng/password';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
-import {UserService} from '../../../user/services/user.service';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {UserStore} from '../../../../core/store/user-store/user-store';
+import {AuthService} from '../../services/auth.service';
+import {LoginUserDto} from '../../models/login-user.dto';
+
 
 @Component({
   selector: 'app-login',
@@ -25,6 +25,7 @@ import {UserStore} from '../../../../core/store/user-store/user-store';
     Password,
     LangToggleComponent,
     FaIconComponent,
+    FormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -32,27 +33,15 @@ import {UserStore} from '../../../../core/store/user-store/user-store';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
-  private formBuilder = inject(FormBuilder);
-  private userService = inject(UserService);
   private userStore = inject(UserStore);
   private router = inject(Router);
   readonly isLogin = signal(false);
-  loginForm = this.formBuilder.group({
-    userName: ['', {
-      validators:[Validators.required],
-      updateOn: 'blur',
-    }],
-    password: ['', {
-      validators:[Validators.required],
-      updateOn: 'blur',
-    }],
-  });
   faSpinner = faSpinner;
 
-  loginUser(): void{
-    if (this.loginForm.valid) {
+  loginUser(form: NgForm): void{
+    if (form.valid) {
       this.isLogin.set(true);
-      const loginUser: LoginUserDto = this.loginForm.value as LoginUserDto;
+      const loginUser: LoginUserDto = form.value as LoginUserDto;
       this.authService.loginUser(loginUser)
         .subscribe({
           next: () => {
