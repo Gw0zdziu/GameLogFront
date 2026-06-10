@@ -4,23 +4,20 @@
 </div>
 <section class="container">
   <h1 class="container__header" i18n>Zaloguj</h1>
-  <form class="container__form" [formGroup]="loginForm" (ngSubmit)="loginUser()">
+  <form #loginForm="ngForm" class="container__form" (ngSubmit)="loginUser(loginForm)">
     <section class="form__field" >
       <label for="username" i18n >Nazwa użytkownika</label>
-      <input formControlName="userName" id="username" pInputText pSize="large" type="text">
+      <input id="username" name="username" ngModel pInputText pSize="large" required type="text">
     </section>
     <section class="form__field" >
       <label for="password" i18n >Hasło</label>
-      <p-password feedback="false" formControlName="password" id="password" size="large" type="password" [fluid]="true" [toggleMask]="true" />
+      <p-password feedback="false" id="password" name="password" ngModel required size="large" type="password" [fluid]="true" [toggleMask]="true" />
     </section>
-<!--
-    <a class="link-recovery-password" [routerLink]="['','recovery-password']">Zapomniałaś hasło</a>
--->
       <button class="form__button"  pButton type="submit" [disabled]="isLogin()">
         @if (isLogin()){
           <fa-icon animation="spin" [icon]="faSpinner" />
         }
-        <span i18n pButtonLabel>Zaloguj</span>
+        <span i18n pButtonLabel>{{isLogin() ? 'Logowanie' : 'Zaloguj'}}</span>
       </button>
   </form>
   <span class="container__register" i18n>Nie masz konta?  <a [routerLink]="['','registration']">Zarejestruj się</a></span>
