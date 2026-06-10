@@ -1,21 +1,21 @@
-<form  class="form" [formGroup]="updatedCategoryForm" (ngSubmit)="submitForm()">
+<form #updateCategoryForm='ngForm'  class="form" (ngSubmit)="submitForm()">
   <section class="form__field">
-    <label for="username" i18n>Nazwa</label>
-    <input formControlName="categoryName" id="username" pInputText pSize="large" type="text">
-    @if (updatedCategoryForm.controls.categoryName.invalid && updatedCategoryForm.controls.categoryName.touched) {
-      @if (updatedCategoryForm.controls.categoryName.errors?.required) {
+    <label for="categoryName" i18n>Nazwa</label>
+    <input #categoryName='ngModel' id="categoryName" minlength="3" name="categoryName" pInputText pSize="large" required type="text" [(ngModel)]="updatedCategory().categoryName">
+    @if (categoryName.invalid && categoryName.touched) {
+      @if (categoryName.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
-      @if (updatedCategoryForm.controls.categoryName.errors?.minlength) {
+      @if (categoryName.errors?.minlength) {
         <p-message i18n severity="error" size="small" variant="simple">Pole musi zawierać co najmniej 3 znaków</p-message>
       }
     }
   </section>
   <section class="form__field">
-    <label for="username" i18n>Opis</label>
-    <textarea fluid formControlName="description" id="username" pTextarea></textarea>
+    <label for="description" i18n>Opis</label>
+    <textarea #description='ngModel' fluid id="description" name="description" pTextarea [(ngModel)]="updatedCategory().description"></textarea>
   </section>
-  <button class="button" pButton type="submit" [disabled]="updatedCategoryForm.invalid">
+  <button class="button" pButton type="submit" [disabled]="updateCategoryForm.invalid">
     @if (store.isLoading()) {
       <i class="pi pi-spin pi-spinner"></i>
     }
