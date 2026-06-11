@@ -1,44 +1,44 @@
 import {TestBed} from '@angular/core/testing';
-import {CanActivateFn, Router} from '@angular/router';
-import {signal, WritableSignal} from '@angular/core';
+import {CanActivateFn, Router, UrlTree} from '@angular/router';
+import {Observable, of, throwError} from 'rxjs';
 import {authGuard} from './auth.guard';
-import {LoggedStoreService} from '../../store/logged-store/logged-store.service';
-import Mocked = jest.Mocked;
+import {AuthService} from '../../../features/auth/services/auth.service';
 
 describe('authGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
     TestBed.runInInjectionContext(() => authGuard(...guardParameters));
 
-  let isLoggedSignal: WritableSignal<boolean | null>;
-  let loggedStoreServiceMock: Mocked<Partial<LoggedStoreService>>;
-  let routerMock: Mocked<Partial<Router>>;
+  const fakeUrlTree = {toString: () => '/login'} as unknown as UrlTree;
+  const authServiceMock = {verify: jest.fn()};
+  const routerMock = {createUrlTree: jest.fn().mockReturnValue(fakeUrlTree)};
 
   beforeEach(() => {
-    isLoggedSignal = signal<boolean | null>(false);
-    loggedStoreServiceMock = {
-      isLogged$: isLoggedSignal.asReadonly(),
-    };
-    routerMock = {
-      navigate: jest.fn(),
-    };
+    jest.clearAllMocks();
+    routerMock.createUrlTree.mockReturnValue(fakeUrlTree);
     TestBed.configureTestingModule({
       providers: [
-        {provide: LoggedStoreService, useValue: loggedStoreServiceMock},
+        {provide: AuthService, useValue: authServiceMock},
         {provide: Router, useValue: routerMock},
       ],
     });
   });
 
-  it('should return true when user is logged in', () => {
-    isLoggedSignal.set(true);
-    const result = executeGuard({} as any, {} as any);
-    expect(result).toBe(true);
+  it('should return true when verify succeeds', (done) => {
+    authServiceMock.verify.mockReturnValue(of(true));
+
+    (executeGuard({} as any, {} as any) as Observable<boolean | UrlTree>).subscribe((result) => {
+      expect(result).toBe(true);
+      done();
+    });
   });
 
-  it('should return false when user is not logged in', () => {
-    const result = executeGuard({} as any, {} as any);
-    expect(result).toBe(false);
-  });
+  it('should redirect to login when verify throws', (done) => {
+    authServiceMock.verify.mockReturnValue(throwError(() => new Error('Unauthorized')));
 
- 
+    (executeGuard({} as any, {} as any) as Observable<boolean | UrlTree>).subscribe((result) => {
+      expect(routerMock.createUrlTree).toHaveBeenCalledWith(['login']);
+      expect(result).toBe(fakeUrlTree);
+      done();
+    });
+  });
 });
