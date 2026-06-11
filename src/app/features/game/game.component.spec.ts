@@ -20,11 +20,11 @@ describe('GameComponent', () => {
   let dynamicDialogRefMock: jest.Mocked<Partial<DynamicDialogRef>>;
   const dynamicDialogRefSubject = new BehaviorSubject<unknown>(undefined);
   beforeEach(async () => {
-    dialogServiceMock = {
-      open: jest.fn().mockReturnValue(dynamicDialogRefMock),
-    };
     dynamicDialogRefMock = {
       onClose: dynamicDialogRefSubject.asObservable(),
+    };
+    dialogServiceMock = {
+      open: jest.fn().mockReturnValue(dynamicDialogRefMock),
     };
     await TestBed.configureTestingModule({
       imports: [GameComponent],
@@ -71,8 +71,11 @@ describe('GameComponent', () => {
 
     it('should open method called with valid configuration', () => {
       const config: DynamicDialogConfig = {
-        header: 'Nowa kategoria',
+        header: 'Nowa gra',
         modal: true,
+        dismissableMask: true,
+        closable: true,
+        focusOnShow: false,
       };
       expect(dialogServiceMock.open).toHaveBeenCalledWith(GameAddComponent, config);
     });
