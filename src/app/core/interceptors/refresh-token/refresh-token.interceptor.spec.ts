@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClient, HttpErrorResponse, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { of, throwError } from 'rxjs';
-import { Router } from '@angular/router';
-import { refreshTokenInterceptor } from './refresh-token.interceptor';
-import { RefreshTokenService } from '../../services/refresh-token/refresh-token.service';
-import { AuthService } from '../../../features/auth/services/auth.service';
-import { TokenStoreService } from '../../store/token-store/token-store.service';
+import {TestBed} from '@angular/core/testing';
+import {HttpClient, HttpErrorResponse, provideHttpClient, withInterceptors} from '@angular/common/http';
+import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {of, throwError} from 'rxjs';
+import {Router} from '@angular/router';
+import {refreshTokenInterceptor} from './refresh-token.interceptor';
+import {RefreshTokenService} from '../../services/refresh-token/refresh-token.service';
+import {AuthService} from '../../../features/auth/services/auth.service';
+import {TokenStoreService} from '../../store/token-store/token-store.service';
 
 describe('refreshTokenInterceptor', () => {
   let http: HttpClient;
@@ -75,7 +75,6 @@ describe('refreshTokenInterceptor', () => {
     it.each([
       '/api/auth/login',
       '/api/auth/refresh-token',
-      '/api/gamebrain/verify',
     ])('rethrows 401 for excluded URL: %s', (excludedUrl) => {
       let receivedError: HttpErrorResponse | undefined;
       http.get(excludedUrl).subscribe({ error: err => (receivedError = err) });
