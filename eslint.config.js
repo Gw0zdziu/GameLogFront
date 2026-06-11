@@ -72,7 +72,6 @@ module.exports = tseslint.config(
       complexity: ['error', 20],
       curly: 'error',
       'guard-for-in': 'error',
-      'max-classes-per-file': ['error', 1],
       'max-len': [
         'warn',
         {
