@@ -8,7 +8,6 @@ import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.
 import {UserStore} from '../../../core/store/user-store/user-store';
 import {ToastService} from '../../../core/services/toast/toast.service';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
-import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,6 @@ export class AuthService {
   private userStore = inject(UserStore);
   private toastService = inject(ToastService);
   private tokenStoreService = inject(TokenStoreService);
-  private router = inject(Router);
 
 
 
@@ -55,12 +53,12 @@ export class AuthService {
       this.tokenStoreService.updateToken(null);
       this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
       }),
-      catchError((err) => {
+      catchError(() => {
         this.userStore.cleanStore();
         this.loggedStoreService.setLogged(false);
         this.tokenStoreService.updateToken(null);
         this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
-        return of(err)
+        return of()
       }),);
   }
 
