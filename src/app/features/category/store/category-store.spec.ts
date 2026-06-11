@@ -1,12 +1,12 @@
-import {CategoryStore} from './category-store';
-import {CategoryPostDto} from '../models/category-post.dto';
-import {CategoryService} from '../services/category.service';
-import {of, throwError} from 'rxjs';
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {CategoryDto} from '../models/category.dto';
-import {ToastService} from '../../../core/services/toast/toast.service';
-import {CategoryPutDto} from '../models/category-put.dto';
-import {FormatDatePipe} from '../../../core/pipes/format-date.pipe';
+import { CategoryStore } from './category-store';
+import { CategoryPostDto } from '../models/category-post.dto';
+import { CategoryService } from '../services/category.service';
+import { of, throwError } from 'rxjs';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { CategoryDto } from '../models/category.dto';
+import { ToastService } from '../../../core/services/toast/toast.service';
+import { CategoryPutDto } from '../models/category-put.dto';
+import { PaginatedQuery } from '../../../shared/models/paginated-query';
 
 describe('CategoryStore', () => {
   const category: CategoryDto = {
@@ -29,35 +29,40 @@ describe('CategoryStore', () => {
     updatedBy: 'admin@example.com',
     gamesCount: 47,
   };
+  const defaultQuery: PaginatedQuery = { pageNumber: 1, pageSize: 5 };
   let store: InstanceType<typeof CategoryStore>;
   let mockCategoryService: jest.Mocked<Partial<CategoryService>>;
   let toastServiceMock: jest.Mocked<Partial<ToastService>>;
-  let formatDateDistancePipeMock: jest.Mocked<Partial<FormatDatePipe>>;
+
   beforeEach(() => {
     mockCategoryService = {
       getCategory: jest.fn().mockReturnValue(category),
       updateCategory: jest.fn().mockReturnValue(of(updatedCategory)),
       deleteCategory: jest.fn().mockReturnValue(of('1')),
       createCategory: jest.fn().mockReturnValue(of(category)),
-      getUserCategories: jest.fn().mockReturnValue(of([category])),
+      getUserCategories: jest.fn().mockReturnValue(of({
+        results: [category],
+        pageNumber: 1,
+        pageSize: 5,
+        amountPagesList: [],
+      })),
     };
     toastServiceMock = {
       showSuccess: jest.fn(),
-      showError: jest.fn()
+      showError: jest.fn(),
     };
-    formatDateDistancePipeMock = {
-      transform: jest.fn().mockReturnValue('last year')
-    }
+
     TestBed.configureTestingModule({
       providers: [
         CategoryStore,
         { provide: CategoryService, useValue: mockCategoryService },
         { provide: ToastService, useValue: toastServiceMock },
-        { provide: FormatDatePipe, useValue: formatDateDistancePipeMock },
-      ]
+      ],
     });
     store = TestBed.inject(CategoryStore);
-  })
+  });
+
+  afterEach(() => jest.clearAllMocks());
 
   it("should categories' array is empty after initialization", () => {
     expect(store.categories().length).toBe(0);
@@ -67,7 +72,7 @@ describe('CategoryStore', () => {
 
   describe("getCategories", () => {
     it('should return array of categories', fakeAsync(() => {
-      store.getCategories();
+      store.getCategories(defaultQuery);
       tick(300);
       expect(store.categories()).toHaveLength(1);
     }));
@@ -76,7 +81,7 @@ describe('CategoryStore', () => {
       jest
         .spyOn(mockCategoryService, 'getUserCategories')
         .mockReturnValue(throwError(() => new Error('Error')));
-      store.getCategories();
+      store.getCategories(defaultQuery);
       tick(300);
       expect(store.categories()).toHaveLength(0);
       expect(store.isLoading()).toBeFalsy();
