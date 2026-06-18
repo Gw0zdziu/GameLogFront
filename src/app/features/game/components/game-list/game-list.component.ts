@@ -4,11 +4,11 @@ import {ConfirmationService} from 'primeng/api';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {ButtonDirective} from 'primeng/button';
 import {ListItemComponent} from '../../../../shared/components/list-item/list-item.component';
-import {FormatDatePipe} from '../../../../core/pipes/format-date.pipe';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faPencil, faSpinner, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {GameUpdateComponent} from '../game-update/game-update.component';
+import {FormatDatePipe} from '../../../../shared/pipes/format-date.pipe';
 
 @Component({
   selector: 'app-game-list',
