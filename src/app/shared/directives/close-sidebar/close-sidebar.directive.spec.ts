@@ -6,7 +6,7 @@ import {LayoutService} from '../../services/layout/layout.service';
 import Mocked = jest.Mocked;
 
 @Component({
-  template: '<button type="button" appCloseSidebar>close</button>',
+  template: '<button appCloseSidebar type="button">close</button>',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CloseSidebarDirective],
