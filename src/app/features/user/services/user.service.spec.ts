@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { UserService } from './user.service';
-import { ToastService } from '../../../core/services/toast/toast.service';
-import { LoggedStoreService } from '../../../core/store/logged-store/logged-store.service';
-import { GetUserDto } from '../../../shared/models/get-user.dto';
-import { RegisterNewUserRequestDto } from '../models/register-new-user-request.dto';
-import { IS_AUTH_REQUIRED } from '../../../core/tokens/tokens';
+import {TestBed} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {UserService} from './user.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
+import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
+import {GetUserDto} from '../../../shared/models/get-user.dto';
+import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
+import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 
 describe('UserService', () => {
   let service: UserService;

@@ -6,7 +6,7 @@ import {LoginUserDto} from '../models/login-user.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStore} from '../../../core/store/user-store/user-store';
-import {ToastService} from '../../../core/services/toast/toast.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
 
 @Injectable({
@@ -51,13 +51,11 @@ export class AuthService {
       this.userStore.cleanStore();
       this.loggedStoreService.setLogged(false);
       this.tokenStoreService.updateToken(null);
-      this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
       }),
       catchError(() => {
         this.userStore.cleanStore();
         this.loggedStoreService.setLogged(false);
         this.tokenStoreService.updateToken(null);
-        this.toastService.showSuccess($localize`Pomyślnie wylogowano`);
         return of()
       }),);
   }

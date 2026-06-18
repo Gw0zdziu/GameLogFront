@@ -7,10 +7,10 @@ import {delay} from 'rxjs';
 import {UserService} from '../../services/user.service';
 import {Message} from 'primeng/message';
 import {NgClass} from '@angular/common';
-import {matchValueValidator} from '../../../../core/validators/match-value.validator';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
+import {matchValueValidator} from '../../validators/match-value.validator';
 
 @Component({
   selector: 'app-registration',

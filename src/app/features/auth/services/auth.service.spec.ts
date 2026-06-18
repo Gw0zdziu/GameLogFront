@@ -7,7 +7,7 @@ import {AuthService} from './auth.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStore} from '../../../core/store/user-store/user-store';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
-import {ToastService} from '../../../core/services/toast/toast.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
 
 describe('AuthService', () => {
   let service: AuthService;

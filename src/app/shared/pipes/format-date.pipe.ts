@@ -4,7 +4,6 @@ import {getYear} from 'date-fns';
 
 @Pipe({
   name: 'formatDate',
-
 })
 export class FormatDatePipe implements PipeTransform {
 

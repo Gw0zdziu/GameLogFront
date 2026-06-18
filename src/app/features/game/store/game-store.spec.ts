@@ -1,12 +1,12 @@
-import { GameStore } from './game-store';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { GameService } from '../services/game.service';
-import { ToastService } from '../../../core/services/toast/toast.service';
-import { GameDto } from '../models/game.dto';
-import { EMPTY, of, throwError } from 'rxjs';
-import { GamePostDto } from '../models/game-post.dto';
-import { GamePutDto } from '../models/game-put.dto';
-import { PaginationConfig } from '../../../shared/models/pagination-config';
+import {GameStore} from './game-store';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {GameService} from '../services/game.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
+import {GameDto} from '../models/game.dto';
+import {EMPTY, of, throwError} from 'rxjs';
+import {GamePostDto} from '../models/game-post.dto';
+import {GamePutDto} from '../models/game-put.dto';
+import {PaginationConfig} from '../../../shared/models/pagination-config';
 
 const defaultPagination: PaginationConfig = { pageNumber: 1, pageSize: 5, amountPagesList: [] };
 

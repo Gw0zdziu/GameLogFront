@@ -1,5 +1,5 @@
 import {CategoryDto} from '../models/category.dto';
-import {patchState, signalStore, withHooks, withMethods, withState} from '@ngrx/signals';
+import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
 import {inject} from '@angular/core';
@@ -7,7 +7,7 @@ import {tapResponse} from '@ngrx/operators';
 import {CategoryService} from '../services/category.service';
 import {CategoryPostDto} from '../models/category-post.dto';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ToastService} from '../../../core/services/toast/toast.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
 import {PaginatedQuery} from '../../../shared/models/paginated-query';
 import {PaginationConfig} from '../../../shared/models/pagination-config';

@@ -5,7 +5,7 @@ import {catchError, Observable, tap, throwError} from 'rxjs';
 import {GetUserDto} from '../../../shared/models/get-user.dto';
 import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
-import {ToastService} from '../../../core/services/toast/toast.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 
 @Injectable({

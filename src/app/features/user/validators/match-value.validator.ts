@@ -1,7 +1,7 @@
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, ValidationErrors} from '@angular/forms';
 
 export function matchValueValidator(controlName: string, matchingControlName: string) {
-  return (group: AbstractControl) => {
+  return (group: AbstractControl): ValidationErrors | null  => {
     const control = group.get(controlName);
     const matchingControl = group.get(matchingControlName);
     if (!control || !matchingControl){
