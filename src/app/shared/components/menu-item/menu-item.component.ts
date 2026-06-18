@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {MenuItem} from 'primeng/api';
-import {CloseSidebarDirective} from '../../../core/directives/close-sidebar.directive';
-import {FaIconComponent, FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
+import {CloseSidebarDirective} from '../../directives/close-sidebar/close-sidebar.directive';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'li[app-menu-item]',
