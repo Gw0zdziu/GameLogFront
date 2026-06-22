@@ -26,6 +26,11 @@ export const routes: Routes = [
       .then(m => m.RegistrationComponent),
   },
   {
+    path: 'confirm-user/:userId',
+    loadComponent: () => import('./features/user/components/confirm-account/confirm-account.component')
+      .then(m => m.ConfirmAccountComponent),
+  },
+  {
     path: '**',
     redirectTo: ''
   }
