@@ -82,18 +82,9 @@
         }
       }
     </section>
-    <!--<section class="form__field">
-      <label for="invitationCode" i18n>Kod zaproszenia</label>
-      <input formControlName="invitationCode" id="invitationCode" pInputText pSize="large" type="text">
-      @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
-        @if (registerForm.controls.invitationCode.errors?.required){
-          <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
-        }
-      }
-    </section>-->
       <button class="form__button" pButton severity="contrast"  type="submit" [disabled]="registerForm.invalid">
         @if (isSubmit()) {
-          <i class="pi pi-spin pi-spinner"></i>
+          <fa-icon animation="spin" [icon]="faSpinner" />
         }
         <span i18n pButtonLabel>Zarejestruj</span>
       </button>
