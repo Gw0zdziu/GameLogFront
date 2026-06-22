@@ -4,10 +4,10 @@ import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
 import {catchError, Observable, of, tap, throwError} from 'rxjs';
 import {LoginUserDto} from '../models/login-user.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
-import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStore} from '../../../core/store/user-store/user-store';
 import {ToastService} from '../../../shared/services/toast/toast.service';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
+import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 
 @Injectable({
   providedIn: 'root',
