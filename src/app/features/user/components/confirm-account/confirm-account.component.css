@@ -1,0 +1,30 @@
+:host{
+  display: block;
+}
+
+.toggles {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.container__header{
+  place-self: flex-start;
+}
+.container__description {
+  font-size: 12px;
+}
+
+.container__button{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.button__resend {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -1,12 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {HttpClient, HttpContext} from '@angular/common/http';
+import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
 import {catchError, Observable, tap, throwError} from 'rxjs';
 import {GetUserDto} from '../../../shared/models/get-user.dto';
 import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {ToastService} from '../../../shared/services/toast/toast.service';
-import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,6 @@ import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.
 export class UserService {
   private apiUrl = `${environment.apiUrl}/user`
   private httpClient = inject(HttpClient);
-  private loggedStoreService = inject(LoggedStoreService);
   private toastService = inject(ToastService);
 
 
@@ -30,6 +28,30 @@ export class UserService {
         return throwError(() => err)
       })
     );
+  }
+
+  confirmUser(userId: string, confirmCode: string): Observable<void> {
+    const confirmCodeDto = {
+      userId: userId,
+      confirmCode: confirmCode
+    }
+    return this.httpClient.post<void>(`${this.apiUrl}/confirm-user`, confirmCodeDto)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.toastService.showError(error.error);
+          return throwError(() => error)
+        })
+      );
+  }
+
+  resendConfirmationCode(userId: string): Observable<void> {
+      return this.httpClient.get<void>(`${this.apiUrl}/resend-code/${userId}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.toastService.showError(error.error);
+          return throwError(() => error)
+        })
+      );
   }
 
   getUser(): Observable<GetUserDto> {

@@ -11,6 +11,9 @@ import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 import {ThemeToggleComponent} from '../../../theme-toggle/theme-toggle.component';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {matchValueValidator} from '../../validators/match-value.validator';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+
 
 @Component({
   selector: 'app-registration',
@@ -23,6 +26,7 @@ import {matchValueValidator} from '../../validators/match-value.validator';
     ThemeToggleComponent,
     ButtonDirective,
     ButtonLabel,
+    FaIconComponent,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css',
@@ -33,6 +37,7 @@ export class RegistrationComponent{
   private userService = inject(UserService);
   private formBuilder = inject(NonNullableFormBuilder);
   private router = inject(Router);
+  faSpinner = faSpinner;
   registerForm = this.formBuilder.group({
     userName: ['',
       {
@@ -65,7 +70,6 @@ export class RegistrationComponent{
         updateOn: 'blur',
       }],
     invitationCode: [null, {
-      /*validators: [Validators.required],*/
       updateOn: 'blur',
     }]
   },{
@@ -78,7 +82,7 @@ export class RegistrationComponent{
     this.isSubmit.set(true);
     const newUser: RegisterNewUserRequestDto = this.registerForm.value as RegisterNewUserRequestDto;
     this.userService.registerNewUser(newUser).pipe(delay(500)).subscribe({
-      next: () => this.router.navigate(['login']),
+      next: (userId: string) => this.router.navigate(['confirm-user', userId]),
       error: () => {
         this.isSubmit.set(false);
       },
