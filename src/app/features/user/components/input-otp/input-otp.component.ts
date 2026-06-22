@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  forwardRef,
-  input,
-  signal,
-  viewChildren
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, forwardRef, input, signal, viewChildren} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
@@ -27,11 +18,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 export class InputOtpComponent implements ControlValueAccessor{
   readonly lengthCharacters = input(4)
   readonly inputsElements = viewChildren<ElementRef>('inputElementOtp')
-  protected readonly length = computed(() => {
-    const arrayLength: number[] = [];
-    for (let i = 0; i < this.lengthCharacters(); i++) { arrayLength.push(i);}
-    return arrayLength;
-  });
+
   readonly value$ = signal<string[]>(Array(this.lengthCharacters()).fill(''))
   readonly disabled = signal<boolean>(false);
 
@@ -51,12 +38,12 @@ export class InputOtpComponent implements ControlValueAccessor{
   }
 
   protected clearInput($event: Event, item: number): void {
-    const value = ($event.target as HTMLInputElement).value;
-    if (value){
-      if (item >= 0){
-        this.value$()[item] = '';
-        this.inputsElements()[item].nativeElement.focus();
-      }
+    $event.preventDefault();
+    if (item > 0){
+      this.value$()[item] = '';
+      this.inputsElements()[item - 1].nativeElement.focus();
+    } else {
+      this.value$()[item] = '';
     }
     const result = this.value$().join('');
     this.onChange(result);
