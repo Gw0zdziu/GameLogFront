@@ -38,13 +38,13 @@ export class InputOtpComponent implements ControlValueAccessor{
   }
 
   protected clearInput($event: Event, item: number): void {
-    if (item - 1 >= 0){
+    $event.preventDefault();
+    if (item > 0){
       this.value$()[item] = '';
       this.inputsElements()[item - 1].nativeElement.focus();
     } else {
       this.value$()[item] = '';
     }
-    console.log(this.value$())
     const result = this.value$().join('');
     this.onChange(result);
   }
