@@ -17,9 +17,9 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 })
 export class InputOtpComponent implements ControlValueAccessor{
   readonly lengthCharacters = input(4)
-  readonly inputsElements = viewChildren<ElementRef>('inputElementOtp')
+  readonly inputsElements = viewChildren<ElementRef<HTMLInputElement>>('inputElementOtp')
 
-  readonly value$ = signal<string[]>(Array(this.lengthCharacters()).fill(''))
+  readonly code$ = signal<string[]>(Array(this.lengthCharacters()).fill(''))
   readonly disabled = signal<boolean>(false);
 
   onChange: (value: string) => void = () => {};
@@ -31,27 +31,36 @@ export class InputOtpComponent implements ControlValueAccessor{
      if (item < this.lengthCharacters() - 1){
         this.inputsElements()[item + 1].nativeElement.focus();
      }
-      this.value$()[item] = value;
+      this.code$()[item] = value;
     }
-    const result = this.value$().join('');
+    const result = this.code$().join('');
     this.onChange(result);
   }
 
   protected clearInput($event: Event, item: number): void {
     $event.preventDefault();
     if (item > 0){
-      this.value$()[item] = '';
+      this.code$()[item] = '';
       this.inputsElements()[item - 1].nativeElement.focus();
     } else {
-      this.value$()[item] = '';
+      this.code$()[item] = '';
     }
-    const result = this.value$().join('');
+    const result = this.code$().join('');
     this.onChange(result);
+  }
+
+  protected pasteValue($event: ClipboardEvent, i: number) {
+     let clipBoardValue = $event.clipboardData?.getData('text') || '';
+     this.code$.update(x => {
+       return x.map((_, index) => {
+         return clipBoardValue[index]
+       })
+     })
   }
 
   writeValue(value: string): void {
      const newValue = value.slice(0, this.lengthCharacters());
-    this.value$.update(x => {
+    this.code$.update(x => {
       return x.map((valueElement, index) => {
         return newValue[index] || '';
       })
@@ -67,4 +76,6 @@ export class InputOtpComponent implements ControlValueAccessor{
   setDisabledState?(isDisabled: boolean): void {
     this.disabled.set(isDisabled);
   }
+
+
 }
