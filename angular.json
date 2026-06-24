@@ -14,7 +14,7 @@
         "format": "",
         "locales": {
           "en": {
-            "translation": "src/locale/messages.en.json",
+            "translation": "src/locale/messages.en.json"
           }
         }
       },
@@ -75,7 +75,9 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "localize": ["pl"],
+              "localize": [
+                "pl"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -87,7 +89,9 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "localize": ["en"],
+              "localize": [
+                "en"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -138,13 +142,60 @@
               "src/**/*.html"
             ]
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "GameLogFront:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "GameLogFront:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "GameLogFront:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "GameLogFront:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "GameLogFront:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "GameLogFront:serve:production"
+            }
+          }
         }
       }
     }
   },
   "cli": {
     "schematicCollections": [
-      "angular-eslint"
+      "@cypress/schematic",
+      "angular-eslint",
+      "@schematics/angular"
     ],
     "analytics": false
   }
