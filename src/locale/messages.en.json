@@ -26,7 +26,6 @@
     "2129693675112512307": "Check your e-mail inbox",
     "9066832651843877465": "We have just sent you an e-mail with a link to reset your password!",
     "7094677931415236628": "Successfully log in",
-    "3102485671464834047": "Successfully log out",
     "6286620917447099837": "Add",
     "925927201833097792": "New category",
     "3963233157117336517": "Name",
@@ -69,6 +68,10 @@
     "1932729579387923459": "No games",
     "4717996637707937095": "New game",
     "3958062872495354702": "Played in: {$INTERPOLATION}",
-    "9014910630385288727": "Number of games: {$INTERPOLATION}"
+    "9014910630385288727": "Number of games: {$INTERPOLATION}",
+    "1336390580333595187": "Didn't receive the code?{$START_TAG_BUTTON}New code{$CLOSE_TAG_BUTTON}",
+    "1338121976069403332": "Confirm e-mail",
+    "4522916578022066879": "Enter the code sent for your email address",
+    "187187500641108332": "{$INTERPOLATION}"
   }
 }
