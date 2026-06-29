@@ -1,4 +1,4 @@
-import {Component, input, OnDestroy, output, signal} from '@angular/core';
+import {Component, input, output, signal} from '@angular/core';
 
 @Component({
   selector: 'app-timer',
@@ -7,7 +7,7 @@ import {Component, input, OnDestroy, output, signal} from '@angular/core';
   `,
   styleUrl: './timer.component.css'
 })
-export class TimerComponent implements OnDestroy{
+export class TimerComponent{
   minutesInput = input<number>(1)
   secondsInput = input<number>(59);
   emitter = output();
@@ -31,8 +31,5 @@ export class TimerComponent implements OnDestroy{
         clearInterval(interval)
       }
     }, 1000)
-  }
-
-  ngOnDestroy() {
   }
 }
