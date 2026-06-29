@@ -31,9 +31,9 @@
 }
 
 
-.button__resend {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  text-decoration: underline;
+.container__resend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 4px;
 }

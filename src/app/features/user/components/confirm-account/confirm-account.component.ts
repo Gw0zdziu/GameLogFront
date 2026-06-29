@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  signal,
+  viewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
@@ -8,6 +17,8 @@ import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {UserService} from '../../services/user.service';
+import {ResendCodeButtonComponent} from '../resend-code-button/resend-code-button.component';
+import {TimerComponent} from '../timer/timer.component';
 
 @Component({
   selector: 'app-confirm-account',
@@ -18,13 +29,14 @@ import {UserService} from '../../services/user.service';
     InputOtpComponent,
     ButtonDirective,
     ButtonLabel,
-    FaIconComponent
+    FaIconComponent,
+
   ],
   templateUrl: './confirm-account.component.html',
   styleUrl: './confirm-account.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmAccountComponent implements OnInit{
+export class ConfirmAccountComponent implements OnInit, AfterViewInit{
   private activateRoute = inject(ActivatedRoute);
   private userService = inject(UserService);
   private router = inject(Router);
@@ -32,9 +44,25 @@ export class ConfirmAccountComponent implements OnInit{
   otpInputControl = new FormControl({ value: '', disabled: false });
   isSubmit = signal<boolean>(false);
   faSpinner = faSpinner;
+  container = viewChild.required('container', {
+    read: ViewContainerRef
+  })
+
 
   ngOnInit(): void {
+
     this.userId = this.activateRoute.snapshot.paramMap.get('userId') as string;
+  }
+
+  ngAfterViewInit() {
+    this.createResendCodeButton();
+  }
+
+  protected createResendCodeButton() {
+    this.container().clear()
+    const ref = this.container().createComponent(ResendCodeButtonComponent)
+    ref.setInput('userId', this.userId);
+    ref.instance.emitter.subscribe(() => this.resendCode());
   }
 
   protected submit(): void{
@@ -57,11 +85,13 @@ export class ConfirmAccountComponent implements OnInit{
     this.userService.resendConfirmationCode(this.userId)
       .subscribe({
         next: () => {
-          this.otpInputControl.setValue('');
-        },
-        error: () => {
+          this.container().clear()
+          const ref = this.container().createComponent(TimerComponent);
+          ref.setInput('minutesInput', 2);
+          ref.instance.emitter.subscribe(() => {
+            this.createResendCodeButton()
+          })
         }
-      }
-      )
+      })
   }
 }

@@ -33,8 +33,7 @@ export class InputOtpComponent implements ControlValueAccessor{
      }
       this.code$()[item] = value;
     }
-    const result = this.code$().join('');
-    this.onChange(result);
+    this.updateValue();
   }
 
   protected clearInput($event: Event, item: number): void {
@@ -45,6 +44,10 @@ export class InputOtpComponent implements ControlValueAccessor{
     } else {
       this.code$()[item] = '';
     }
+    this.updateValue();
+  }
+
+  private updateValue() {
     const result = this.code$().join('');
     this.onChange(result);
   }
@@ -56,6 +59,8 @@ export class InputOtpComponent implements ControlValueAccessor{
          return clipBoardValue[index]
        })
      })
+    this.inputsElements()[this.inputsElements().length].nativeElement.focus();
+     this.updateValue();
   }
 
   writeValue(value: string): void {
