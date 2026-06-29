@@ -7,7 +7,9 @@
   <span class="container__description">Wpisz kod wysłany na adres e-mail</span>
   <app-input-otp [formControl]="otpInputControl"/>
   <section class="container__button">
-    <span>Kod nie dotarł?<button class="button__resend" type="submit" (click)="resendCode()">Nowy kod</button></span>
+    <span class="container__resend">Kod nie dotarł?
+      <div #container ></div>
+    </span>
     <button class="form__button" pButton severity="contrast"  type="submit" (click)="submit()">
       @if (isSubmit()) {
         <fa-icon animation="spin" [icon]="faSpinner" />
