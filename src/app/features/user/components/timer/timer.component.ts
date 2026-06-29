@@ -1,5 +1,4 @@
 import {Component, input, OnDestroy, output, signal} from '@angular/core';
-import {clearInterval} from 'node:timers';
 
 @Component({
   selector: 'app-timer',
@@ -15,13 +14,12 @@ export class TimerComponent implements OnDestroy{
   minutes = signal(this.minutesInput());
   seconds = signal(this.secondsInput())
   defaultSeconds = this.seconds();
-  interval: NodeJS.Timeout;
 
 
 
 
   constructor() {
-    this.interval = setInterval(() => {
+    const interval = setInterval(() => {
       console.log('tick')
       if (this.minutes() >= 0 && this.seconds() >= 1){
         this.seconds.update(x => x -1);
@@ -30,12 +28,11 @@ export class TimerComponent implements OnDestroy{
         this.minutes.update(x => x - 1);
       }else {
         this.emitter.emit()
-        clearInterval(this.interval)
+        clearInterval(interval)
       }
     }, 1000)
   }
 
   ngOnDestroy() {
-    clearInterval(this.interval)
   }
 }
