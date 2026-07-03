@@ -1,10 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {provideRouter, Router} from '@angular/router';
+import {of, throwError} from 'rxjs';
 
-import { RegistrationComponent } from './registration.component';
-import { UserService } from '../../services/user.service';
+import {RegistrationComponent} from './registration.component';
+import {UserService} from '../../services/user.service';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -124,7 +123,7 @@ describe('RegistrationComponent', () => {
       component.postNewUser();
       tick(500);
       expect(component.isSubmit()).toBe(false);
-      expect(navigateSpy).toHaveBeenCalledWith(['login']);
+      expect(navigateSpy).toHaveBeenCalledWith(['confirm-user']);
     }));
 
     it('should set isSubmit to false when api returns error', fakeAsync(() => {
