@@ -50,6 +50,7 @@ export class LoginComponent {
               this.isLogin.set(false));
           },
           error: () => {
+            this.isLogin.set(false);
           }
         })
     }
