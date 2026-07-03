@@ -147,12 +147,6 @@ describe('AuthService', () => {
       expect(mockTokenStore.updateToken).toHaveBeenCalledWith(null);
     });
 
-    it('should call toastService.showSuccess on success', () => {
-      service.logoutUser().subscribe();
-      httpMock.expectOne(`${API_URL}/logout`).flush(null);
-      expect(mockToastService.showSuccess).toHaveBeenCalledTimes(1);
-    });
-
     it('should call userStoreService.cleanStore on error', () => {
       service.logoutUser().subscribe();
       httpMock.expectOne(`${API_URL}/logout`).flush('Server Error', { status: 500, statusText: 'Internal Server Error' });

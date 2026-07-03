@@ -58,14 +58,14 @@ export class ConfirmAccountComponent implements OnInit, AfterViewInit{
     this.createResendCodeButton();
   }
 
-  protected createResendCodeButton() {
+  createResendCodeButton() {
     this.container().clear()
     const ref = this.container().createComponent(ResendCodeButtonComponent)
     ref.setInput('userId', this.userId);
     ref.instance.emitter.subscribe(() => this.resendCode());
   }
 
-  protected submit(): void{
+  submit(): void{
     if (this.otpInputControl.value){
       this.isSubmit.set(true);
       this.userService.confirmUser(this.userId, this.otpInputControl.value)
@@ -81,7 +81,7 @@ export class ConfirmAccountComponent implements OnInit, AfterViewInit{
       }
   }
 
-  protected resendCode() {
+  resendCode(): void {
     this.userService.resendConfirmationCode(this.userId)
       .subscribe({
         next: () => {
