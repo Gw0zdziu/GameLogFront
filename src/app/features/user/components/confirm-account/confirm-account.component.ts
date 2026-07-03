@@ -58,7 +58,7 @@ export class ConfirmAccountComponent implements OnInit, AfterViewInit{
     this.createResendCodeButton();
   }
 
-  protected createResendCodeButton() {
+  createResendCodeButton() {
     this.container().clear()
     const ref = this.container().createComponent(ResendCodeButtonComponent)
     ref.setInput('userId', this.userId);
