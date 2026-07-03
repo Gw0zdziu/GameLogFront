@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
-import { provideRouter, RouterOutlet } from '@angular/router';
-import { AppComponent } from './app.component';
-import { ThemeStoreService, ThemeStore } from './core/store/theme-store/theme-store.service';
+import {TestBed} from '@angular/core/testing';
+import {Component} from '@angular/core';
+import {provideRouter, RouterOutlet} from '@angular/router';
+import {AppComponent} from './app.component';
+import {ThemeStore, ThemeStoreService} from './core/store/theme-store/theme-store.service';
 
 @Component({ selector: 'p-toast', template: '', standalone: true })
 class MockToast {}
@@ -46,7 +46,7 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('GameLogFront');
   });
 
-  it('ustawia atrybut dark-theme na elemencie html przy inicjalizacji', () => {
+  it('sets the ‘dark-theme’ attribute on the HTML element upon initialisation', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const html = document.documentElement;
