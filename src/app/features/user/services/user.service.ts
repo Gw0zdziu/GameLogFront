@@ -23,7 +23,7 @@ export class UserService {
       tap((value) => {
         this.toastService.showSuccess('Udało się założyć konto');
       }),
-      catchError((err, caught) => {
+      catchError((err: HttpErrorResponse) => {
         this.toastService.showError(err.error);
         return throwError(() => err)
       })
