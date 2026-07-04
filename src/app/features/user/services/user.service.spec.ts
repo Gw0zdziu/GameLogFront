@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {provideHttpClient} from '@angular/common/http';
+import {HttpErrorResponse, provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {UserService} from './user.service';
 import {ToastService} from '../../../shared/services/toast/toast.service';
@@ -55,7 +55,7 @@ describe('UserService', () => {
       invitationCode: null,
     };
 
-    it('wysyła POST na /user/register z danymi rejestracji', () => {
+    it('sends a POST request to /user/register with the registration details', () => {
       service.registerNewUser(registerDto).subscribe();
 
       const req = httpMock.expectOne('https://localhost:8080/api/user/register');
@@ -64,7 +64,7 @@ describe('UserService', () => {
       req.flush('ok');
     });
 
-    it('zwraca wartość tekstową po sukcesie', () => {
+    it('returns a text value on success', () => {
       let result: string | undefined;
       service.registerNewUser(registerDto).subscribe(val => (result = val));
 
@@ -72,14 +72,14 @@ describe('UserService', () => {
       expect(result).toBe('ok');
     });
 
-    it('wywołuje toastService.showSuccess po sukcesie', () => {
+    it('calls toastService.showSuccess on success', () => {
       service.registerNewUser(registerDto).subscribe();
 
       httpMock.expectOne('https://localhost:8080/api/user/register').flush('ok');
       expect(toastServiceMock.showSuccess).toHaveBeenCalledWith('Udało się założyć konto');
     });
 
-    it('wywołuje toastService.showError gdy request się nie powiedzie', () => {
+    it('calls `toastService.showError` when the request fails', () => {
       service.registerNewUser(registerDto).subscribe({ error: () => {} });
 
       httpMock.expectOne('https://localhost:8080/api/user/register').flush('Błąd serwera', {
@@ -89,8 +89,8 @@ describe('UserService', () => {
       expect(toastServiceMock.showError).toHaveBeenCalledWith('Błąd serwera');
     });
 
-    it('rzuca błąd dalej po nieudanym requeście', () => {
-      let caughtError: any;
+    it('throws an error after a failed query', () => {
+      let caughtError: HttpErrorResponse | undefined;
       service.registerNewUser(registerDto).subscribe({ error: err => (caughtError = err) });
 
       httpMock.expectOne('https://localhost:8080/api/user/register').flush('Błąd serwera', {
@@ -111,7 +111,7 @@ describe('UserService', () => {
       isActive: true,
     };
 
-    it('wysyła GET na /user/get-user', () => {
+    it('sends a GET request to /user/get-user', () => {
       service.getUser().subscribe();
 
       const req = httpMock.expectOne('https://localhost:8080/api/user/get-user');
@@ -119,7 +119,7 @@ describe('UserService', () => {
       req.flush(mockUser);
     });
 
-    it('wysyła request z withCredentials: true', () => {
+    it('sends a request with `withCredentials: true`', () => {
       service.getUser().subscribe();
 
       const req = httpMock.expectOne('https://localhost:8080/api/user/get-user');
@@ -127,7 +127,7 @@ describe('UserService', () => {
       req.flush(mockUser);
     });
 
-    it('ustawia IS_AUTH_REQUIRED context token na true', () => {
+    it('set IS_AUTH_REQUIRED context token on true', () => {
       service.getUser().subscribe();
 
       const req = httpMock.expectOne('https://localhost:8080/api/user/get-user');
@@ -135,12 +135,55 @@ describe('UserService', () => {
       req.flush(mockUser);
     });
 
-    it('zwraca dane użytkownika', () => {
+    it('returns the user’s data', () => {
       let result: GetUserDto | undefined;
       service.getUser().subscribe(data => (result = data));
 
       httpMock.expectOne('https://localhost:8080/api/user/get-user').flush(mockUser);
       expect(result).toEqual(mockUser);
     });
+  });
+
+  describe('confirmUser', () => {
+    const userId = '1';
+    const confirmCode = '1245'
+
+    it('sends a POST request to /user/confirm-user', () => {
+      service.confirmUser(userId, confirmCode).subscribe();
+      const request  = httpMock.expectOne('https://localhost:8080/api/user/confirm-user');
+      expect(request.request.method).toBe('POST');
+      request.flush('ok');
+    })
+
+    it('should calls showError method from toastService', () => {
+      const errorMessage = 'Błąd serwera'
+      service.confirmUser(userId, confirmCode).subscribe({ error: () => {} });
+      httpMock.expectOne('https://localhost:8080/api/user/confirm-user').flush(errorMessage, {
+        status: 400,
+        statusText: 'Bad Request',
+      })
+      expect(toastServiceMock.showError).toHaveBeenCalledWith(errorMessage);
+    });
+  });
+
+  describe('resendConfirmationCode()', () => {
+    const userId = '1';
+
+    it('sends a POST request to /user/resend-code', () => {
+      service.resendConfirmationCode(userId).subscribe();
+      const request  = httpMock.expectOne(`https://localhost:8080/api/user/resend-code/${userId}`);
+      expect(request.request.method).toBe('GET');
+      request.flush('ok');
+    })
+
+    it('should calls showError method from toastService', () => {
+      const errorMessage = 'Błąd serwera'
+      service.resendConfirmationCode(userId).subscribe({ error: () => {} });
+      httpMock.expectOne(`https://localhost:8080/api/user/resend-code/${userId}`).flush(errorMessage, {
+        status: 400,
+        statusText: 'Bad Request',
+      })
+      expect(toastServiceMock.showError).toHaveBeenCalledWith(errorMessage)
+    })
   });
 });
