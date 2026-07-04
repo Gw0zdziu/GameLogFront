@@ -25,18 +25,18 @@ export class InputOtpComponent implements ControlValueAccessor{
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
 
-   protected inputValue($event: Event, item: number): void {
+  inputValue($event: Event, item: number): void {
      const value = ($event.target as HTMLInputElement).value;
     if (value.length === 1){
-     if (item < this.lengthCharacters() - 1){
-        this.inputsElements()[item + 1].nativeElement.focus();
-     }
-      this.code$()[item] = value;
+       if (item < this.lengthCharacters() - 1){
+          this.inputsElements()[item + 1].nativeElement.focus();
+       }
+       this.code$()[item] = value;
     }
     this.updateValue();
   }
 
-  protected clearInput($event: Event, item: number): void {
+   clearInput($event: Event, item: number): void {
     $event.preventDefault();
     if (item > 0){
       this.code$()[item] = '';
@@ -47,26 +47,27 @@ export class InputOtpComponent implements ControlValueAccessor{
     this.updateValue();
   }
 
-  private updateValue() {
-    const result = this.code$().join('');
-    this.onChange(result);
-  }
 
-  protected pasteValue($event: ClipboardEvent, i: number) {
+  pasteValue($event: ClipboardEvent) {
      let clipBoardValue = $event.clipboardData?.getData('text') || '';
      this.code$.update(x => {
        return x.map((_, index) => {
          return clipBoardValue[index]
        })
      })
-    this.inputsElements()[this.inputsElements().length].nativeElement.focus();
+    this.inputsElements()[this.inputsElements().length - 1].nativeElement.focus();
      this.updateValue();
+  }
+
+  updateValue() {
+    const result = this.code$().join('');
+    this.onChange(result);
   }
 
   writeValue(value: string): void {
      const newValue = value.slice(0, this.lengthCharacters());
     this.code$.update(x => {
-      return x.map((valueElement, index) => {
+      return x.map((_, index) => {
         return newValue[index] || '';
       })
     })
