@@ -22,8 +22,8 @@ export class InputOtpComponent implements ControlValueAccessor{
   readonly code$ = signal<string[]>(Array(this.lengthCharacters()).fill(''))
   readonly disabled = signal<boolean>(false);
 
-  onChange: (value: string) => void = () => {};
-  onTouched: () => void = () => {};
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
 
   inputValue($event: Event, item: number): void {
      const value = ($event.target as HTMLInputElement).value;
