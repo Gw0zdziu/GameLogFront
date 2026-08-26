@@ -1,0 +1,20 @@
+<div class="toggles">
+  <app-lang-toggle/>
+  <app-theme-toggle />
+</div>
+<div class="container">
+  <h1 class="container__header" i18n>Potwierdź e-mail</h1>
+  <span class="container__description">Wpisz kod wysłany na adres e-mail</span>
+  <app-input-otp [formControl]="otpInputControl"/>
+  <section class="container__button">
+    <span class="container__resend">Kod nie dotarł?
+      <div #container ></div>
+    </span>
+    <button class="form__button" pButton severity="contrast"  type="submit" (click)="submit()">
+      @if (isSubmit()) {
+        <fa-icon animation="spin" [icon]="faSpinner" />
+      }
+      <span i18n pButtonLabel>Wyślij</span>
+    </button>
+  </section>
+</div>

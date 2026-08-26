@@ -9,7 +9,7 @@ import {authInterceptor} from './core/interceptors/auth/auth.interceptor';
 import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh-token.interceptor';
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {FormatDatePipe} from './core/pipes/format-date.pipe';
+import {FormatDatePipe} from './shared/pipes/format-date.pipe';
 import {UserStore} from './core/store/user-store/user-store';
 
 

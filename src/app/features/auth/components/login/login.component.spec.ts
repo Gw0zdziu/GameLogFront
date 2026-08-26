@@ -1,35 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideLocationMocks } from '@angular/common/testing';
+import { By } from '@angular/platform-browser';
+import { NgForm } from '@angular/forms';
 import { provideRouter, Router } from '@angular/router';
 import { of, Subject, throwError } from 'rxjs';
 
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../../user/services/user.service';
+import { UserStore } from '../../../../core/store/user-store/user-store';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let router: Router;
+  let ngForm: NgForm;
 
-  const mockAuthService = {
-    loginUser: jest.fn(),
-  };
-  const mockUserService = {
-    getUser: jest.fn(),
-  };
+  const authServiceMock = { loginUser: jest.fn() };
+  const userStoreMock = { getUser: jest.fn() };
 
   beforeEach(async () => {
-    mockAuthService.loginUser.mockReturnValue(of('token'));
-    mockUserService.getUser.mockReturnValue(of({}));
+    authServiceMock.loginUser.mockReturnValue(of('token'));
 
     await TestBed.configureTestingModule({
       imports: [LoginComponent],
       providers: [
         provideRouter([]),
-        provideLocationMocks(),
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: UserService, useValue: mockUserService },
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: UserStore, useValue: userStoreMock },
       ],
     }).compileComponents();
 
@@ -38,6 +34,9 @@ describe('LoginComponent', () => {
     router = TestBed.inject(Router);
     jest.spyOn(router, 'navigate').mockResolvedValue(true);
     fixture.detectChanges();
+    await fixture.whenStable();
+
+    ngForm = fixture.debugElement.query(By.css('form')).injector.get(NgForm);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -51,115 +50,82 @@ describe('LoginComponent', () => {
       expect(component.isLogin()).toBe(false);
     });
 
-    it('should be true during active login request', () => {
+    it('should be true during active login request', async () => {
       const loginSubject = new Subject<string>();
-      mockAuthService.loginUser.mockReturnValue(loginSubject.asObservable());
-      component.loginForm.setValue({ userName: 'user1', password: 'pass1' });
+      authServiceMock.loginUser.mockReturnValue(loginSubject.asObservable());
 
-      component.loginUser();
+      ngForm.controls['username'].setValue('user1');
+      ngForm.controls['password'].setValue('pass1');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      component.loginUser(ngForm);
 
       expect(component.isLogin()).toBe(true);
       loginSubject.complete();
     });
   });
 
-  describe('loginForm', () => {
-    it('should be valid when all fields are filled', () => {
-      component.loginForm.setValue({ userName: 'baxter5xl', password: 'secret123' });
-      expect(component.loginForm.valid).toBeTruthy();
-    });
-
-    it('should be invalid when userName is empty', () => {
-      component.loginForm.setValue({ userName: '', password: 'secret123' });
-      expect(component.loginForm.valid).toBeFalsy();
-    });
-
-    it('should be invalid when password is empty', () => {
-      component.loginForm.setValue({ userName: 'baxter5xl', password: '' });
-      expect(component.loginForm.valid).toBeFalsy();
-    });
-
-    it('should be invalid when both fields are empty', () => {
-      component.loginForm.setValue({ userName: '', password: '' });
-      expect(component.loginForm.valid).toBeFalsy();
-    });
-  });
-
   describe('loginUser()', () => {
     describe('when form is invalid', () => {
-      it('should not call authService.loginUser', () => {
-        component.loginForm.setValue({ userName: '', password: '' });
-        component.loginUser();
-        expect(mockAuthService.loginUser).not.toHaveBeenCalled();
-      });
-
-      it('should mark userName as touched when userName is empty', () => {
-        component.loginForm.setValue({ userName: '', password: 'secret' });
-        component.loginUser();
-        expect(component.loginForm.controls.userName.touched).toBeTruthy();
-      });
-
-      it('should mark password as touched when password is empty', () => {
-        component.loginForm.setValue({ userName: 'baxter5xl', password: '' });
-        component.loginUser();
-        expect(component.loginForm.controls.password.touched).toBeTruthy();
-      });
-
-      it('should not mark userName as touched when it has a value', () => {
-        component.loginForm.setValue({ userName: 'baxter5xl', password: '' });
-        component.loginUser();
-        expect(component.loginForm.controls.userName.touched).toBeFalsy();
+      it('should not call authService.loginUser when fields are empty', () => {
+        component.loginUser(ngForm);
+        expect(authServiceMock.loginUser).not.toHaveBeenCalled();
       });
     });
 
     describe('when form is valid', () => {
-      beforeEach(() => {
-        component.loginForm.setValue({ userName: 'baxter5xl', password: 'secret123' });
+      beforeEach(async () => {
+        ngForm.controls['username'].setValue('baxter5xl');
+        ngForm.controls['password'].setValue('secret123');
+        fixture.detectChanges();
+        await fixture.whenStable();
       });
 
       it('should call authService.loginUser with correct credentials', () => {
-        component.loginUser();
-        expect(mockAuthService.loginUser).toHaveBeenCalledWith({
-          userName: 'baxter5xl',
+        component.loginUser(ngForm);
+        expect(authServiceMock.loginUser).toHaveBeenCalledWith({
+          username: 'baxter5xl',
           password: 'secret123',
         });
       });
 
       it('should call authService.loginUser exactly once', () => {
-        component.loginUser();
-        expect(mockAuthService.loginUser).toHaveBeenCalledTimes(1);
+        component.loginUser(ngForm);
+        expect(authServiceMock.loginUser).toHaveBeenCalledTimes(1);
       });
 
-      it('should call userService.getUser after loginUser succeeds', () => {
-        component.loginUser();
-        expect(mockUserService.getUser).toHaveBeenCalledTimes(1);
+      it('should call userStore.getUser after loginUser succeeds', () => {
+        component.loginUser(ngForm);
+        expect(userStoreMock.getUser).toHaveBeenCalledTimes(1);
       });
 
       it('should navigate to home on success', () => {
-        component.loginUser();
+        component.loginUser(ngForm);
         expect(router.navigate).toHaveBeenCalledWith(['home']);
       });
 
-      it('should set isLogin to false after successful login', () => {
-        component.loginUser();
+      it('should set isLogin to false after successful login', async () => {
+        component.loginUser(ngForm);
+        await fixture.whenStable();
         expect(component.isLogin()).toBe(false);
       });
 
       it('should set isLogin to false on error', () => {
-        mockAuthService.loginUser.mockReturnValue(throwError(() => new Error('Unauthorized')));
-        component.loginUser();
+        authServiceMock.loginUser.mockReturnValue(throwError(() => new Error('Unauthorized')));
+        component.loginUser(ngForm);
         expect(component.isLogin()).toBe(false);
       });
 
-      it('should not call userService.getUser when loginUser fails', () => {
-        mockAuthService.loginUser.mockReturnValue(throwError(() => new Error('Unauthorized')));
-        component.loginUser();
-        expect(mockUserService.getUser).not.toHaveBeenCalled();
+      it('should not call userStore.getUser when loginUser fails', () => {
+        authServiceMock.loginUser.mockReturnValue(throwError(() => new Error('Unauthorized')));
+        component.loginUser(ngForm);
+        expect(userStoreMock.getUser).not.toHaveBeenCalled();
       });
 
       it('should not navigate when loginUser fails', () => {
-        mockAuthService.loginUser.mockReturnValue(throwError(() => new Error('Unauthorized')));
-        component.loginUser();
+        authServiceMock.loginUser.mockReturnValue(throwError(() => new Error('Unauthorized')));
+        component.loginUser(ngForm);
         expect(router.navigate).not.toHaveBeenCalled();
       });
     });

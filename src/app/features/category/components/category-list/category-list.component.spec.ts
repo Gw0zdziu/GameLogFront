@@ -16,13 +16,15 @@ describe('CategoryTableComponent', () => {
   const refDialogMockSubject = new Subject<any>();
   let refDialogMock: { onClose: Observable<any> };
   const categoryStoreMock = {
-    categories$: signal([]),
+    categories: signal([]),
     isLoading: signal(false),
+    paginationState: signal({pageNumber: 1, pageSize: 5, amountPagesList: []}),
     getCategories: jest.fn(),
-
+    deleteCategory: jest.fn(),
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     confirmationServiceMock = {
       confirm: jest.fn()
     } as unknown as ConfirmationService;

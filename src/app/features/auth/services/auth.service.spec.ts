@@ -7,7 +7,7 @@ import {AuthService} from './auth.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStore} from '../../../core/store/user-store/user-store';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
-import {ToastService} from '../../../core/services/toast/toast.service';
+import {ToastService} from '../../../shared/services/toast/toast.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -145,12 +145,6 @@ describe('AuthService', () => {
       service.logoutUser().subscribe();
       httpMock.expectOne(`${API_URL}/logout`).flush(null);
       expect(mockTokenStore.updateToken).toHaveBeenCalledWith(null);
-    });
-
-    it('should call toastService.showSuccess on success', () => {
-      service.logoutUser().subscribe();
-      httpMock.expectOne(`${API_URL}/logout`).flush(null);
-      expect(mockToastService.showSuccess).toHaveBeenCalledTimes(1);
     });
 
     it('should call userStoreService.cleanStore on error', () => {

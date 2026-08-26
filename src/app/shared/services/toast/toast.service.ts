@@ -8,11 +8,11 @@ export class ToastService {
   private messageService = inject(MessageService);
 
 
-  showSuccess(message: string){
+  showSuccess(message: string): void{
     this.messageService.add({severity: 'success', summary: 'Sukces', detail: message});
   }
 
-  showError(message: string){
+  showError(message: string): void{
     this.messageService.add({severity: 'error', summary: 'Błąd', detail: message});
   }
 }

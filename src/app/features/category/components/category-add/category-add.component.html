@@ -1,24 +1,24 @@
-<form class="form" [formGroup]="newCategoryForm" (ngSubmit)="submitForm()">
+<form #newCategoryForm='ngForm' class="form" (ngSubmit)="submitForm(newCategoryForm)">
   <section class="form__field">
-    <label for="username" i18n>Nazwa</label>
-    <input formControlName="categoryName" id="username" pInputText pSize="large" type="text">
-    @if (newCategoryForm.controls.categoryName.invalid && newCategoryForm.controls.categoryName.touched) {
-      @if (newCategoryForm.controls.categoryName.errors?.required) {
+    <label for="categoryName" i18n>Nazwa</label>
+    <input #categoryName="ngModel" id="categoryName" minlength="3" name="categoryName" ngModel pInputText pSize="large" required type="text">
+    @if (categoryName.invalid && categoryName.touched) {
+      @if (categoryName.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
       }
-      @if (newCategoryForm.controls.categoryName.errors?.minlength) {
+      @if (categoryName.errors?.minlength) {
         <p-message i18n severity="error" size="small" variant="simple">Pole musi zawierać co najmniej 3 znaków</p-message>
       }
     }
   </section>
   <section class="form__field">
-    <label for="username" i18n>Opis</label>
-    <textarea fluid formControlName="description" id="username" pTextarea></textarea>
+    <label for="description" i18n>Opis</label>
+    <textarea fluid id="description" name="description" ngModel pTextarea></textarea>
   </section>
-  <button class="form__button" pButton type="submit" [disabled]="newCategoryForm.invalid">
+  <button class="form__button" pButton type="submit" >
     @if (store.isLoading()) {
       <fa-icon animation="spin" [icon]="faSpinner" />
     }
-    <span i18n pButtonLabel>Dodaj</span>
+    <span i18n pButtonLabel>{{store.isLoading() ? 'Tworzenie' : 'Dodaj'}}</span>
   </button>
 </form>

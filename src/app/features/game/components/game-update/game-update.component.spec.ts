@@ -1,58 +1,72 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {signal} from '@angular/core';
 import {GameUpdateComponent} from './game-update.component';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameStore} from '../../store/game-store';
 import {GameService} from '../../services/game.service';
+import {CategoryStore} from '../../../category/store/category-store';
+import {UserStore} from '../../../../core/store/user-store/user-store';
+import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
 import {Subject} from 'rxjs';
-import {GamePutDto} from '../../models/game-put.dto';
 import {GameDto} from '../../models/game.dto';
-
 
 describe('GameUpdateComponent', () => {
   let component: GameUpdateComponent;
   let fixture: ComponentFixture<GameUpdateComponent>;
-  let dynamicDialogRefMock: jest.Mocked<Partial<DynamicDialogRef>>;
-  let gameServiceMock: jest.Mocked<Partial<GameService>>;
-  let dialogServiceMock: jest.Mocked<Partial<DialogService>>;
+
   const gameSubject = new Subject<GameDto>();
-  const gameStoreMock = {
-    updateGame: jest.fn(),
-  }
   const game: GameDto = {
     gameId: 'gameId',
     gameName: 'gameName',
-    gameUrl: "gameUrl",
+    gameUrl: 'gameUrl',
     categoryId: 'categoryId',
     categoryName: 'categoryName',
     createdDate: new Date(),
     updatedDate: new Date(),
-    yearPlayed: new Date(),
+    yearPlayed: new Date('2023-01-01'),
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
   };
+
+  const dynamicDialogRefMock = {close: jest.fn()};
+  const dialogServiceMock = {
+    getInstance: jest.fn().mockReturnValue({data: '1'}),
+  };
+  const gameServiceMock = {
+    getGame: jest.fn().mockReturnValue(gameSubject.asObservable()),
+  };
+  const gameStoreMock = {
+    updateGame: jest.fn(),
+    isLoading: signal(false),
+  };
+  const categoryStoreMock = {
+    getCategoriesByUserId: jest.fn(),
+    categories: signal([
+      {categoryId: 'categoryId', categoryName: 'categoryName'} as any,
+    ]),
+  };
+  const userStoreMock = {
+    userId: signal<string | undefined>('user-id'),
+  };
+  const gameBrainServiceMock = {
+    getGames: jest.fn(),
+  };
+
   beforeEach(async () => {
-    dynamicDialogRefMock = {
-      close: jest.fn(),
-    };
-    gameServiceMock = {
-      getGame: jest.fn().mockReturnValue(gameSubject.asObservable()),
-    }
-    dialogServiceMock = {
-      getInstance: jest.fn().mockReturnValue({
-        data: '1'
-      })
-    }
+    jest.clearAllMocks();
+
     await TestBed.configureTestingModule({
       imports: [GameUpdateComponent],
       providers: [
         {provide: DynamicDialogRef, useValue: dynamicDialogRefMock},
-        {provide: GameStore, useValue: gameStoreMock},
-        {provide: GameService, useValue: gameServiceMock},
         {provide: DialogService, useValue: dialogServiceMock},
-      ]
-    })
-
-    .compileComponents();
+        {provide: GameService, useValue: gameServiceMock},
+        {provide: GameStore, useValue: gameStoreMock},
+        {provide: CategoryStore, useValue: categoryStoreMock},
+        {provide: UserStore, useValue: userStoreMock},
+        {provide: GamebrainapiService, useValue: gameBrainServiceMock},
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GameUpdateComponent);
     component = fixture.componentInstance;
@@ -60,30 +74,42 @@ describe('GameUpdateComponent', () => {
   });
 
   describe('ngOnInit()', () => {
-    it('should set value for game signal', () => {
+    it('should set gameName form value after game is loaded', () => {
       gameSubject.next(game);
-      expect(component.game()?.gameName).toBe(game.gameName);
+      expect(component.updateGameForm.controls.gameName.value).toBe(game.gameName);
     });
-  })
+  });
 
-  describe('submitGame()', () => {
-    it('should called updateGame from gameStore when execute submitGame method', () => {
-      const updatedGame: GamePutDto = {
+  describe('submitUpdateGame()', () => {
+    beforeEach(() => {
+      component.updateGameForm.setValue({
         gameName: 'Game',
-        categoryId: 'cat-001',
-        gameImageUrl: 'gameImageUrl',
-        yearPlayed: new Date(),
-      }
-      component.submitUpdateGame();
-      expect(gameStoreMock.updateGame).toHaveBeenCalledWith({gameId: '1',updatedGame, onSuccess: expect.any(Function)});
+        gameImage: 'gameImageUrl',
+        selectedCategory: {categoryId: 'cat-001', categoryName: 'Test'},
+        yearPlayed: new Date('2023-06-01'),
+      });
     });
 
-    it('should called close method', () => {
-      gameStoreMock.updateGame.mockImplementation((param) => {
+    it('should call updateGame from gameStore with form values', () => {
+      component.submitUpdateGame();
+      expect(gameStoreMock.updateGame).toHaveBeenCalledWith({
+        gameId: '1',
+        updatedGame: {
+          gameName: 'Game',
+          categoryId: 'cat-001',
+          gameImageUrl: 'gameImageUrl',
+          yearPlayed: new Date('2023-06-01'),
+        },
+        onSuccess: expect.any(Function),
+      });
+    });
+
+    it('should close the dialog when onSuccess is called', () => {
+      gameStoreMock.updateGame.mockImplementation((param: {onSuccess: () => void}) => {
         param.onSuccess();
-      })
+      });
       component.submitUpdateGame();
       expect(dynamicDialogRefMock.close).toHaveBeenCalledWith(true);
     });
-  })
+  });
 });

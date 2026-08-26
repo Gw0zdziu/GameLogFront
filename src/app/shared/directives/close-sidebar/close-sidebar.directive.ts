@@ -1,5 +1,5 @@
 import {Directive, HostListener, inject} from '@angular/core';
-import {LayoutService} from '../../shared/services/layout/layout.service';
+import {LayoutService} from '../../services/layout/layout.service';
 
 @Directive({
   selector: '[appCloseSidebar]',
