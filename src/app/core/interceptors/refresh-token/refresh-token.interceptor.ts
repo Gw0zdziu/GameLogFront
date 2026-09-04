@@ -13,12 +13,10 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const isRefreshing = false;
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       const isExcluded = excludedUrls.some(url => req.url.includes(url));
       if (err.status === 401 && !isExcluded) {
-        if (!isRefreshing) {
             return refreshTokenService.refreshToken().pipe(
               switchMap(token => {
                 tokenStoreService.updateToken(token);
@@ -31,13 +29,12 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
               }),
               catchError((error: HttpErrorResponse) => {
                 if(error.status === 400){
-                  router.navigate(['login']);
+                  router.navigate(['login']).finally();
                   authService.logoutUser().subscribe();
                 }
                 return EMPTY;
               })
             )
-        }
       }
       return throwError(() => err)
     })
