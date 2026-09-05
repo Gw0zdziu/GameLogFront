@@ -6,7 +6,6 @@ import {AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent} from '
 import {DatePicker} from 'primeng/datepicker';
 import {CategoryStore} from '../../../category/store/category-store';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CategoryDto} from '../../../category/models/category.dto';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {UserStore} from '../../../../core/store/user-store/user-store';
 import {GameDetailsDto} from '../../models/game-details.dto';
@@ -15,6 +14,8 @@ import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.serv
 import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from "rxjs";
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {CategoryNamesDto} from "../../../category/models/category-names.dto";
+import {CategoryService} from "../../../category/services/category.service";
 
 @Component({
   selector: 'app-game-add',
@@ -43,10 +44,11 @@ export class GameAddComponent implements  OnInit{
     private userStore = inject(UserStore);
     private formBuilder = inject(FormBuilder);
     private gameBrainService = inject(GamebrainapiService);
+    private categoryService = inject(CategoryService);
     gameStore = inject(GameStore);
     readonly games = signal<GameDetailsDto[]>([]);
     readonly isNotSelectCategory = signal(true);
-    readonly filteredCategories = signal<CategoryDto[]>([]);
+    readonly filteredCategories = signal<CategoryNamesDto[]>([]);
     private gameNameSearch$ = new Subject<string>();
     faSpinner = faSpinner;
     newGameForm = this.formBuilder.group({
@@ -71,8 +73,12 @@ export class GameAddComponent implements  OnInit{
 
 
   ngOnInit(): void {
-    const userId = this.userStore.userId() as string;
-    this.categoryStore.getCategoriesByUserId(userId);
+      this.categoryService.getCategoryNames().subscribe({
+        next: value => {
+          console.log(value)
+          this.filteredCategories.set(value);
+        }
+      })
     this.gameNameSearch$.pipe(
         filter(query => query !== ''),
         debounceTime(1000),
