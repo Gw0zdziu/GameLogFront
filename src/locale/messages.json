@@ -39,7 +39,7 @@
     "1600179790895117606": "Pomyślnie zaktualizowano grę",
     "1338121976069403332": "Potwierdź e-mail",
     "4522916578022066879": "Wpisz kod wysłany na adres e-mail",
-    "8695998449568963330": "Kod nie dotarł?{$START_TAG_SPAN}05:00{$CLOSE_TAG_SPAN}{$START_TAG_BUTTON}Nowy kod{$CLOSE_TAG_BUTTON}",
+    "9075723946939507824": "Kod nie dotarł? {$START_TAG_DIV}{$CLOSE_TAG_DIV}",
     "2240358433907245754": "Wyślij",
     "9086642360271527525": "Rejestracja",
     "9131400439764374502": "Pole musi zawierać conajmniej 3 znaki",
@@ -50,6 +50,7 @@
     "8100131679401043921": "Pole musi zawierać conajmniej 8 znaków",
     "1107553920112222110": "Potwierdź hasło",
     "9099598781148780575": "Hasła się nie zgadzają",
+    "5993230650930307778": "Nowy kod",
     "1064234756083312933": "Polski",
     "4612088243994662427": "Angielski"
   }
