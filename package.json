@@ -9,6 +9,7 @@
     "test": "jest --coverage",
     "dev-en": "ng serve --configuration=dev-en --port 4300",
     "dev-pl": "ng serve --configuration=dev-pl --port 4300",
+    "translate": "ng extract-i18n",
     "lint": "ng lint ",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
