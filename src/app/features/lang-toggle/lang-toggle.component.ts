@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, LOCALE_ID} from '@angular/co
 import {FormsModule} from '@angular/forms';
 import {ButtonDirective} from 'primeng/button';
 import {Menu} from 'primeng/menu';
-import {languages} from '../../shared/constants/languages';
+import {languages} from '../../core/constants/languages';
 import {Ripple} from 'primeng/ripple';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faLanguage} from '@fortawesome/free-solid-svg-icons';
