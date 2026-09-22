@@ -6,6 +6,22 @@
     "3647207640640701057": "Log out",
     "6327707404016234082": "Log in",
     "2100673911933195115": "Register",
+    "2935434243632412720": "Data of login is incorrect",
+    "3687623554576559928": "This username is already taken",
+    "1507947829980721263": "This email address is already in use",
+    "2184544596711215087": "Verification code not found",
+    "329466184194198223": "The verification code has expired. Please request a new one and try again.",
+    "6212899686001896241": "Incorrect verification code. Please check the code and try again.",
+    "1542592996097806018": "Passwords do not match.",
+    "3980759566323768765": "The recovery code has expired. Please request a new one and try again.",
+    "5869791226649779747": "This recovery code has already been used.",
+    "4764654368636213080": "Category not found.",
+    "4744035128222439557": "A game already exists with this category",
+    "8323155514597344256": "This category name is already taken.",
+    "4403508290818462313": "Game not found.",
+    "2693186494669485502": "This game name is already taken.",
+    "1064234756083312933": "Polish",
+    "4612088243994662427": "English",
     "9127785699862224102": "Username",
     "5739010222831955100": "Password",
     "187187500641108332": "{$INTERPOLATION}",
@@ -50,8 +66,6 @@
     "8100131679401043921": "The field must contain at least 8 characters.",
     "1107553920112222110": "Confirm password",
     "9099598781148780575": "The passwords do not match.",
-    "5993230650930307778": "New code",
-    "1064234756083312933": "Polish",
-    "4612088243994662427": "English"
+    "5993230650930307778": "New code"
   }
 }
