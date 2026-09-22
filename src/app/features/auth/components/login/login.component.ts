@@ -51,6 +51,9 @@ export class LoginComponent {
           },
           error: () => {
             this.isLogin.set(false);
+          },
+          complete: () => {
+            this.isLogin.set(false);
           }
         })
     }
