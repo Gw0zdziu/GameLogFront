@@ -59,7 +59,6 @@ export const GameStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
@@ -91,7 +90,6 @@ export const GameStore = signalStore(
                 },
                 error: (error: HttpErrorResponse) => {
                   patchState(store, {isLoading: false});
-                  toastService.showError(error.error);
                 },
                 complete: () => patchState(store, {isLoading: false}),
               })
@@ -121,7 +119,6 @@ export const GameStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
@@ -154,7 +151,6 @@ export const GameStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
