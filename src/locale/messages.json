@@ -6,6 +6,22 @@
     "3647207640640701057": "Wyloguj",
     "6327707404016234082": "Zaloguj",
     "2100673911933195115": "Zarejestruj",
+    "2935434243632412720": "Błędne dane logowania",
+    "3687623554576559928": "Nazwa użytkownika jest zajęta",
+    "1507947829980721263": "Adres e-mail jest zajęty",
+    "2184544596711215087": "Nie znaleziono kodu weryfikującego",
+    "329466184194198223": "Kod weryfikacyjny wygasł. Poproś o nowy kod i spróbuj ponownie.",
+    "6212899686001896241": "Nieprawidłowy kod weryfikacyjny. Sprawdź kod i spróbuj ponownie.",
+    "1542592996097806018": "Hasła się nie zgadzają.",
+    "3980759566323768765": "Kod odzyskiwania wygasł. Poproś o nowy kod i spróbuj ponownie.",
+    "5869791226649779747": "Kod odzyskiwania został już użyty.",
+    "4764654368636213080": "Kategoria nie została znaleziona.",
+    "4744035128222439557": "Istnieje gra z tą kategorią",
+    "8323155514597344256": "Ta nazwa kategorii jest już zajęta.",
+    "4403508290818462313": "Gra nie została znaleziona.",
+    "2693186494669485502": "Ta nazwa gry jest już zajęta.",
+    "1064234756083312933": "Polski",
+    "4612088243994662427": "Angielski",
     "9127785699862224102": "Nazwa użytkownika",
     "5739010222831955100": "Hasło",
     "187187500641108332": "{$INTERPOLATION}",
@@ -50,8 +66,6 @@
     "8100131679401043921": "Pole musi zawierać conajmniej 8 znaków",
     "1107553920112222110": "Potwierdź hasło",
     "9099598781148780575": "Hasła się nie zgadzają",
-    "5993230650930307778": "Nowy kod",
-    "1064234756083312933": "Polski",
-    "4612088243994662427": "Angielski"
+    "5993230650930307778": "Nowy kod"
   }
 }

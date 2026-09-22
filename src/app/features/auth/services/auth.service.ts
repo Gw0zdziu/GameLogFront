@@ -8,6 +8,7 @@ import {UserStore} from '../../../core/store/user-store/user-store';
 import {ToastService} from '../../../shared/services/toast/toast.service';
 import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
+import {LoginResponseDto} from '../models/login-response.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -22,21 +23,20 @@ export class AuthService {
 
 
 
-  loginUser(loginUser: LoginUserDto): Observable<string> {
-    return this.httpClient.post(`${this.apiUrl}/login`, loginUser, {
+  loginUser(loginUser: LoginUserDto): Observable<LoginResponseDto> {
+    return this.httpClient.post<LoginResponseDto>(`${this.apiUrl}/login`, loginUser, {
       withCredentials: true,
       context: new HttpContext().set(IS_AUTH_REQUIRED, true),
-      responseType: 'text'
     }).pipe(
       tap(value => {
-        this.tokenStoreService.updateToken(value);
+        console.log(value)
+        this.tokenStoreService.updateToken(value.token);
         this.loggedStoreService.setLogged(true);
         this.toastService.showSuccess($localize`Pomyślnie zalogowano`);
       }),
       catchError((err: HttpErrorResponse) => {
         this.tokenStoreService.updateToken(null)
         this.loggedStoreService.setLogged(false);
-        this.toastService.showError(err.error);
         return throwError(() => err)
       }),
     );

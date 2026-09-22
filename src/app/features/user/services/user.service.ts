@@ -24,7 +24,6 @@ export class UserService {
         this.toastService.showSuccess('Udało się założyć konto');
       }),
       catchError((err: HttpErrorResponse) => {
-        this.toastService.showError(err.error);
         return throwError(() => err)
       })
     );
@@ -38,7 +37,6 @@ export class UserService {
     return this.httpClient.post<void>(`${this.apiUrl}/confirm-user`, confirmCodeDto)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          this.toastService.showError(error.error);
           return throwError(() => error)
         })
       );
@@ -48,7 +46,6 @@ export class UserService {
       return this.httpClient.get<void>(`${this.apiUrl}/resend-code/${userId}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          this.toastService.showError(error.error);
           return throwError(() => error)
         })
       );
