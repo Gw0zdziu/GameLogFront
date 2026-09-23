@@ -45,7 +45,6 @@ export class LoginComponent {
       this.authService.loginUser(loginUser)
         .subscribe({
           next: () => {
-            this.userStore.getUser();
             this.router.navigate(['home'], ).then(() =>
               this.isLogin.set(false));
           },
