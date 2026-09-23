@@ -31,7 +31,7 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
                 })
                 return next(req);
               }),
-              catchError((error: HttpErrorResponse) => {
+              catchError(() => {
                 router.navigate(['login']);
                 authService.logoutUser().subscribe();
                 if (infoMessages.has('auth.token.expired')){

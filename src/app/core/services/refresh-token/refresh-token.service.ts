@@ -9,7 +9,6 @@ import {Observable} from 'rxjs';
 export class RefreshTokenService {
   private apiUrl = `${environment.apiUrl}/auth`
   private httpClient = inject(HttpClient);
-  private isRefreshed$: Observable<string> | null = null
 
   refreshToken(): Observable<string> {
       return this.httpClient.post(`${this.apiUrl}/refresh-token`, {}, {
