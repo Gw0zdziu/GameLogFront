@@ -1,9 +1,9 @@
-version: "1"
+version: "1",
+name: "gamelog"
 services:
   frontend:
     container_name: "gamelogfront"
-    build:
-      dockerfile: Dockerfile.dev
+    image: "gw0zdziu/gamelog:front"
     ports:
       - "80:80"
     networks:
@@ -12,9 +12,7 @@ services:
       - backend
   backend:
     container_name: "gamelogback"
-    build:
-      context: E:\Projects\C#\GameLogBack
-      dockerfile: E:\Projects\C#\GameLogBack\Dockerfile.dev
+    image: "gw0zdziu/gamelog:back"
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -25,7 +23,7 @@ services:
       - database
   database:
     image: "postgres"
-    container_name: "gamelogdb"
+    container_name: "gamelogdb-dev"
     ports:
       - "5435:5432"
     environment:

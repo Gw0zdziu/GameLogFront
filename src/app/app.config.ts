@@ -1,4 +1,4 @@
-import {ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {providePrimeNG} from 'primeng/config';
@@ -10,7 +10,8 @@ import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './shared/pipes/format-date.pipe';
-import {UserStore} from './core/store/user-store/user-store';
+import {acceptLanguageInterceptor} from './core/interceptors/accept-language/accept-language.interceptor';
+import {errorHandlingInterceptor} from './core/interceptors/error-handling/error-handling.interceptor';
 
 
 const Preset = definePreset(Aura, {
@@ -86,7 +87,7 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     ConfirmationService,
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
+    provideHttpClient(withInterceptors([acceptLanguageInterceptor,errorHandlingInterceptor, authInterceptor, refreshTokenInterceptor])),
     provideRouter(routes),
     provideAnimationsAsync(),
     FormatDatePipe,
@@ -97,11 +98,6 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.dark',
         }
       }
-    }),
-    provideAppInitializer(() =>{
-      const userStore = inject(UserStore);
-      userStore.getUser();
-
     })
   ]
 };

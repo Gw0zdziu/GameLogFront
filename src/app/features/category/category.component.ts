@@ -4,6 +4,7 @@ import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryListComponent} from './components/category-list/category-list.component';
 import {CategoryAddComponent} from './components/category-add/category-add.component';
+import {CategoryStore} from './store/category-store';
 
 @Component({
   selector: 'app-category',
@@ -15,6 +16,7 @@ import {CategoryAddComponent} from './components/category-add/category-add.compo
 })
 export class CategoryComponent {
   private dialogService = inject(DialogService);
+  private categoryStore = inject(CategoryStore);
   ref: DynamicDialogRef | undefined;
 
   openAddCategoryDialog(): void {
@@ -26,7 +28,9 @@ export class CategoryComponent {
       focusOnShow: false,
     });
     this.ref.onClose.subscribe((x: boolean) => {
-      if (!x) {return;}
+      if (x){
+        this.categoryStore.getCategories(this.categoryStore.paginationState())
+      }
     });
   }
 }

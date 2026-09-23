@@ -86,8 +86,8 @@ export const CategoryStore = signalStore(
       pipe(
         tap(() =>
           patchState(store, {
-          isLoading: true,
-        })
+            isLoading: true,
+          })
         ),
         debounceTime(300),
         distinctUntilChanged(),
@@ -106,7 +106,6 @@ export const CategoryStore = signalStore(
                 toastService.showSuccess($localize`Pomyślnie utworzono nową kategorie`);
               },
               error: (error: HttpErrorResponse) => {
-                toastService.showError(error.error);
                 patchState(store, {isLoading: false});
               },
               complete: () => patchState(store, {isLoading: false}),
@@ -133,7 +132,6 @@ export const CategoryStore = signalStore(
                 toastService.showSuccess($localize`Pomyślnie usunięto kategorię`);
               },
               error: (error: HttpErrorResponse) => {
-                toastService.showError(error.error);
                 patchState(store, {isLoading: false});
               },
               complete: () => patchState(store, {isLoading: false}),
@@ -164,7 +162,6 @@ export const CategoryStore = signalStore(
                 toastService.showSuccess($localize`Pomyślnie zaktualizowano kategorię`);
               },
               error: (error: HttpErrorResponse) => {
-                toastService.showError(error.error);
                 patchState(store, {isLoading: false});
               },
               complete: () => patchState(store, {isLoading: false}),

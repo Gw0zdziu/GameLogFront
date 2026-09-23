@@ -15,4 +15,8 @@ export class ToastService {
   showError(message: string): void{
     this.messageService.add({severity: 'error', summary: 'Błąd', detail: message});
   }
+
+  showInfo(message: string): void{
+    this.messageService.add({severity: 'info', summary: 'Informacja', detail: message});
+  }
 }

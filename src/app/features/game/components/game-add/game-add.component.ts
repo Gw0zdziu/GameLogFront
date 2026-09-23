@@ -7,7 +7,6 @@ import {DatePicker} from 'primeng/datepicker';
 import {CategoryStore} from '../../../category/store/category-store';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {UserStore} from '../../../../core/store/user-store/user-store';
 import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
 import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
@@ -41,7 +40,6 @@ export class GameAddComponent implements  OnInit{
     private dynamicDialogRef = inject(DynamicDialogRef);
     private categoryStore = inject(CategoryStore);
     private gameStory = inject(GameStore);
-    private userStore = inject(UserStore);
     private formBuilder = inject(FormBuilder);
     private gameBrainService = inject(GamebrainapiService);
     private categoryService = inject(CategoryService);

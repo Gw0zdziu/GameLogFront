@@ -5,7 +5,6 @@ import {UserService} from '../../../features/user/services/user.service';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {pipe, switchMap} from 'rxjs';
 import {tapResponse} from '@ngrx/operators';
-import {HttpErrorResponse} from '@angular/common/http';
 
 type UserState = {
   user: GetUserDto | null;
@@ -34,8 +33,7 @@ export const UserStore = signalStore(
                 user: value
               })
             },
-            error: (error: HttpErrorResponse) => {
-              console.log(error);
+            error: () => {
             }
           })
         ))
