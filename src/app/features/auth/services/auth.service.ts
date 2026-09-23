@@ -29,7 +29,6 @@ export class AuthService {
       context: new HttpContext().set(IS_AUTH_REQUIRED, true),
     }).pipe(
       tap(value => {
-        console.log(value)
         this.tokenStoreService.updateToken(value.token);
         this.loggedStoreService.setLogged(true);
         this.toastService.showSuccess($localize`Pomyślnie zalogowano`);

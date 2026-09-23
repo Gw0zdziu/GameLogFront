@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {LayoutService} from '../../shared/services/layout/layout.service';
 import {RouterOutlet} from '@angular/router';
 import {NavbarComponent} from '../../core/components/navbar/navbar.component';
 import {MenuComponent} from '../../core/components/menu/menu.component';
+import {UserStore} from '../../core/store/user-store/user-store';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,12 @@ import {MenuComponent} from '../../core/components/menu/menu.component';
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit
+{
   protected layoutService = inject(LayoutService);
+  private userStore = inject(UserStore);
 
+  ngOnInit() {
+    this.userStore.getUser()
+  }
 }

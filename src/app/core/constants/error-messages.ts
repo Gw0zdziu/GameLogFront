@@ -2,6 +2,7 @@
 export const errorMessages= new Map<string, string>(
   [
       ['auth.incorrect-data-of-login', $localize`Błędne dane logowania`],
+      ['auth.expired-access-token', $localize`Token stracił ważność. Zaloguj się ponownie.`],
       ['user.username-already-taken', $localize`Nazwa użytkownika jest zajęta`],
       ['user.email-already-taken', $localize`Adres e-mail jest zajęty`],
       ['user.verification-code-not-found', $localize`Nie znaleziono kodu weryfikującego`],

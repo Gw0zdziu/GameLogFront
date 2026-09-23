@@ -8,7 +8,6 @@ export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
   const toastService = inject(ToastService);
   return next(req).pipe(
     catchError(x => {
-        console.log(x)
         if (errorMessages.has(x.error.code)){
             toastService.showError(errorMessages.get(x.error.code) as string)
         }

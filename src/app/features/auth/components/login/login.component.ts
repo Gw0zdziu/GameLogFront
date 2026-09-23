@@ -8,7 +8,6 @@ import {Password} from 'primeng/password';
 import {LangToggleComponent} from '../../../lang-toggle/lang-toggle.component';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {UserStore} from '../../../../core/store/user-store/user-store';
 import {AuthService} from '../../services/auth.service';
 import {LoginUserDto} from '../../models/login-user.dto';
 
@@ -33,7 +32,6 @@ import {LoginUserDto} from '../../models/login-user.dto';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
-  private userStore = inject(UserStore);
   private router = inject(Router);
   readonly isLogin = signal(false);
   faSpinner = faSpinner;
@@ -45,7 +43,6 @@ export class LoginComponent {
       this.authService.loginUser(loginUser)
         .subscribe({
           next: () => {
-            this.userStore.getUser();
             this.router.navigate(['home'], ).then(() =>
               this.isLogin.set(false));
           },
