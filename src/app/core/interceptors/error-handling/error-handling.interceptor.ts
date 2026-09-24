@@ -11,7 +11,7 @@ export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
         if (errorMessages.has(x.error.code)){
             toastService.showError(errorMessages.get(x.error.code) as string)
         }
-        return of();
+        return of(x);
     })
   )
 };
