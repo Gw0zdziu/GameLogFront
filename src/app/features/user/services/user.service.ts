@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
-import {catchError, Observable, tap, throwError} from 'rxjs';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {GetUserDto} from '../../../shared/models/get-user.dto';
 import {RegisterNewUserRequestDto} from '../models/register-new-user-request.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
@@ -19,14 +19,7 @@ export class UserService {
   registerNewUser(registerNewUser: RegisterNewUserRequestDto): Observable<string> {
     return this.httpClient.post(`${this.apiUrl}/register`, registerNewUser, {
       responseType: 'text'
-    }).pipe(
-      tap((value) => {
-        this.toastService.showSuccess('Udało się założyć konto');
-      }),
-      catchError((err: HttpErrorResponse) => {
-        return throwError(() => err)
-      })
-    );
+    });
   }
 
   confirmUser(userId: string, confirmCode: string): Observable<void> {
@@ -34,21 +27,11 @@ export class UserService {
       userId: userId,
       confirmCode: confirmCode
     }
-    return this.httpClient.post<void>(`${this.apiUrl}/confirm-user`, confirmCodeDto)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error)
-        })
-      );
+    return this.httpClient.post<void>(`${this.apiUrl}/confirm-user`, confirmCodeDto);
   }
 
   resendConfirmationCode(userId: string): Observable<void> {
       return this.httpClient.get<void>(`${this.apiUrl}/resend-code/${userId}`)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error)
-        })
-      );
   }
 
   getUser(): Observable<GetUserDto> {
