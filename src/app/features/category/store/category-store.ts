@@ -114,7 +114,10 @@ export const CategoryStore = signalStore(
         })
       )
     ),
-    deleteCategory: rxMethod<string>(
+    deleteCategory: rxMethod<{
+      categoryId: string,
+      onSuccess: () => void
+    }>(
       pipe(
         tap(() => patchState(store, {
           isLoading: true,
@@ -122,16 +125,17 @@ export const CategoryStore = signalStore(
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((value) => {
-          return categoryService.deleteCategory(value).pipe(
+          return categoryService.deleteCategory(value.categoryId).pipe(
             tapResponse({
               next: () => {
                 patchState(store, {
                   isLoading: false,
-                  categories: store.categories().filter(category => category.categoryId !== value)
+                  categories: store.categories().filter(category => category.categoryId !== value.categoryId)
                 });
+                value.onSuccess()
                 toastService.showSuccess($localize`Pomyślnie usunięto kategorię`);
               },
-              error: (error: HttpErrorResponse) => {
+              error: () => {
                 patchState(store, {isLoading: false});
               },
               complete: () => patchState(store, {isLoading: false}),
