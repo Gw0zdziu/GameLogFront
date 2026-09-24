@@ -9,6 +9,8 @@ import {LangToggleComponent} from '../../../features/lang-toggle/lang-toggle.com
 import {Router} from '@angular/router';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faBars, faUser} from "@fortawesome/free-solid-svg-icons";
+import {ToastService} from '../../../shared/services/toast/toast.service';
+import {successMessages} from '../../constants/success-messages';
 
 @Component({
   selector: 'header[app-navbar]',
@@ -41,6 +43,7 @@ export class NavbarComponent {
   private layoutService = inject(LayoutService);
   private loggedStoreService = inject(LoggedStoreService);
   private router = inject(Router);
+  private toastService = inject(ToastService);
   isLogged$ = this.loggedStoreService.isLogged$;
   faUser = faUser;
   faBar = faBars
@@ -77,7 +80,13 @@ export class NavbarComponent {
     this.authService.logoutUser().subscribe(
       {
         next: () => {
-          this.router.navigate(['./login']);
+          this.router.navigate(['./login']).then(() => {
+            if (successMessages.has('auth.successfully.logout')){
+              const message = successMessages.get('auth.successfully.logout') as string;
+              this.toastService.showSuccess(message);
+            }
+          })
+
         }
       }
     )

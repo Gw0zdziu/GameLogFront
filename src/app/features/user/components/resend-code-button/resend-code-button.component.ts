@@ -3,7 +3,7 @@ import {Component, input, output} from '@angular/core';
 @Component({
   selector: 'app-resend-code-button',
   template: `
-    <button class="button__resend" type="submit" (click)="resendCode()">Nowy kod</button>
+    <button i18n class="button__resend" type="submit" (click)="resendCode()">Nowy kod</button>
   `,
   styleUrl: './resend-code-button.component.css'
 })

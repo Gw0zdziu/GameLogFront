@@ -8,6 +8,7 @@ import {CategoryPostDto} from '../models/category-post.dto';
 import {CategoryPutDto} from '../models/category-put.dto';
 import {PaginatedResults} from '../../../shared/models/paginated-results';
 import {PaginatedQuery} from '../../../shared/models/paginated-query';
+import {CategoryNamesDto} from '../models/category-names.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,13 @@ export class CategoryService {
       context: new HttpContext().set(IS_AUTH_REQUIRED, true),
       params: query
     })
+  }
+
+  getCategoryNames(): Observable<CategoryNamesDto[]>{
+    return this.http.get<CategoryNamesDto[]>(`${this.apiUrl}/get-category-names`, {
+      withCredentials: true,
+      context: new HttpContext().set(IS_AUTH_REQUIRED, true),
+    });
   }
 
   getCategoriesByUserId(userId: string):Observable<CategoryDto[]>{

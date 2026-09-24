@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {LOCALE_ID, NO_ERRORS_SCHEMA} from '@angular/core';
 import {LangToggleComponent} from './lang-toggle.component';
-import {languages} from '../../shared/constants/languages';
+import {languages} from '../../core/constants/languages';
 
 describe('LangToggleComponent', () => {
   let component: LangToggleComponent;
