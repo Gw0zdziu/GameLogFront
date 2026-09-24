@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
@@ -14,7 +14,7 @@ import {CategoryStore} from './store/category-store';
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnDestroy{
   private dialogService = inject(DialogService);
   private categoryStore = inject(CategoryStore);
   ref: DynamicDialogRef | undefined;
@@ -32,5 +32,9 @@ export class CategoryComponent {
         this.categoryStore.getCategories(this.categoryStore.paginationState())
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.ref?.close();
   }
 }
