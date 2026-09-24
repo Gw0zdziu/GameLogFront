@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient, HttpContext, HttpErrorResponse} from '@angular/common/http';
-import {catchError, Observable, of, tap, throwError} from 'rxjs';
+import {catchError, EMPTY, Observable, tap, throwError} from 'rxjs';
 import {LoginUserDto} from '../models/login-user.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {UserStore} from '../../../core/store/user-store/user-store';
@@ -55,7 +55,7 @@ export class AuthService {
         this.userStore.cleanStore();
         this.loggedStoreService.setLogged(false);
         this.tokenStoreService.updateToken(null);
-        return of()
+        return EMPTY;
       }),);
   }
 
@@ -70,7 +70,7 @@ export class AuthService {
       }),
       catchError(() => {
         this.loggedStoreService.setLogged(false);
-        return of()
+        return EMPTY
       })
     )
   }
