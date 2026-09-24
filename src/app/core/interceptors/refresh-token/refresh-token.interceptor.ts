@@ -1,7 +1,7 @@
 import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {RefreshTokenService} from '../../services/refresh-token/refresh-token.service';
-import {catchError, EMPTY, switchMap, throwError} from 'rxjs';
+import {catchError, of, switchMap, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {TokenStoreService} from '../../store/token-store/token-store.service';
@@ -18,7 +18,6 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      console.log(err)
       const isExcluded = excludedUrls.some(url => req.url.includes(url));
       if (err.status === 401 && !isExcluded) {
             return refreshTokenService.refreshToken().pipe(
@@ -31,23 +30,16 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
                 })
                 return next(req);
               }),
-              catchError(() => {
+              catchError(x => {
                 router.navigate(['login']);
                 authService.logoutUser().subscribe();
-                if (infoMessages.has('auth.token.expired')){
-                  const message = infoMessages.get('auth.token.expired') as string;
+                if (infoMessages.has('auth.token-expired')){
+                  const message = infoMessages.get('auth.token-expired') as string;
                   toastService.showInfo(message);
                 }
-                return EMPTY;
+                return of(x);
               })
             )
-      } else {
-        router.navigate(['login']).finally();
-        authService.logoutUser().subscribe();
-        if (infoMessages.has('auth.token.expired')){
-          const message = infoMessages.get('auth.token.expired') as string;
-          toastService.showInfo(message);
-        }
       }
       return throwError(() => err)
     })
