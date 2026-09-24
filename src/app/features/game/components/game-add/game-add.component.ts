@@ -73,7 +73,6 @@ export class GameAddComponent implements  OnInit{
   ngOnInit(): void {
       this.categoryService.getCategoryNames().subscribe({
         next: value => {
-          console.log(value)
           this.filteredCategories.set(value);
         }
       })
