@@ -81,8 +81,8 @@ export class NavbarComponent {
       {
         next: () => {
           this.router.navigate(['./login']).then(() => {
-            if (successMessages.has('auth.successfully.logout')){
-              const message = successMessages.get('auth.successfully.logout') as string;
+            if (successMessages.has('auth.successfully-logout')){
+              const message = successMessages.get('auth.successfully-logout') as string;
               this.toastService.showSuccess(message);
             }
           })
