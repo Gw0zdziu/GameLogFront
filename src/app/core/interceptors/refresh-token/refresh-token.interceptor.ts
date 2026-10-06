@@ -1,7 +1,7 @@
 import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {RefreshTokenService} from '../../services/refresh-token/refresh-token.service';
-import {catchError, of, switchMap, throwError} from 'rxjs';
+import {catchError, switchMap, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {TokenStoreService} from '../../store/token-store/token-store.service';
@@ -37,7 +37,7 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
                   const message = infoMessages.get('auth.token-expired') as string;
                   toastService.showInfo(message);
                 }
-                return of(x);
+                return throwError(() => x)
               })
             )
       }

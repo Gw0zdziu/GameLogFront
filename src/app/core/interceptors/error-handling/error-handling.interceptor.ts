@@ -1,5 +1,5 @@
 import {HttpInterceptorFn} from '@angular/common/http';
-import {catchError, of} from 'rxjs';
+import {catchError, throwError} from 'rxjs';
 import {inject} from '@angular/core';
 import {ToastService} from '../../../shared/services/toast/toast.service';
 import {errorMessages} from "../../constants/error-messages";
@@ -11,7 +11,7 @@ export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
         if (errorMessages.has(x.error.code)){
             toastService.showError(errorMessages.get(x.error.code) as string)
         }
-        return of(x);
+        return throwError(() => x)
     })
   )
 };
