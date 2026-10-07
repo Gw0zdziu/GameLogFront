@@ -4,7 +4,6 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {of, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {refreshTokenInterceptor} from './refresh-token.interceptor';
-import {RefreshTokenService} from '../../services/refresh-token/refresh-token.service';
 import {AuthService} from '../../../features/auth/services/auth.service';
 import {TokenStoreService} from '../../store/token-store/token-store.service';
 
@@ -22,7 +21,7 @@ describe('refreshTokenInterceptor', () => {
       providers: [
         provideHttpClient(withInterceptors([refreshTokenInterceptor])),
         provideHttpClientTesting(),
-        { provide: RefreshTokenService, useValue: refreshTokenServiceMock },
+        { provide: AuthService, useValue: refreshTokenServiceMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: TokenStoreService, useValue: tokenStoreMock },
         { provide: Router, useValue: routerMock },
