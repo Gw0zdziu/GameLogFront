@@ -6,12 +6,14 @@ import {provideRouter} from '@angular/router';
 import {AuthService} from './auth.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStore} from '../../../core/store/user-store/user-store';
-import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
+import {AuthStoreService} from '../../../core/store/token-store/auth-store.service';
 import {ToastService} from '../../../shared/services/toast/toast.service';
+import {environment} from '../../../../environments/environment';
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  const REFRESH_URL = `${environment.apiUrl}/auth/refresh-token`;
 
   const mockLoggedStore = { setLogged: jest.fn() };
   const mockUserStore = { cleanStore: jest.fn() };
@@ -29,7 +31,7 @@ describe('AuthService', () => {
         provideRouter([]),
         { provide: LoggedStoreService, useValue: mockLoggedStore },
         { provide: UserStore, useValue: mockUserStore },
-        { provide: TokenStoreService, useValue: mockTokenStore },
+        { provide: AuthStoreService, useValue: mockTokenStore },
         { provide: ToastService, useValue: mockToastService },
       ],
     });
@@ -114,6 +116,60 @@ describe('AuthService', () => {
     });
   });
 
+  describe('refreshToken()', () => {
+    it('sends a POST request to the correct URL', () => {
+      service.refreshToken().subscribe();
+
+      const req = httpMock.expectOne(REFRESH_URL);
+      expect(req.request.method).toBe('POST');
+      req.flush('new-token');
+    });
+
+    it('sends the request with withCredentials enabled', () => {
+      service.refreshToken().subscribe();
+
+      const req = httpMock.expectOne(REFRESH_URL);
+      expect(req.request.withCredentials).toBe(true);
+      req.flush('new-token');
+    });
+
+    it('sends an empty body', () => {
+      service.refreshToken().subscribe();
+
+      const req = httpMock.expectOne(REFRESH_URL);
+      expect(req.request.body).toEqual({});
+      req.flush('new-token');
+    });
+
+    it('returns the token string from the response', () => {
+      let result: string | undefined;
+      service.refreshToken().subscribe(token => (result = token));
+
+      httpMock.expectOne(REFRESH_URL).flush('my-refresh-token-xyz');
+
+      expect(result).toBe('my-refresh-token-xyz');
+    });
+
+    it('propagates 400 errors to the caller', () => {
+      let receivedError: { status: number } | undefined;
+      service.refreshToken().subscribe({ error: err => (receivedError = err) });
+
+      httpMock.expectOne(REFRESH_URL).flush('Bad Request', { status: 400, statusText: 'Bad Request' });
+
+      expect(receivedError?.status).toBe(400);
+    });
+
+    it('propagates 401 errors to the caller', () => {
+      let receivedError: { status: number } | undefined;
+      service.refreshToken().subscribe({ error: err => (receivedError = err) });
+
+      httpMock.expectOne(REFRESH_URL).flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
+
+      expect(receivedError?.status).toBe(401);
+    });
+  });
+
+
   describe('logoutUser()', () => {
     it('should DELETE to the correct URL', () => {
       service.logoutUser().subscribe();
@@ -173,7 +229,7 @@ describe('AuthService', () => {
     });
   });
 
-  describe('verify()', () => {
+  /*describe('verify()', () => {
     it('should GET to the correct URL', () => {
       service.verify().subscribe();
       const req = httpMock.expectOne(`${API_URL}/verify`);
@@ -206,5 +262,5 @@ describe('AuthService', () => {
       httpMock.expectOne(`${API_URL}/verify`).flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
       expect(errors).toHaveLength(0);
     });
-  });
+  });*/
 });

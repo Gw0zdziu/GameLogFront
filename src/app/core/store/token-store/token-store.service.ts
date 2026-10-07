@@ -3,15 +3,8 @@ import {computed, effect, Injectable, signal} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class TokenStoreService {
+export class AuthStoreService {
   private readonly token = signal<string | null>(localStorage.getItem('token'));
-  private readonly on
-  readonly isLogged$ = computed(() => {
-    const [header, payload, _] = this.token()?.split('.') ?? [];
-    const expiredTimeInSeconds = JSON.parse(atob(payload)).exp;
-    const expiredTime = new Date((expiredTimeInSeconds + 60) * 1000);
-    return expiredTime >= new Date();
-  });
   readonly token$ = computed(() => this.token());
 
 
