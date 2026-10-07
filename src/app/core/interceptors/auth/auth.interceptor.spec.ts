@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClient, HttpContext, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { signal } from '@angular/core';
-import { authInterceptor } from './auth.interceptor';
-import { TokenStoreService } from '../../store/token-store/token-store.service';
-import { IS_AUTH_REQUIRED } from '../../tokens/tokens';
+import {TestBed} from '@angular/core/testing';
+import {HttpClient, HttpContext, provideHttpClient, withInterceptors} from '@angular/common/http';
+import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {signal} from '@angular/core';
+import {authInterceptor} from './auth.interceptor';
+import {TokenStoreService} from '../../store/token-store/token-store.service';
+import {IS_AUTH_REQUIRED} from '../../tokens/tokens';
 
 describe('authInterceptor', () => {
   let http: HttpClient;

@@ -1,17 +1,18 @@
-import {HttpInterceptorFn} from '@angular/common/http';
+import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {catchError, throwError} from 'rxjs';
 import {inject} from '@angular/core';
 import {ToastService} from '../../../shared/services/toast/toast.service';
-import {errorMessages} from "../../constants/error-messages";
 
 export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
+  const excludedUrls = ['/api/auth/login', '/api/auth/refresh-token'];
   const toastService = inject(ToastService);
   return next(req).pipe(
-    catchError(x => {
-        if (errorMessages.has(x.error.code)){
-            toastService.showError(errorMessages.get(x.error.code) as string)
-        }
-        return throwError(() => x)
+    catchError((err: HttpErrorResponse) => {
+      const isExcluded = excludedUrls.some(url => req.url.includes(url));
+      if (!isExcluded || err.status !== 401) {
+      toastService.showError(err.error.code);
+      }
+      return throwError(() => err);
     })
   )
 };

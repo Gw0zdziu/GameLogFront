@@ -1,8 +1,10 @@
 
-export const errorMessages= new Map<string, string>(
+export const messages= new Map<string, string>(
   [
+      //Error messages
       ['auth.incorrect-data-of-login', $localize`Błędne dane logowania`],
-      ['auth.expired-access-token', $localize`Token stracił ważność. Zaloguj się ponownie.`],
+      ['auth.expired-refresh-token', $localize`Sesja wygasła. Zaloguj się ponownie.`],
+      ['auth.expired-refresh-token', $localize`Sesja wygasła. Zaloguj się ponownie.`],
       ['user.username-already-taken', $localize`Nazwa użytkownika jest zajęta`],
       ['user.email-already-taken', $localize`Adres e-mail jest zajęty`],
       ['user.verification-code-not-found', $localize`Nie znaleziono kodu weryfikującego`],
@@ -15,6 +17,15 @@ export const errorMessages= new Map<string, string>(
       ['category.exist-game-with-this-category', $localize`Istnieje gra z tą kategorią`],
       ['category.category-with-this-name-already-exists', $localize`Ta nazwa kategorii jest już zajęta.`],
       ['game.not-found', $localize`Gra nie została znaleziona.`],
-      ['game.game-with-this-name-already-exists', $localize`Ta nazwa gry jest już zajęta.`]
+      ['game.game-with-this-name-already-exists', $localize`Ta nazwa gry jest już zajęta.`],
+      //Success messages
+      ['auth.successfully-logout', $localize`Pomyślnie wylogowano`],
+      ['auth.successfully-login',$localize`Pomyślnie zalogowano`],
+      ['category.successfully-created', $localize`Pomyślnie utworzono nową kategorie`],
+      //Info messages
+      ['auth.token-expired', $localize`Sesja wygasła. Zaloguj się ponownie.`],
+      //Unhandled message code
+      ['unhandled-message-code', $localize`Nieobsłużony kod wiadomość`],
+
   ]
 );

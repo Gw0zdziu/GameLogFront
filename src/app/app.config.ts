@@ -1,5 +1,5 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
-import {provideRouter} from '@angular/router';
+import {ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
+import {provideRouter, Router} from '@angular/router';
 import {routes} from './app.routes';
 import {providePrimeNG} from 'primeng/config';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
@@ -12,6 +12,9 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './shared/pipes/format-date.pipe';
 import {acceptLanguageInterceptor} from './core/interceptors/accept-language/accept-language.interceptor';
 import {errorHandlingInterceptor} from './core/interceptors/error-handling/error-handling.interceptor';
+import {AuthService} from './features/auth/services/auth.service';
+import {LoggedStoreService} from './core/store/logged-store/logged-store.service';
+import {ToastService} from './shared/services/toast/toast.service';
 
 
 const Preset = definePreset(Aura, {
@@ -97,6 +100,19 @@ export const appConfig: ApplicationConfig = {
         options: {
           darkModeSelector: '.dark',
         }
+      }
+    }),
+    provideAppInitializer(() => {
+      const authService = inject(AuthService);
+      const loggedStoreService = inject(LoggedStoreService);
+      const toastService = inject(ToastService);
+      const router = inject(Router);
+      if(!authService.isTokenValid()) {
+        authService.logoutUser().subscribe();
+        router.navigate(['login']);
+        toastService.showInfo('auth.token-expired');
+      } else {
+        loggedStoreService.setLogged(true);
       }
     })
   ]

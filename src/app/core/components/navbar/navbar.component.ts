@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faBars, faUser} from "@fortawesome/free-solid-svg-icons";
 import {ToastService} from '../../../shared/services/toast/toast.service';
-import {successMessages} from '../../constants/success-messages';
 
 @Component({
   selector: 'header[app-navbar]',
@@ -81,10 +80,7 @@ export class NavbarComponent {
       {
         next: () => {
           this.router.navigate(['./login']).then(() => {
-            if (successMessages.has('auth.successfully-logout')){
-              const message = successMessages.get('auth.successfully-logout') as string;
-              this.toastService.showSuccess(message);
-            }
+            this.toastService.showSuccess('auth.successfully-logout');
           })
 
         }
