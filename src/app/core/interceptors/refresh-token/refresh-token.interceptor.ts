@@ -1,5 +1,6 @@
 import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
+import {RefreshTokenService} from '../../services/refresh-token/refresh-token.service';
 import {catchError, switchMap, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../features/auth/services/auth.service';
@@ -32,7 +33,7 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
                   }
                 })
                 return next(req);
-              })
+                }),
             )
       }
       return throwError(() => err)
