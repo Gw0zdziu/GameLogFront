@@ -6,7 +6,7 @@ import {provideRouter} from '@angular/router';
 import {AuthService} from './auth.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {UserStore} from '../../../core/store/user-store/user-store';
-import {AuthStoreService} from '../../../core/store/token-store/auth-store.service';
+import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
 import {ToastService} from '../../../shared/services/toast/toast.service';
 import {environment} from '../../../../environments/environment';
 
@@ -31,7 +31,7 @@ describe('AuthService', () => {
         provideRouter([]),
         { provide: LoggedStoreService, useValue: mockLoggedStore },
         { provide: UserStore, useValue: mockUserStore },
-        { provide: AuthStoreService, useValue: mockTokenStore },
+        { provide: TokenStoreService, useValue: mockTokenStore },
         { provide: ToastService, useValue: mockToastService },
       ],
     });

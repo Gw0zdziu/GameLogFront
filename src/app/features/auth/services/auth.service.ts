@@ -6,7 +6,7 @@ import {LoginUserDto} from '../models/login-user.dto';
 import {IS_AUTH_REQUIRED} from '../../../core/tokens/tokens';
 import {UserStore} from '../../../core/store/user-store/user-store';
 import {ToastService} from '../../../shared/services/toast/toast.service';
-import {AuthStoreService} from '../../../core/store/token-store/auth-store.service';
+import {TokenStoreService} from '../../../core/store/token-store/token-store.service';
 import {LoggedStoreService} from '../../../core/store/logged-store/logged-store.service';
 import {LoginResponseDto} from '../models/login-response.dto';
 
@@ -19,7 +19,7 @@ export class AuthService {
   private loggedStoreService = inject(LoggedStoreService);
   private userStore = inject(UserStore);
   private toastService = inject(ToastService);
-  private authStoreService = inject(AuthStoreService);
+  private authStoreService = inject(TokenStoreService);
 
 
   constructor() {
