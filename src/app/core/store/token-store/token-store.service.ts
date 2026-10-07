@@ -3,7 +3,7 @@ import {computed, effect, Injectable, signal} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthStoreService {
+export class TokenStoreService {
   private readonly token = signal<string | null>(localStorage.getItem('token'));
   readonly token$ = computed(() => this.token());
 
