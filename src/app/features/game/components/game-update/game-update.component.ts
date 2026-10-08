@@ -82,6 +82,7 @@ export class GameUpdateComponent implements OnInit{
       this.categoryService.getCategoryNames().subscribe({
         next: value => {
           this.filteredCategories.set(value);
+
         }
       })
       this.gameId = this.instance?.data;
@@ -99,6 +100,7 @@ export class GameUpdateComponent implements OnInit{
               categoryId: category.categoryId,
               categoryName: category.categoryName
             })
+            this.cdr.markForCheck();
           }
 
         }
