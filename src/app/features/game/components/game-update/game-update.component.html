@@ -25,7 +25,7 @@
     }
   </section>
   <section class="form__field">
-    <label for="yearPlayed" style="display: block">Rok zagrania</label>
+    <label for="yearPlayed" i18n style="display: block">Rok zagrania</label>
     <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" view="year" [showIcon]="true"  />
     @if (updateGameForm.controls.yearPlayed.errors?.invalid && updateGameForm.controls.yearPlayed.errors?.touched) {
       @if (updateGameForm.controls.yearPlayed.errors?.required) {
