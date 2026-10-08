@@ -84,6 +84,7 @@ export class GameListComponent implements OnInit{
     })
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) {return;}
+      this.store.getGames({...this.paginationState$()})
     });
   }
 
