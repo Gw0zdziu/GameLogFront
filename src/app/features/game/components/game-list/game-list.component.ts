@@ -9,6 +9,7 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faPencil, faSpinner, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {GameUpdateComponent} from '../game-update/game-update.component';
 import {FormatDatePipe} from '../../../../shared/pipes/format-date.pipe';
+import {PaginatedQuery} from '../../../../shared/models/paginated-query';
 
 @Component({
   selector: 'app-game-list',
@@ -64,7 +65,19 @@ export class GameListComponent implements OnInit{
         this.store.deleteGame({
           gameId: gameId,
           onSuccess: () => {
-            this.store.getGames({...this.paginationState$()})
+            let paginatedQuery: PaginatedQuery;
+            if (this.store.games().length === 0 && this.store.paginationState.amountPagesList().length > 1){
+              paginatedQuery = {
+                pageSize: this.store.paginationState.pageSize(),
+                pageNumber: this.store.paginationState.pageNumber() - 1
+              }
+            } else {
+              paginatedQuery = {
+                pageNumber: this.store.paginationState.pageNumber(),
+                pageSize: this.store.paginationState.pageSize(),
+              }
+            }
+            this.store.getGames(paginatedQuery);
           }
         });
       }
@@ -84,7 +97,11 @@ export class GameListComponent implements OnInit{
     })
     this.ref.onClose.subscribe((x: boolean) => {
       if (!x) {return;}
-      this.store.getGames({...this.paginationState$()})
+      this.store.getGames(
+        {
+        pageNumber: this.paginationState$().pageNumber,
+        pageSize: this.paginationState$().pageSize
+        });
     });
   }
 
