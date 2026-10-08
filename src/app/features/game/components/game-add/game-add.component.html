@@ -26,7 +26,7 @@
     }
   </section>
   <section class="form__field">
-    <label for="yearPlayed" style="display: block">Rok ogrania</label>
+    <label for="yearPlayed" style="display: block" i18n>Rok zagrania</label>
     <p-date-picker appendTo="body" class="form__field" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed"  view="year"  />
   </section>
   <button class="form__button" pButton type="submit" [disabled]="newGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
