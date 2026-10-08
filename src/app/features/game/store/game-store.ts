@@ -139,13 +139,7 @@ export const GameStore = signalStore(
         switchMap(value => {
           return gameService.updateGame(value.updatedGame, value.gameId).pipe(
             tapResponse({
-              next: response => {
-                patchState(store, {
-                  isLoading: false,
-                  games: store.games().map(x => {
-                    return x.gameId === value.gameId ? response : x
-                  })
-                })
+              next: () => {
                 value.onSuccess();
                 toastService.showSuccess($localize`Pomyślnie zaktualizowano grę`);
               },
