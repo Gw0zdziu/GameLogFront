@@ -26,7 +26,7 @@
   </section>
   <section class="form__field">
     <label for="yearPlayed" i18n style="display: block">Rok zagrania</label>
-    <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" view="year" [showIcon]="true"  />
+    <p-date-picker appendTo="body"  class="input" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" view="year" [showIcon]="true" [touchUI]="isMobile()" />
     @if (updateGameForm.controls.yearPlayed.errors?.invalid && updateGameForm.controls.yearPlayed.errors?.touched) {
       @if (updateGameForm.controls.yearPlayed.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>

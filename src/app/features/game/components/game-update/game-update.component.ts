@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {GameService} from '../../services/game.service';
 import {GameStore} from '../../store/game-store';
@@ -14,7 +14,6 @@ import {DatePicker} from 'primeng/datepicker';
 import {Message} from 'primeng/message';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CategoryDto} from '../../../category/models/category.dto';
-import {CategoryStore} from '../../../category/store/category-store';
 import {ImageGameComponent} from "../shared/image-game/image-game.component";
 import {GameDetailsDto} from "../../models/game-details.dto";
 import {debounceTime, filter, forkJoin, Subject, switchMap} from 'rxjs';
@@ -24,6 +23,7 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {CategoryNamesDto} from "../../../category/models/category-names.dto";
 import {CategoryService} from '../../../category/services/category.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {IsMobileStoreService} from '../../../../core/store/is-mobile-store/is-mobile-store.service';
 
 @Component({
   selector: 'app-game-update',
@@ -45,14 +45,14 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameUpdateComponent implements OnInit{
+    private destroyRef = inject(DestroyRef);
     private dynamicDialogRef = inject(DynamicDialogRef);
     private dialogService = inject(DialogService);
-    private categoryStore = inject(CategoryStore);
     private gameService = inject(GameService);
     private categoryService = inject(CategoryService);
-    private cdr = inject(ChangeDetectorRef);
     private gameBrainService = inject(GamebrainapiService)
     private gameNameSearch$ = new Subject<string>();
+    isMobile = inject(IsMobileStoreService).isMobile$;
     readonly categories = signal<CategoryNamesDto[]>([]);
     readonly filteredCategories = signal<CategoryNamesDto[]>([]);
     readonly isNotSelectCategory = signal(true);
@@ -104,7 +104,7 @@ export class GameUpdateComponent implements OnInit{
         filter(query => query !== ''),
         debounceTime(1000),
         switchMap(query => this.gameBrainService.getGames(query)),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
       ).subscribe(query => {
         this.games.set(query);
       })
