@@ -86,7 +86,7 @@ export const GameStore = signalStore(
                     })
                   }
                   value.onSuccess();
-                  toastService.showSuccess($localize`Pomyślnie dodano grę`);
+                  toastService.showSuccess('game.successfully-created');
                 },
                 error: (error: HttpErrorResponse) => {
                   patchState(store, {isLoading: false});
@@ -115,7 +115,7 @@ export const GameStore = signalStore(
                   games: store.games().filter(game => game.gameId !== x.gameId),
                 });
                 x.onSuccess();
-                toastService.showSuccess($localize`Pomyślnie usunięto grę`);
+                toastService.showSuccess(`game.successfully-deleted`);
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
@@ -147,7 +147,7 @@ export const GameStore = signalStore(
                   })
                 })
                 value.onSuccess();
-                toastService.showSuccess($localize`Pomyślnie zaktualizowano grę`);
+                toastService.showSuccess('game.successfully-updated');
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
