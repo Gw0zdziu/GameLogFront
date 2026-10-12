@@ -1,7 +1,7 @@
 import {CategoryDto} from '../models/category.dto';
 import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
-import {debounceTime, distinctUntilChanged, pipe, switchMap, tap} from 'rxjs';
+import {debounceTime, pipe, switchMap, tap} from 'rxjs';
 import {inject} from '@angular/core';
 import {tapResponse} from '@ngrx/operators';
 import {CategoryService} from '../services/category.service';
@@ -11,6 +11,7 @@ import {ToastService} from '../../../shared/services/toast/toast.service';
 import {CategoryPutDto} from '../models/category-put.dto';
 import {PaginatedQuery} from '../../../shared/models/paginated-query';
 import {PaginationConfig} from '../../../shared/models/pagination-config';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 type CategoryState = {
   categories: CategoryDto[];
@@ -90,7 +91,7 @@ export const CategoryStore = signalStore(
           })
         ),
         debounceTime(300),
-        distinctUntilChanged(),
+        takeUntilDestroyed(),
         switchMap((value)=> {
           return categoryService.createCategory(value.newCategory).pipe(
             tapResponse({
@@ -123,7 +124,7 @@ export const CategoryStore = signalStore(
           isLoading: true,
         })),
         debounceTime(300),
-        distinctUntilChanged(),
+        takeUntilDestroyed(),
         switchMap((value) => {
           return categoryService.deleteCategory(value.categoryId).pipe(
             tapResponse({
@@ -133,7 +134,7 @@ export const CategoryStore = signalStore(
                   categories: store.categories().filter(category => category.categoryId !== value.categoryId)
                 });
                 value.onSuccess()
-                toastService.showSuccess($localize`Pomyślnie usunięto kategorię`);
+                toastService.showSuccess(`category.successfully-deleted`);
               },
               error: () => {
                 patchState(store, {isLoading: false});
@@ -151,7 +152,7 @@ export const CategoryStore = signalStore(
           isLoading: true,
         })),
         debounceTime(300),
-        distinctUntilChanged(),
+        takeUntilDestroyed(),
         switchMap((value) => {
           return categoryService.updateCategory(value.category, value.categoryId).pipe(
             tapResponse({
@@ -163,7 +164,7 @@ export const CategoryStore = signalStore(
                   })
                 });
                 value.onSuccess();
-                toastService.showSuccess($localize`Pomyślnie zaktualizowano kategorię`);
+                toastService.showSuccess('category.successfully-updated');
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
