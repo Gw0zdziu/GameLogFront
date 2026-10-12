@@ -3,7 +3,12 @@ import {DialogService, DynamicDialogComponent, DynamicDialogRef} from 'primeng/d
 import {GameService} from '../../services/game.service';
 import {GameStore} from '../../store/game-store';
 import {GameDto} from '../../models/game.dto';
-import {AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent} from 'primeng/autocomplete';
+import {
+  AutoComplete,
+  AutoCompleteCompleteEvent,
+  AutoCompleteDropdownClickEvent,
+  AutoCompleteSelectEvent
+} from 'primeng/autocomplete';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DatePicker} from 'primeng/datepicker';
 import {Message} from 'primeng/message';
@@ -12,12 +17,13 @@ import {CategoryDto} from '../../../category/models/category.dto';
 import {CategoryStore} from '../../../category/store/category-store';
 import {ImageGameComponent} from "../shared/image-game/image-game.component";
 import {GameDetailsDto} from "../../models/game-details.dto";
-import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from 'rxjs';
+import {debounceTime, filter, forkJoin, Subject, switchMap} from 'rxjs';
 import {GamebrainapiService} from '../../services/gamebrainapi/gamebrainapi.service';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {CategoryNamesDto} from "../../../category/models/category-names.dto";
 import {CategoryService} from '../../../category/services/category.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-game-update',
@@ -47,13 +53,14 @@ export class GameUpdateComponent implements OnInit{
     private cdr = inject(ChangeDetectorRef);
     private gameBrainService = inject(GamebrainapiService)
     private gameNameSearch$ = new Subject<string>();
+    readonly categories = signal<CategoryNamesDto[]>([]);
     readonly filteredCategories = signal<CategoryNamesDto[]>([]);
     readonly isNotSelectCategory = signal(true);
     readonly game = signal<GameDto | null>(null);
     readonly games = signal<GameDetailsDto[]>([]);
     gameStore = inject(GameStore);
     instance: DynamicDialogComponent | undefined;
-    gameId: string;
+    gameId: string = this.dialogService.getInstance(this.dynamicDialogRef).data;
     faSpinner = faSpinner;
     updateGameForm = new FormGroup(
       {
@@ -72,65 +79,40 @@ export class GameUpdateComponent implements OnInit{
           validators: [Validators.required],
         })
       }
-    )
-
-    constructor() {
-      this.instance = this.dialogService.getInstance(this.dynamicDialogRef);
-    }
+    );
 
     ngOnInit(): void {
-      this.categoryService.getCategoryNames().subscribe({
-        next: value => {
-          this.filteredCategories.set(value);
-
+      forkJoin({
+        categoryNames: this.categoryService.getCategoryNames().pipe(),
+        game: this.gameService.getGame(this.gameId),
+      }).subscribe(({categoryNames, game}) => {
+        this.categories.set([...categoryNames]);
+        this.updateGameForm.patchValue({
+          gameName: game.gameName,
+          gameImage: game.gameUrl,
+          yearPlayed: new Date(game.yearPlayed),
+        })
+        const category = categoryNames.find(x => x.categoryId === x.categoryId);
+        if (category) {
+          this.updateGameForm.controls.selectedCategory.setValue({
+            categoryId: category.categoryId,
+            categoryName: category.categoryName
+          })
         }
       })
-      this.gameId = this.instance?.data;
-      this.gameService.getGame(this.gameId).pipe(
-      ).subscribe({
-        next: value => {
-          this.updateGameForm.patchValue({
-            gameName: value.gameName,
-            gameImage: value.gameUrl,
-            yearPlayed: new Date(value.yearPlayed)
-          });
-          const category = this.filteredCategories().find(x => x.categoryId === value.categoryId);
-          if (category) {
-            this.updateGameForm.controls.selectedCategory.setValue({
-              categoryId: category.categoryId,
-              categoryName: category.categoryName
-            })
-            this.cdr.markForCheck();
-          }
-
-        }
-      });
       this.gameNameSearch$.pipe(
         filter(query => query !== ''),
         debounceTime(1000),
         switchMap(query => this.gameBrainService.getGames(query)),
-        distinctUntilChanged(),
+        takeUntilDestroyed(),
       ).subscribe(query => {
         this.games.set(query);
-        if (query.length === 0) {
-          this.updateGameForm.controls.gameImage.setValue('')
-        }
       })
     }
-
-  filterCategory($event: AutoCompleteCompleteEvent): void {
-    this.filteredCategories.set(this.categoryStore.categories()
-      .filter(category => category.categoryName.toLowerCase().includes( $event.query.toLowerCase())));
-    this.isNotSelectCategory.set(this.filteredCategories().length === 0);
-  }
 
   filterGames(event: AutoCompleteCompleteEvent): void {
     const query = event.query.toLowerCase()
     this.gameNameSearch$.next(query);
-  }
-
-  selectCategory() : void{
-    this.isNotSelectCategory.set(true);
   }
 
   selectGame(event: AutoCompleteSelectEvent): void {
@@ -145,20 +127,33 @@ export class GameUpdateComponent implements OnInit{
     this.updateGameForm.controls.gameName.reset();
   }
 
-  submitUpdateGame(): void  {
-      const updatedGame = this.updateGameForm.getRawValue();
-      this.gameStore.updateGame({
-        gameId: this.gameId as string,
-        updatedGame: {
-          gameName: updatedGame.gameName,
-          gameImageUrl: updatedGame.gameImage as string,
-          categoryId: (updatedGame.selectedCategory as CategoryDto).categoryId,
-          yearPlayed: updatedGame.yearPlayed
-        },
-        onSuccess: () => {
-          this.dynamicDialogRef.close(true);
-        }
-      })
+
+
+  public dropdownClick($event: AutoCompleteDropdownClickEvent) {
+    this.filteredCategories.set([...this.categories()]);
   }
 
+  public completeCategories($event: AutoCompleteCompleteEvent) {
+    const value = $event.query;
+    if (value){
+      const categories = this.categories().filter(x => x.categoryName.toLowerCase().includes(value.toLowerCase()));
+      this.filteredCategories.set([...categories]);
+    }
+  }
+
+  submitUpdateGame(): void  {
+    const updatedGame = this.updateGameForm.getRawValue();
+    this.gameStore.updateGame({
+      gameId: this.gameId as string,
+      updatedGame: {
+        gameName: updatedGame.gameName,
+        gameImageUrl: updatedGame.gameImage as string,
+        categoryId: (updatedGame.selectedCategory as CategoryDto).categoryId,
+        yearPlayed: updatedGame.yearPlayed
+      },
+      onSuccess: () => {
+        this.dynamicDialogRef.close(true);
+      }
+    })
+}
 }
