@@ -22,7 +22,12 @@ export const messages= new Map<string, string>(
       ['auth.successfully-logout', $localize`Pomyślnie wylogowano`],
       ['auth.successfully-login',$localize`Pomyślnie zalogowano`],
       ['category.successfully-created', $localize`Pomyślnie utworzono nową kategorie`],
-      //Info messages
+      ['category.successfully-updated', $localize`Pomyślnie zaktualizowano kategorię`],
+      ['category.successfully-deleted', $localize`Pomyślnie usunięto kategorię`],
+      ['game.successfully-created', $localize`Pomyślnie dodano grę`],
+      ['game.successfully-updated', $localize`Pomyślnie zaktualizowano grę`],
+      ['game.successfully-deleted', $localize`Pomyślnie usunięto grę`],
+    //Info messages
       ['auth.token-expired', $localize`Sesja wygasła. Zaloguj się ponownie.`],
       //Unhandled message code
       ['unhandled-message-code', $localize`Nieobsłużony kod wiadomość`],
