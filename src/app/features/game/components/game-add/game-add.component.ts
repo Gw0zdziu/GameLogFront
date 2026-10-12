@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {GameStore} from '../../store/game-store';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Message} from 'primeng/message';
@@ -9,19 +9,18 @@ import {
   AutoCompleteSelectEvent
 } from 'primeng/autocomplete';
 import {DatePicker} from 'primeng/datepicker';
-import {CategoryStore} from '../../../category/store/category-store';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
 import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
-import {debounceTime, filter, map, Subject, switchMap} from "rxjs";
+import {debounceTime, filter, Subject, switchMap} from "rxjs";
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {CategoryNamesDto} from "../../../category/models/category-names.dto";
 import {CategoryService} from "../../../category/services/category.service";
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {IsMobileStoreService} from '../../../../core/store/is-mobile-store/is-mobile-store.service';
 
 @Component({
   selector: 'app-game-add',
@@ -44,23 +43,18 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddComponent implements  OnInit{
+    private destroyRef = inject(DestroyRef);
     private dynamicDialogRef = inject(DynamicDialogRef);
-    private categoryStore = inject(CategoryStore);
     private gameStory = inject(GameStore);
     private formBuilder = inject(FormBuilder);
     private gameBrainService = inject(GamebrainapiService);
     private categoryService = inject(CategoryService);
     gameStore = inject(GameStore);
-    private breakpointObserver = inject(BreakpointObserver);
+    isMobile = inject(IsMobileStoreService).isMobile$;
     readonly games = signal<GameDetailsDto[]>([]);
     readonly isNotSelectCategory = signal(true);
     readonly categories = signal<CategoryNamesDto[]>([]);
     readonly filteredCategories = signal<CategoryNamesDto[]>([]);
-    readonly isMobile = toSignal(this.breakpointObserver
-      .observe(Breakpoints.Handset).pipe(
-        takeUntilDestroyed(),
-        map((value) => value.matches)
-      ));
     private gameNameSearch$ = new Subject<string>();
   faSpinner = faSpinner;
     newGameForm = this.formBuilder.group({
@@ -94,7 +88,7 @@ export class GameAddComponent implements  OnInit{
         filter(query => query !== ''),
         debounceTime(1000),
         switchMap(query => this.gameBrainService.getGames(query)),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
     ).subscribe(query => {
       this.games.set([...query]);
       if (query.length === 0) {
