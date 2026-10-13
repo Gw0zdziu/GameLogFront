@@ -13,7 +13,7 @@ export const routes: Routes = [
       .then(m => m.HomeComponent),
     loadChildren: () => import('./features/home/routes/home.routes')
       .then(m => m.homeRoutes),
-    canActivate: [authGuard],
+    canMatch: [authGuard],
   },
   {
     path: 'login',
