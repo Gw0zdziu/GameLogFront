@@ -50,8 +50,11 @@ export class AuthService {
       withCredentials: true,
       responseType: 'text',
       context: new HttpContext().set(IS_AUTH_REQUIRED, true),
-
-    })
+    }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => err)
+      })
+    )
   }
 
    logoutUser(): Observable<void> {
@@ -65,15 +68,13 @@ export class AuthService {
       this.authStoreService.clearToken();
       }),
       catchError((err: HttpErrorResponse) => {
-        this.userStore.cleanStore();
-        this.loggedStoreService.setLogged(false);
-        this.authStoreService.clearToken();
         return throwError(() => err);
       }));
   }
 
   isTokenValid() {
     const token = this.authStoreService.token$();
+
     if (!token) return false;
 
     const payload = this.decodeJwtPayload(token);
@@ -105,5 +106,15 @@ export class AuthService {
     }
   }
 
-
+  verify(): Observable<boolean>{
+    return this.httpClient.get<boolean>(`${this.apiUrl}/verify`, {
+      withCredentials: true,
+      context: new HttpContext()
+        .set(IS_AUTH_REQUIRED, true)
+    }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => err);
+      })
+    )
+  }
 }

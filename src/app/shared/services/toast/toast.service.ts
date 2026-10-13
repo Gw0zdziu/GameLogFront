@@ -25,7 +25,7 @@ export class ToastService {
     if (messages.has(key)){
       return  messages.get(key) as string;
     } else {
-      return messages.get('unhanding-message') as string;
+      return messages.get('unhandled-message-code') as string;
     }
   }
 }

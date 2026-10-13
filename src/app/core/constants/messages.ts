@@ -3,6 +3,7 @@ export const messages= new Map<string, string>(
   [
       //Error messages
       ['auth.incorrect-data-of-login', $localize`Błędne dane logowania`],
+      ['auth.inactive-user', $localize`Konto jest nieaktywne`],
       ['auth.expired-refresh-token', $localize`Sesja wygasła. Zaloguj się ponownie.`],
       ['auth.expired-refresh-token', $localize`Sesja wygasła. Zaloguj się ponownie.`],
       ['user.username-already-taken', $localize`Nazwa użytkownika jest zajęta`],
