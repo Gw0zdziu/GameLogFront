@@ -10,7 +10,9 @@ import {refreshTokenInterceptor} from './core/interceptors/refresh-token/refresh
 import {definePreset} from '@primeng/themes';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormatDatePipe} from './shared/pipes/format-date.pipe';
-import {UserStore} from './core/store/user-store/user-store';
+import {acceptLanguageInterceptor} from './core/interceptors/accept-language/accept-language.interceptor';
+import {errorHandlingInterceptor} from './core/interceptors/error-handling/error-handling.interceptor';
+import {AuthService} from './features/auth/services/auth.service';
 
 
 const Preset = definePreset(Aura, {
@@ -86,7 +88,7 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     ConfirmationService,
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
+    provideHttpClient(withInterceptors([acceptLanguageInterceptor,errorHandlingInterceptor, authInterceptor, refreshTokenInterceptor])),
     provideRouter(routes),
     provideAnimationsAsync(),
     FormatDatePipe,
@@ -98,10 +100,9 @@ export const appConfig: ApplicationConfig = {
         }
       }
     }),
-    provideAppInitializer(() =>{
-      const userStore = inject(UserStore);
-      userStore.getUser();
-
+    provideAppInitializer(() => {
+      const authService = inject(AuthService);
+      authService.verify().subscribe()
     })
   ]
 };

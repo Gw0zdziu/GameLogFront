@@ -31,14 +31,13 @@ export class CategoryAddComponent {
   private dynamicDialogRef = inject(DynamicDialogRef);
   store = inject(CategoryStore)
   faSpinner = faSpinner;
-  
+
   submitForm(newCategoryForm: NgForm): void{
     const newCategory: CategoryPostDto = newCategoryForm.value as CategoryPostDto;
     this.store.addCategory({
       newCategory: newCategory,
       onSuccess: () => {
         this.dynamicDialogRef.close(true);
-        this.store.getCategories(this.store.paginationState())
       }
     });
   }

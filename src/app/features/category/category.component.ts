@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {CategoryListComponent} from './components/category-list/category-list.component';
 import {CategoryAddComponent} from './components/category-add/category-add.component';
+import {CategoryStore} from './store/category-store';
 
 @Component({
   selector: 'app-category',
@@ -13,8 +14,9 @@ import {CategoryAddComponent} from './components/category-add/category-add.compo
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnDestroy{
   private dialogService = inject(DialogService);
+  private categoryStore = inject(CategoryStore);
   ref: DynamicDialogRef | undefined;
 
   openAddCategoryDialog(): void {
@@ -26,7 +28,13 @@ export class CategoryComponent {
       focusOnShow: false,
     });
     this.ref.onClose.subscribe((x: boolean) => {
-      if (!x) {return;}
+      if (x){
+        this.categoryStore.getCategories(this.categoryStore.paginationState())
+      }
     });
+  }
+
+  ngOnDestroy() {
+    this.ref?.close();
   }
 }

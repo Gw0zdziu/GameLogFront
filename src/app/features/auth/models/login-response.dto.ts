@@ -1,4 +1,7 @@
+import {GetUserDto} from '../../../shared/models/get-user.dto';
+
 export interface LoginResponseDto{
   token: string;
-  userId: string;
+  expiresIn: number,
+  user: GetUserDto,
 }

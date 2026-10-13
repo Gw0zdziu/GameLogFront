@@ -49,13 +49,18 @@ export class InputOtpComponent implements ControlValueAccessor{
 
 
   pasteValue($event: ClipboardEvent) {
+    $event.preventDefault();
      let clipBoardValue = $event.clipboardData?.getData('text') || '';
      this.code$.update(x => {
        return x.map((_, index) => {
-         return clipBoardValue[index]
+         if (clipBoardValue[index] !== undefined){
+           return clipBoardValue[index]
+         } else {
+           return '';
+         }
        })
      })
-    this.inputsElements()[this.inputsElements().length - 1].nativeElement.focus();
+    this.inputsElements()[this.lengthCharacters() - 1]?.nativeElement.focus();
      this.updateValue();
   }
 

@@ -1,20 +1,26 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {GameStore} from '../../store/game-store';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Message} from 'primeng/message';
-import {AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent} from 'primeng/autocomplete';
+import {
+  AutoComplete,
+  AutoCompleteCompleteEvent,
+  AutoCompleteDropdownClickEvent,
+  AutoCompleteSelectEvent
+} from 'primeng/autocomplete';
 import {DatePicker} from 'primeng/datepicker';
-import {CategoryStore} from '../../../category/store/category-store';
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CategoryDto} from '../../../category/models/category.dto';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
-import {UserStore} from '../../../../core/store/user-store/user-store';
 import {GameDetailsDto} from '../../models/game-details.dto';
 import {ImageGameComponent} from '../shared/image-game/image-game.component';
 import {GamebrainapiService} from "../../services/gamebrainapi/gamebrainapi.service";
-import {debounceTime, distinctUntilChanged, filter, Subject, switchMap} from "rxjs";
+import {debounceTime, filter, Subject, switchMap} from "rxjs";
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {CategoryNamesDto} from "../../../category/models/category-names.dto";
+import {CategoryService} from "../../../category/services/category.service";
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {IsMobileStoreService} from '../../../../core/store/is-mobile-store/is-mobile-store.service';
 
 @Component({
   selector: 'app-game-add',
@@ -27,7 +33,7 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons';
     ButtonDirective,
     ButtonLabel,
     ImageGameComponent,
-    FaIconComponent
+    FaIconComponent,
   ],
   templateUrl: './game-add.component.html',
   styleUrl: './game-add.component.css',
@@ -37,18 +43,20 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameAddComponent implements  OnInit{
+    private destroyRef = inject(DestroyRef);
     private dynamicDialogRef = inject(DynamicDialogRef);
-    private categoryStore = inject(CategoryStore);
     private gameStory = inject(GameStore);
-    private userStore = inject(UserStore);
     private formBuilder = inject(FormBuilder);
     private gameBrainService = inject(GamebrainapiService);
+    private categoryService = inject(CategoryService);
     gameStore = inject(GameStore);
+    isMobile = inject(IsMobileStoreService).isMobile$;
     readonly games = signal<GameDetailsDto[]>([]);
     readonly isNotSelectCategory = signal(true);
-    readonly filteredCategories = signal<CategoryDto[]>([]);
+    readonly categories = signal<CategoryNamesDto[]>([]);
+    readonly filteredCategories = signal<CategoryNamesDto[]>([]);
     private gameNameSearch$ = new Subject<string>();
-    faSpinner = faSpinner;
+  faSpinner = faSpinner;
     newGameForm = this.formBuilder.group({
       gameName: ['', {
         validators: [Validators.required],
@@ -71,15 +79,18 @@ export class GameAddComponent implements  OnInit{
 
 
   ngOnInit(): void {
-    const userId = this.userStore.userId() as string;
-    this.categoryStore.getCategoriesByUserId(userId);
+      this.categoryService.getCategoryNames().subscribe({
+        next: value => {
+          this.categories.set(value);
+        }
+      })
     this.gameNameSearch$.pipe(
         filter(query => query !== ''),
         debounceTime(1000),
         switchMap(query => this.gameBrainService.getGames(query)),
-        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
     ).subscribe(query => {
-      this.games.set(query);
+      this.games.set([...query]);
       if (query.length === 0) {
         this.newGameForm.controls.gameImage.setValue('')
       }
@@ -87,10 +98,17 @@ export class GameAddComponent implements  OnInit{
   }
 
   filterCategory($event: AutoCompleteCompleteEvent): void {
-    this.filteredCategories.set(this.categoryStore.categories()
-      .filter(category => category.categoryName.toLowerCase().includes( $event.query.toLowerCase())));
-    this.isNotSelectCategory.set(this.filteredCategories().length === 0);
-
+      this.filteredCategories.set(this.categories());
+      const value = $event.query;
+      if (value){
+      const categories = this.categories().filter(x => x.categoryName.toLowerCase() === value.toLowerCase());
+      this.filteredCategories.set(categories);
+      }
+      /*if (value) {
+        this.filteredCategories.set(this.categoryStore.categories()
+          .filter(category => category.categoryName.toLowerCase().includes( value)));
+        //this.isNotSelectCategory.set(this.filteredCategories().length === 0);
+      }*/
   }
 
 
@@ -98,22 +116,6 @@ export class GameAddComponent implements  OnInit{
   selectCategory() : void{
     this.isNotSelectCategory.set(true);
   }
-
-  submitNewGame(): void{
-     this.gameStore.postGame({
-       newGame: {
-         gameName: this.newGameForm.get('gameName')?.getRawValue() as string,
-         gameImageUrl: this.newGameForm.get('gameImage')?.getRawValue() as string,
-         categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
-         yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
-       },
-       onSuccess: () => {
-         this.gameStory.getGames(null);
-         this.dynamicDialogRef.close(true);
-       }
-     });
-  }
-
 
   filterGames(event: AutoCompleteCompleteEvent): void {
     const query = event.query.toLowerCase()
@@ -132,5 +134,31 @@ export class GameAddComponent implements  OnInit{
     this.newGameForm.controls.gameName.reset();
   }
 
+  submitNewGame(): void{
+    this.gameStore.postGame({
+      newGame: {
+        gameName: this.newGameForm.get('gameName')?.getRawValue() as string,
+        gameImageUrl: this.newGameForm.get('gameImage')?.getRawValue() as string,
+        categoryId: this.newGameForm.get('categoryId')?.getRawValue()?.categoryId as string,
+        yearPlayed: this.newGameForm.get('yearPlayed')?.value as Date
+      },
+      onSuccess: () => {
+        this.gameStory.getGames(null);
+        this.dynamicDialogRef.close(true);
+      }
+    });
+  }
 
+
+  public dropdownClick($event: AutoCompleteDropdownClickEvent) {
+    this.filteredCategories.set([...this.categories()]);
+  }
+
+  public completeCategories($event: AutoCompleteCompleteEvent) {
+      const value = $event.query;
+      if (value){
+        const categories = this.categories().filter(x => x.categoryName.toLowerCase().includes(value.toLowerCase()));
+        this.filteredCategories.set([...categories]);
+      }
+  }
 }

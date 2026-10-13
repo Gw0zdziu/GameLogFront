@@ -59,7 +59,6 @@ export const GameStore = signalStore(
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
@@ -87,11 +86,10 @@ export const GameStore = signalStore(
                     })
                   }
                   value.onSuccess();
-                  toastService.showSuccess($localize`Pomyślnie dodano grę`);
+                  toastService.showSuccess('game.successfully-created');
                 },
                 error: (error: HttpErrorResponse) => {
                   patchState(store, {isLoading: false});
-                  toastService.showError(error.error);
                 },
                 complete: () => patchState(store, {isLoading: false}),
               })
@@ -117,11 +115,10 @@ export const GameStore = signalStore(
                   games: store.games().filter(game => game.gameId !== x.gameId),
                 });
                 x.onSuccess();
-                toastService.showSuccess($localize`Pomyślnie usunięto grę`);
+                toastService.showSuccess(`game.successfully-deleted`);
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })
@@ -142,19 +139,12 @@ export const GameStore = signalStore(
         switchMap(value => {
           return gameService.updateGame(value.updatedGame, value.gameId).pipe(
             tapResponse({
-              next: response => {
-                patchState(store, {
-                  isLoading: false,
-                  games: store.games().map(x => {
-                    return x.gameId === value.gameId ? response : x
-                  })
-                })
+              next: () => {
                 value.onSuccess();
-                toastService.showSuccess($localize`Pomyślnie zaktualizowano grę`);
+                toastService.showSuccess('game.successfully-updated');
               },
               error: (error: HttpErrorResponse) => {
                 patchState(store, {isLoading: false});
-                toastService.showError(error.error);
               },
               complete: () => patchState(store, {isLoading: false}),
             })

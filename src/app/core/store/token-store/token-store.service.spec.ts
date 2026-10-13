@@ -45,7 +45,7 @@ describe('TokenStoreService', () => {
     it('updates token$ with the new value', () => {
       const service = createService();
 
-      service.updateToken('new-token-abc');
+      service.setToken('new-token-abc');
 
       expect(service.token$()).toBe('new-token-abc');
     });
@@ -53,7 +53,7 @@ describe('TokenStoreService', () => {
     it('sets token$ to null when called with null', () => {
       const service = createService();
 
-      service.updateToken(null);
+      service.setToken(null);
 
       expect(service.token$()).toBeNull();
     });
@@ -61,7 +61,7 @@ describe('TokenStoreService', () => {
     it('saves token to localStorage via effect when token is set', () => {
       const service = createService();
 
-      service.updateToken('saved-token');
+      service.setToken('saved-token');
       TestBed.flushEffects();
 
       expect(localStorageMock.setItem).toHaveBeenCalledWith('token', 'saved-token');
@@ -70,7 +70,7 @@ describe('TokenStoreService', () => {
     it('removes token from localStorage via effect when token is null', () => {
       const service = createService();
 
-      service.updateToken(null);
+      service.setToken(null);
       TestBed.flushEffects();
 
       expect(localStorageMock.removeItem).toHaveBeenCalledWith('token');
@@ -78,9 +78,9 @@ describe('TokenStoreService', () => {
 
     it('replaces a previous token with the new value', () => {
       const service = createService();
-      service.updateToken('first-token');
+      service.setToken('first-token');
 
-      service.updateToken('second-token');
+      service.setToken('second-token');
 
       expect(service.token$()).toBe('second-token');
     });

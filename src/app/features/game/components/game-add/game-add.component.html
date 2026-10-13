@@ -18,7 +18,8 @@
   </section>
   <section class="form__field">
     <label for="category" i18n>Kategoria</label>
-    <p-auto-complete   appendTo="body" dropdown="true" fluid="true" formControlName="categoryId" id="category" name="category" optionLabel="categoryName"  [suggestions]="filteredCategories()"  (completeMethod)="filterCategory($event)" (onSelect)="selectCategory()" />
+    <p-auto-complete appendTo="body" formControlName="categoryId" id="category" name="category" optionLabel="categoryName" [dropdown]="true" [fluid]="true" [suggestions]="filteredCategories()" (completeMethod)="completeCategories($event)" (onDropdownClick)="dropdownClick($event)" >
+    </p-auto-complete>
     @if (newGameForm.controls.categoryId.invalid && newGameForm.controls.categoryId.touched) {
       @if (newGameForm.controls.categoryId.errors?.required) {
         <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
@@ -26,8 +27,8 @@
     }
   </section>
   <section class="form__field">
-    <label for="yearPlayed" style="display: block">Rok ogrania</label>
-    <p-date-picker appendTo="body" class="form__field" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed"  view="year"  />
+    <label for="yearPlayed" i18n style="display: block">Rok zagrania</label>
+    <p-date-picker appendTo="body" class="form__field" dateFormat="yy" formControlName="yearPlayed" id="yearPlayed" view="year"  [touchUI]="isMobile()"  />
   </section>
   <button class="form__button" pButton type="submit" [disabled]="newGameForm.invalid || gameStore.isLoading() || !isNotSelectCategory()">
     @if (gameStore.isLoading()){

@@ -18,9 +18,12 @@ export class TokenStoreService {
     });
   }
 
-  updateToken(token: string | null): void{
+  setToken(token: string | null): void{
     this.token.set(token);
+  }
 
+  clearToken(): void{
+    this.token.set(null);
   }
 
 }

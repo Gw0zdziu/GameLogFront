@@ -84,8 +84,8 @@ describe('GameAddComponent', () => {
 
       component.filterCategory({query: 'rpg'} as AutoCompleteCompleteEvent);
 
-      expect(component.filteredCategories()).toHaveLength(2);
-      expect(component.filteredCategories().map(c => c.categoryId)).toEqual(['cat-1', 'cat-3']);
+      expect(component.categories()).toHaveLength(2);
+      expect(component.categories().map(c => c.categoryId)).toEqual(['cat-1', 'cat-3']);
     });
 
     it('sets isNotSelectCategory to false when matches are found', () => {

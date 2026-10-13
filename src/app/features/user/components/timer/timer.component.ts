@@ -20,7 +20,6 @@ export class TimerComponent{
 
   constructor() {
     const interval = setInterval(() => {
-      console.log('tick')
       if (this.minutes() >= 0 && this.seconds() >= 1){
         this.seconds.update(x => x -1);
       } else if (this.seconds() <= 1 && this.minutes() > 0){

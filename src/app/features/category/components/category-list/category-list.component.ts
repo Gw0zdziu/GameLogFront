@@ -10,6 +10,7 @@ import {ButtonDirective} from 'primeng/button';
 import {PaginatorComponent} from '../../../../shared/components/paginator/paginator.component';
 import {faPencil, faSpinner, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {PaginatedQuery} from '../../../../shared/models/paginated-query';
 
 
 @Component({
@@ -84,7 +85,24 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
         severity: 'danger',
       },
       accept: () => {
-        this.store.deleteCategory(categoryId);
+        this.store.deleteCategory({
+          categoryId: categoryId,
+          onSuccess: () => {
+            let paginatedQuery: PaginatedQuery;
+            if (this.store.categories().length === 0 && this.store.paginationState.amountPagesList().length > 1){
+               paginatedQuery = {
+                pageSize: this.store.paginationState.pageSize(),
+                pageNumber: this.store.paginationState.pageNumber() - 1
+              }
+            } else {
+              paginatedQuery = {
+                pageNumber: this.store.paginationState.pageNumber(),
+                pageSize: this.store.paginationState.pageSize(),
+              }
+            }
+            this.store.getCategories(paginatedQuery);
+          }
+        });
       }
     })
   }

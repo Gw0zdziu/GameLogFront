@@ -1,4 +1,4 @@
-import {Language} from '../models/language';
+import {Language} from '../../shared/models/language';
 import {enGB} from 'date-fns/locale/en-GB';
 import {pl} from 'date-fns/locale/pl';
 

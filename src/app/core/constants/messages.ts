@@ -1,0 +1,37 @@
+
+export const messages= new Map<string, string>(
+  [
+      //Error messages
+      ['auth.incorrect-data-of-login', $localize`Błędne dane logowania`],
+      ['auth.inactive-user', $localize`Konto jest nieaktywne`],
+      ['auth.expired-refresh-token', $localize`Sesja wygasła. Zaloguj się ponownie.`],
+      ['auth.expired-refresh-token', $localize`Sesja wygasła. Zaloguj się ponownie.`],
+      ['user.username-already-taken', $localize`Nazwa użytkownika jest zajęta`],
+      ['user.email-already-taken', $localize`Adres e-mail jest zajęty`],
+      ['user.verification-code-not-found', $localize`Nie znaleziono kodu weryfikującego`],
+      ['user.expired-verification-code', $localize`Kod weryfikacyjny wygasł. Poproś o nowy kod i spróbuj ponownie.`],
+      ['user.incorrect-verification-code', $localize`Nieprawidłowy kod weryfikacyjny. Sprawdź kod i spróbuj ponownie.`],
+      ['user.passwords-do-not-match', $localize`Hasła się nie zgadzają.`],
+      ['user.recovery-code-has-expired', $localize`Kod odzyskiwania wygasł. Poproś o nowy kod i spróbuj ponownie.`],
+      ['user.recovery-code-is-already-used', $localize`Kod odzyskiwania został już użyty.`],
+      ['category.not-found',$localize`Kategoria nie została znaleziona.`],
+      ['category.exist-game-with-this-category', $localize`Istnieje gra z tą kategorią`],
+      ['category.category-with-this-name-already-exists', $localize`Ta nazwa kategorii jest już zajęta.`],
+      ['game.not-found', $localize`Gra nie została znaleziona.`],
+      ['game.game-with-this-name-already-exists', $localize`Ta nazwa gry jest już zajęta.`],
+      //Success messages
+      ['auth.successfully-logout', $localize`Pomyślnie wylogowano`],
+      ['auth.successfully-login',$localize`Pomyślnie zalogowano`],
+      ['category.successfully-created', $localize`Pomyślnie utworzono nową kategorie`],
+      ['category.successfully-updated', $localize`Pomyślnie zaktualizowano kategorię`],
+      ['category.successfully-deleted', $localize`Pomyślnie usunięto kategorię`],
+      ['game.successfully-created', $localize`Pomyślnie dodano grę`],
+      ['game.successfully-updated', $localize`Pomyślnie zaktualizowano grę`],
+      ['game.successfully-deleted', $localize`Pomyślnie usunięto grę`],
+    //Info messages
+      ['auth.token-expired', $localize`Sesja wygasła. Zaloguj się ponownie.`],
+      //Unhandled message code
+      ['unhandled-message-code', $localize`Nieobsłużony kod wiadomość`],
+
+  ]
+);

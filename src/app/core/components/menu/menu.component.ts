@@ -38,8 +38,7 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 })
 export class MenuComponent {
   private layoutService = inject(LayoutService);
-  private loggedStoreService = inject(LoggedStoreService);
-  isLogged$ = this.loggedStoreService.isLogged$;
+  isLogged$ = inject(LoggedStoreService).isLogged$;
   isMenuOpen$ = this.layoutService.isMenuOpen$;
   faTimes = faTimes;
   readonly menuItems: Signal<MenuItem[] > = computed(() => {
