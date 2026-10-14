@@ -8,9 +8,11 @@ export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
   const toastService = inject(ToastService);
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      const isExcluded = excludedUrls.some(url => req.url.includes(url));
-      if (!isExcluded && (err.status !== 401 && err.status !== 500 && err.status !== 400)) {
-      toastService.showError(err.error.code);
+      const isExcluded = excludedUrls.some(url => err.url?.includes(url));
+      if (!isExcluded) {
+        if (err.status === 401) {}
+        toastService.showError(err.error.code);
+        return throwError(() => err);
       }
       return throwError(() => err);
     })
