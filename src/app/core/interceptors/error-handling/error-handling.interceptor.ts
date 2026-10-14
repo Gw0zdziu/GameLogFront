@@ -4,7 +4,7 @@ import {inject} from '@angular/core';
 import {ToastService} from '../../../shared/services/toast/toast.service';
 
 export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
-  const excludedUrls = ['/api/auth/login', '/api/auth/refresh-token', '/api/auth/verify'];
+  const excludedUrls = ['/api/auth/refresh-token', '/api/auth/verify', '/api/auth/logout'];
   const toastService = inject(ToastService);
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
