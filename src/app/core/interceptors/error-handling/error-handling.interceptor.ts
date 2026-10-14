@@ -10,7 +10,7 @@ export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((err: HttpErrorResponse) => {
       const isExcluded = excludedUrls.some(url => err.url?.includes(url));
       if (!isExcluded) {
-        if (err.status === 401) {}
+        if (err.status === 401 || err.status === 500) {}
         toastService.showError(err.error.code);
         return throwError(() => err);
       }
