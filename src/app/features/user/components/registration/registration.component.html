@@ -42,7 +42,7 @@
       }
 
       <label for="user-email" i18n >E-mail</label>
-      <input formControlName="userEmail" pSize="large" pInputText id="user-email" type="text">
+      <input formControlName="userEmail" id="user-email" pInputText pSize="large" type="text">
       @if (registerForm.controls.userEmail.invalid && registerForm.controls.userEmail.touched) {
         @if (registerForm.controls.userEmail.errors?.required) {
           <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
@@ -79,6 +79,15 @@
         }
         @if (registerForm.controls.confirmPassword.errors?.mustMatch) {
           <p-message i18n severity="error" size="small" variant="simple">Hasła się nie zgadzają</p-message>
+        }
+      }
+    </section>
+    <section class="form__field">
+      <label for="invitationCode" i18n>Kod zaproszenia</label>
+      <input formControlName="invitationCode" id="invitationCode" pInputText pSize="large" type="text">
+      @if (registerForm.controls.invitationCode.invalid && registerForm.controls.invitationCode.touched) {
+        @if (registerForm.controls.invitationCode.errors?.required){
+          <p-message i18n severity="error" size="small" variant="simple">Pole jest wymagane</p-message>
         }
       }
     </section>

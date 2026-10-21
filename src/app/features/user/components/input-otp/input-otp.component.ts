@@ -16,7 +16,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputOtpComponent implements ControlValueAccessor{
-  readonly lengthCharacters = input(4)
+  readonly lengthCharacters = input(6)
   readonly inputsElements = viewChildren<ElementRef<HTMLInputElement>>('inputElementOtp')
 
   readonly code$ = signal<string[]>(Array(this.lengthCharacters()).fill(''))
