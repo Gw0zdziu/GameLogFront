@@ -19,6 +19,7 @@ export const messages= new Map<string, string>(
       ['category.category-with-this-name-already-exists', $localize`Ta nazwa kategorii jest już zajęta.`],
       ['game.not-found', $localize`Gra nie została znaleziona.`],
       ['game.game-with-this-name-already-exists', $localize`Ta nazwa gry jest już zajęta.`],
+      ['limiter.too-many-requests', $localize`Zbyt dużo zapytań. Odczekaj kilka minut`],
       //Success messages
       ['auth.successfully-logout', $localize`Pomyślnie wylogowano`],
       ['auth.successfully-login',$localize`Pomyślnie zalogowano`],
