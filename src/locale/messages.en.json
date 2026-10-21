@@ -71,6 +71,9 @@
     "8100131679401043921": "The field must contain at least 8 characters.",
     "1107553920112222110": "Confirm password",
     "9099598781148780575": "The passwords do not match.",
-    "5993230650930307778": "New code"
+    "8266834520881866004": "Invitation code",
+    "5993230650930307778": "New code",
+    "7921719322452807497": "Too many requests. Please wait a few minutes"
+
   }
 }
