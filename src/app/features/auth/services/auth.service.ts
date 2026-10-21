@@ -68,6 +68,9 @@ export class AuthService {
       this.authStoreService.clearToken();
       }),
       catchError((err: HttpErrorResponse) => {
+        this.userStore.cleanStore();
+        this.loggedStoreService.setLogged(false);
+        this.authStoreService.clearToken();
         return throwError(() => err);
       }));
   }

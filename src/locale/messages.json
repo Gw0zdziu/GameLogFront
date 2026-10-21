@@ -24,6 +24,7 @@
     "8323155514597344256": "Ta nazwa kategorii jest już zajęta.",
     "4403508290818462313": "Gra nie została znaleziona.",
     "2693186494669485502": "Ta nazwa gry jest już zajęta.",
+    "7921719322452807497": "Zbyt dużo zapytań. Odczekaj kilka minut",
     "3102485671464834047": "Pomyślnie wylogowano",
     "7094677931415236628": "Pomyślnie zalogowano",
     "8820165292833043352": "Pomyślnie utworzono nową kategorie",
@@ -71,6 +72,7 @@
     "8100131679401043921": "Pole musi zawierać conajmniej 8 znaków",
     "1107553920112222110": "Potwierdź hasło",
     "9099598781148780575": "Hasła się nie zgadzają",
+    "8266834520881866004": "Kod zaproszenia",
     "5993230650930307778": "Nowy kod"
   }
 }
